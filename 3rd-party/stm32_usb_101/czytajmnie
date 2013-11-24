@@ -1,0 +1,58 @@
+Wersja 1.00, 20.02.2013
+-----------------------
+
+Przykłady w momencie składania książki do druku
+
+Wersja 1.01, 27.07.2013
+-----------------------
+
+1. Drobne poprawki
+
+Poprawiony tytuł książki w manifeście
+
+Zmiana CMSIS na wersję 3.01
+
+irq.h -- zmiana typu pierwszego argumentu funkcji IRQsetPriority na IRQn_Type
+
+stm32.h -- ujednolicenie z projektem stm32_eth
+
+board_init_207.c, usbh_core.c -- poprawienie komentarza
+
+usbh_core.c -- usunięcie niepotrzebnego #include <led.h>
+
+usb_disk.c -- usunięcie niepotrzebnego USBTOHS(cfg_desc->wTotalLength)
+
+ex_hid_host.c -- usunięcie niepotrzebnego USBTOHS(cfg_desc->wTotalLength)
+
+2. Nowe przykłady do rozdziału 5
+
+./make/usb5_bus_powered_vendor_device_103/makefile
+./make/usb5_bus_powered_vendor_device_152/makefile
+
+W Linuksie większość sterowników nie obsługuje dynamicznego wstrzymywania
+urządzenia (ang. auto-suspend). Możliwe jest to jednak dla urządzeń własnej
+klasy, dla których nie ma sterownika systemowego. Te przykłady pokazują
+implementację urządzenia własnej klasy zasilanego z szyny USB. Urządzenie
+takie może być dynamicznie wstrzymane i pobiera w tym stanie z linii VBUS nie
+więcej niż 0,25 mA.
+
+W przypadku gadżetu mikrokontroler musi być taktowany 48 MHz -- należy zewrzeć
+wyprowadzenie PB2 do masy.
+
+ex_vendor_bus_pwr_dev.c -- nowy główny plik przykładu
+
+board_def.h (dla gadżetu) -- włączenie pliku stm32f10x_pwr.h
+
+board_init.h, board_init_103.c, board_init_152.c -- nowa funkcja ClockReenable,
+                                                    dodane wyłączanie HSI i MSI
+
+usbd_interrupt_aaa.c -- obsługa suspend przed wakeup (bez znaczenia)
+
+usbd_power_103.c, usbd_power_152.c -- refaktoryzacja
+
+auto-suspend, power-on -- dodane wykrywanie urządzenia 0483:5755
+
+3. Poprawienie skryptów konsolidatora, aby korzystały z większej ilości RAM-u
+
+stm32f207ig.lds
+stm32f407vg.lds

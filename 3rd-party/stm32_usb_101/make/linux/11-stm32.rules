@@ -1,0 +1,16 @@
+ACTION!="add|change", GOTO="stm32_rules_end"
+SUBSYSTEM!="usb", GOTO="stm32_rules_end"
+ENV{DEVTYPE}!="usb_device", GOTO="stm32_rules_end"
+
+ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5750", MODE="664", GROUP="users"
+ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5751", MODE="664", GROUP="users"
+ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5752", MODE="664", GROUP="users"
+ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5753", MODE="664", GROUP="users"
+ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5754", MODE="664", GROUP="users"
+ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5755", MODE="664", GROUP="users"
+ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5756", MODE="664", GROUP="users"
+ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5757", MODE="664", GROUP="users"
+ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5758", MODE="664", GROUP="users"
+ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5759", MODE="664", GROUP="users"
+
+LABEL="stm32_rules_end"

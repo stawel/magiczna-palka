@@ -1,0 +1,7 @@
+The provided sample audio file audio_sample_f0000.raw is extracted from:
+ - Title: artofgardens-instr
+ - Artist/Composer: Dan O'Connor
+ - Creative Commons license: Attribution 3.0 United States
+   Please read the license following this link:
+   http://creativecommons.org/licenses/by/3.0/us/
+The file must be stored in Flash beginning at address 0x8010000.

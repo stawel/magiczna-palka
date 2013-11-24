@@ -1,0 +1,81 @@
+# Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
+# 2008, 2010 Free Software Foundation, Inc.
+#
+# This file is part of GCC.
+#
+# GCC is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3, or (at your option)
+# any later version.
+#
+# GCC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GCC; see the file COPYING3.  If not see
+# <http://www.gnu.org/licenses/>.
+
+# For most CPUs we have an assembly soft-float implementations.
+# However this is not true for ARMv6M.  Here we want to use the soft-fp C
+# implementation.  The soft-fp code is only build for ARMv6M.  This pulls
+# in the asm implementation for other CPUs.
+LIB1ASMFUNCS += _udivsi3 _divsi3 _umodsi3 _modsi3 _dvmd_tls _bb_init_func \
+	_call_via_rX _interwork_call_via_rX \
+	_lshrdi3 _ashrdi3 _ashldi3 \
+	_arm_negdf2 _arm_addsubdf3 _arm_muldivdf3 _arm_cmpdf2 _arm_unorddf2 \
+	_arm_fixdfsi _arm_fixunsdfsi \
+	_arm_truncdfsf2 _arm_negsf2 _arm_addsubsf3 _arm_muldivsf3 \
+	_arm_cmpsf2 _arm_unordsf2 _arm_fixsfsi _arm_fixunssfsi \
+	_arm_floatdidf _arm_floatdisf _arm_floatundidf _arm_floatundisf \
+	_clzsi2 _clzdi2
+
+MULTILIB_OPTIONS     = mthumb
+MULTILIB_DIRNAMES    = thumb
+MULTILIB_OPTIONS    += mcpu=cortex-m0/mcpu=cortex-m3/mcpu=cortex-m4
+MULTILIB_DIRNAMES   += cortex-m0 cortex-m3 cortex-m4
+MULTILIB_OPTIONS    += mfloat-abi=softfp
+MULTILIB_DIRNAMES   += soft-fp-abi
+MULTILIB_OPTIONS    += mfpu=fpv4-sp-d16
+MULTILIB_DIRNAMES   += sp-fpu
+MULTILIB_EXCEPTIONS  = mthumb
+MULTILIB_EXCEPTIONS += mcpu=cortex-m*
+MULTILIB_EXCEPTIONS += mfloat-abi=softfp*
+MULTILIB_EXCEPTIONS += mfpu=fpv4-sp-d16*
+MULTILIB_EXCEPTIONS += mthumb/mfloat-abi=softfp*
+MULTILIB_EXCEPTIONS += mthumb/mfpu=fpv4-sp-d16*
+MULTILIB_EXCEPTIONS += mthumb/mcpu=cortex-m0/mfloat-abi=softfp*
+MULTILIB_EXCEPTIONS += mthumb/mcpu=cortex-m3/mfloat-abi=softfp*
+MULTILIB_EXCEPTIONS += mthumb/mcpu=cortex-m0/mfpu=fpv4-sp-d16*
+MULTILIB_EXCEPTIONS += mthumb/mcpu=cortex-m3/mfpu=fpv4-sp-d16*
+MULTILIB_EXCEPTIONS += mthumb/mcpu=cortex-m4/mfloat-abi=softfp
+MULTILIB_EXCEPTIONS += mthumb/mcpu=cortex-m4/mfpu=fpv4-sp-d16
+MULTILIB_MATCHES     =
+MULTILIB_OSDIRNAMES  = mthumb/mcpu.cortex-m0=!cortex-m0
+MULTILIB_OSDIRNAMES += mthumb/mcpu.cortex-m3=!cortex-m3
+MULTILIB_OSDIRNAMES += mthumb/mcpu.cortex-m4=!cortex-m4
+MULTILIB_OSDIRNAMES += mthumb/mcpu.cortex-m4/mfloat-abi.softfp/mfpu.fpv4-sp-d16=!cortex-m4/fpu
+
+# MP: We do not need startup and runtime.
+# EXTRA_MULTILIB_PARTS = crtbegin.o crtend.o crti.o crtn.o
+
+# If EXTRA_MULTILIB_PARTS is not defined above then define EXTRA_PARTS here
+# EXTRA_PARTS = crtbegin.o crtend.o crti.o crtn.o
+
+LIBGCC = stmp-multilib
+INSTALL_LIBGCC = install-multilib
+
+# Currently there is a bug somewhere in GCC's alias analysis
+# or scheduling code that is breaking _fpmul_parts in fp-bit.c.
+# Disabling function inlining is a workaround for this problem.
+TARGET_LIBGCC2_CFLAGS = -fno-inline
+
+# Assemble startup files.
+# $(T)crti.o: $(srcdir)/config/arm/crti.asm $(GCC_PASSES)
+#	$(GCC_FOR_TARGET) $(GCC_CFLAGS) $(MULTILIB_CFLAGS) $(INCLUDES) \
+#	-c -o $(T)crti.o -x assembler-with-cpp $(srcdir)/config/arm/crti.asm
+
+# $(T)crtn.o: $(srcdir)/config/arm/crtn.asm $(GCC_PASSES)
+#	$(GCC_FOR_TARGET) $(GCC_CFLAGS) $(MULTILIB_CFLAGS) $(INCLUDES) \
+#	-c -o $(T)crtn.o -x assembler-with-cpp $(srcdir)/config/arm/crtn.asm

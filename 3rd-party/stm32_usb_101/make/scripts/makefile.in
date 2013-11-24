@@ -1,0 +1,178 @@
+#TOOLCHAIN = arm-elf-
+TOOLCHAIN = arm-none-eabi-
+CC        = $(TOOLCHAIN)gcc
+AS        = $(TOOLCHAIN)as
+AR        = $(TOOLCHAIN)ar
+OBJCOPY   = $(TOOLCHAIN)objcopy
+
+ifndef PRJDIR
+  PRJDIR = ../../exusb
+endif
+COMMDIR  = ../../common
+STLIBDIR = ../../libraries/stm32
+FFLIBDIR = ../../libraries/fatfs
+LIBDIR   = ../../make/lib/$(notdir $(PRJDIR))/$(HARDWARE)
+
+# Making working directory under Linux
+$(shell mkdir -p $(LIBDIR))
+
+ifeq ($(HARDWARE),gadget)
+  STFLAGS = -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -DHSE_VALUE=8000000
+  DEVICE  = stm32f103t8
+else ifeq ($(HARDWARE),mmstm32f103vx-0-0-0)
+  STFLAGS = -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DHSE_VALUE=8000000
+  DEVICE  = stm32f103vc
+else ifeq ($(HARDWARE),stm3220g-eval)
+  STFLAGS = -DUSE_STDPERIPH_DRIVER -DSTM32F2XX -DHSE_VALUE=25000000
+  DEVICE  = stm32f207ig
+else ifeq ($(HARDWARE),stm32f0-discovery)
+  STFLAGS = -DUSE_STDPERIPH_DRIVER -DSTM32F0XX -DHSE_VALUE=0
+  DEVICE  = stm32f051r8
+else ifeq ($(HARDWARE),stm32f4-discovery)
+  STFLAGS = -DUSE_STDPERIPH_DRIVER -DSTM32F4XX -DHSE_VALUE=8000000
+  DEVICE  = stm32f407vg
+else ifeq ($(HARDWARE),stm32l-discovery)
+  STFLAGS = -DUSE_STDPERIPH_DRIVER -DSTM32L1XX_MD -DHSE_VALUE=8000000
+  DEVICE  = stm32l152rb
+else ifeq ($(HARDWARE),zl29arm)
+  STFLAGS = -DUSE_STDPERIPH_DRIVER -DSTM32F10X_CL -DHSE_VALUE=10000000
+  DEVICE  = stm32f107vc
+else ifeq ($(HARDWARE),zl30arm)
+  STFLAGS = -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -DHSE_VALUE=8000000
+  DEVICE  = stm32f103cb
+else ifeq ($(HARDWARE),zl31arm)
+  STFLAGS = -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -DHSE_VALUE=8000000
+  DEVICE  = stm32f103rb
+endif
+
+ifneq (,$(findstring stm32f0, $(DEVICE)))
+  STFAMILY = STM32F0xx
+  FLAGS    = -mthumb -mcpu=cortex-m0
+else ifneq (,$(findstring stm32f10, $(DEVICE)))
+  STFAMILY = STM32F10x
+  FLAGS    = -mthumb -mcpu=cortex-m3
+else ifneq (,$(findstring stm32f2, $(DEVICE)))
+  STFAMILY = STM32F2xx
+  FLAGS    = -mthumb -mcpu=cortex-m3
+else ifneq (,$(findstring stm32f30, $(DEVICE)))
+  STFAMILY = STM32F30x
+  FLAGS    = -mthumb -mcpu=cortex-m4 -mfloat-abi=softfp -mfpu=fpv4-sp-d16
+else ifneq (,$(findstring stm32f31, $(DEVICE)))
+  STFAMILY = STM32F30x
+  FLAGS    = -mthumb -mcpu=cortex-m4 -mfloat-abi=softfp -mfpu=fpv4-sp-d16
+else ifneq (,$(findstring stm32f37, $(DEVICE)))
+  STFAMILY = STM32F37x
+  FLAGS    = -mthumb -mcpu=cortex-m4 -mfloat-abi=softfp -mfpu=fpv4-sp-d16
+else ifneq (,$(findstring stm32f38, $(DEVICE)))
+  STFAMILY = STM32F37x
+  FLAGS    = -mthumb -mcpu=cortex-m4 -mfloat-abi=softfp -mfpu=fpv4-sp-d16
+else ifneq (,$(findstring stm32f4, $(DEVICE)))
+  STFAMILY = STM32F4xx
+  FLAGS    = -mthumb -mcpu=cortex-m4 -mfloat-abi=softfp -mfpu=fpv4-sp-d16
+else ifneq (,$(findstring stm32l1, $(DEVICE)))
+  STFAMILY = STM32L1xx
+  FLAGS    = -mthumb -mcpu=cortex-m3
+endif
+
+CPPFLAGS  += $(STFLAGS)
+CFLAGS    += $(FLAGS) -O2 -c -Wall -g \
+             -ffunction-sections -fdata-sections \
+             -I$(COMMDIR)/include \
+	     -I$(COMMDIR)/src \
+             -I$(PRJDIR)/include \
+             -I$(PRJDIR)/include/$(HARDWARE) \
+             -I$(STLIBDIR)/$(STFAMILY)_StdPeriph_Driver/inc \
+             -I$(STLIBDIR)/CMSIS/Include \
+             -I$(STLIBDIR)/CMSIS/Device/ST/$(STFAMILY)/Include \
+             -I$(FFLIBDIR)/include
+ASFLAGS   += $(FLAGS) -g -warn
+LDFLAGS   += $(FLAGS) -nostartfiles -L$(LIBDIR) -L$(COMMDIR)/scripts \
+             -T$(DEVICE).lds -Wl,--gc-sections
+
+SOURCES   += startup_stm32.c lib$(STFAMILY).a
+CSRCS      = $(filter %.c, $(SOURCES))
+OBJECTS    = $(patsubst %.s, %.o, $(filter %.s, $(SOURCES))) \
+             $(patsubst %.c, %.o, $(filter %.c, $(SOURCES))) \
+             $(filter %.o, $(SOURCES))
+LIBRARIES  = $(filter %.a, $(SOURCES))
+STLIBSRCS  = $(wildcard $(STLIBDIR)/$(STFAMILY)_StdPeriph_Driver/src/*.c)
+STLIBOBJS  = $(patsubst %.c, %.o, $(notdir $(STLIBSRCS)))
+FFLIBSRCS  = $(wildcard $(FFLIBDIR)/src/*.c)
+FFLIBOBJS  = $(patsubst %.c, %.o, $(notdir $(FFLIBSRCS)))
+STDCLIBS   = libm.a
+
+vpath %.a $(LIBDIR)
+vpath %.c $(COMMDIR)/src \
+          $(PRJDIR)/src \
+          $(STLIBDIR)/$(STFAMILY)_StdPeriph_Driver/src \
+          $(FFLIBDIR)/src
+vpath %.o $(LIBDIR)
+vpath %.s $(COMMDIR)/src \
+          $(PRJDIR)/src
+
+.PHONY : all clean mkdir
+.INTERMEDIATE : $(STLIBOBJS) $(FFLIBOBJS)
+
+all : $(addprefix $(HARDWARE)_, $(TARGETS))
+
+ifneq ($(MAKECMDGOALS),clean)
+  ifneq ($(MAKECMDGOALS),mkdir)
+    include $(LIBDIR)/$(STFAMILY).d
+    ifneq (,$(findstring libff.a, $(LIBRARIES))) 
+      include $(LIBDIR)/ff.d
+    endif
+    include $(HARDWARE).d
+  endif
+endif
+
+$(LIBDIR)/$(STFAMILY).d :
+	$(CC) -MM $(CPPFLAGS) $(CFLAGS) $(STLIBSRCS) > $@
+
+ifneq (,$(findstring libff.a, $(LIBRARIES))) 
+$(LIBDIR)/ff.d :
+	$(CC) -MM $(CPPFLAGS) $(CFLAGS) $(FFLIBSRCS) > $@
+endif
+
+$(HARDWARE).d :
+	$(CC) -MM $(CPPFLAGS) $(CFLAGS) \
+	$(wildcard $(CSRCS) $(addprefix $(COMMDIR)/src/, $(CSRCS)) \
+	$(addprefix $(PRJDIR)/src/, $(CSRCS))) > $@
+
+lib$(STFAMILY).a : $(STLIBOBJS)
+	$(AR) -rcs $(LIBDIR)/$@ $^
+
+ifneq (,$(findstring libff.a, $(LIBRARIES))) 
+libff.a : $(FFLIBOBJS)
+	$(AR) -rcs $(LIBDIR)/$@ $^
+endif
+
+$(STLIBOBJS) : %.o : %.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@
+
+ifneq (,$(findstring libff.a, $(LIBRARIES))) 
+$(FFLIBOBJS) : %.o : %.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@
+endif
+
+%.o : %.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $(LIBDIR)/$@
+
+%.o : %.s
+	$(AS) $(ASFLAGS) $< -o $(LIBDIR)/$@
+
+%.elf : $(OBJECTS) $(filter-out $(STDCLIBS), $(LIBRARIES))
+	$(CC) $(LDFLAGS) $(addprefix $(LIBDIR)/, $(OBJECTS)) \
+	$(subst lib, -l, $(basename $(LIBRARIES))) -o $@
+
+%.hex : %.elf
+	$(OBJCOPY) $< $@ -O ihex
+
+%.bin : %.elf
+	$(OBJCOPY) $< $@ -O binary
+
+clean :
+	rm -f *.bin *.elf *.hex *.d *.o *.bak *~
+
+# Making working directory under Windows
+mkdir :
+	mkdir $(subst /,\,$(LIBDIR))

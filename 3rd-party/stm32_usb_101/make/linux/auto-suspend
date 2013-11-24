@@ -1,0 +1,10 @@
+#!/bin/csh
+set vid = `grep -l 0483 /sys/bus/usb/devices/*/idVendor`
+set pid = `grep -l 5755 /sys/bus/usb/devices/*/idProduct`
+foreach v (${vid:h})
+  foreach p (${pid:h})
+    if (${v} == ${p}) then
+      echo auto > ${v}/power/level
+    endif
+  end
+end
