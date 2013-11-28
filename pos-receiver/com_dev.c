@@ -1,6 +1,5 @@
 #include <board_usb_def.h>
 #include <error.h>
-#include <lcd_util.h>
 #include <pwr_periph.h>
 #include <stdio.h>
 #include <usb_endianness.h>
@@ -232,59 +231,6 @@ static usb_cdc_line_coding_t rs232coding;
 #define RTS  0x08
 #define CTS  0x10
 
-/* Print diagnostic information on LCD. */
-static void LCDrefresh(void) {
-  if (refresh) {
-    char buffer[24], *stop, parity;
-
-    refresh = 0;
-    if (rs232coding.bCharFormat == ONE_STOP_BIT)
-      stop = "1  ";
-    else if (rs232coding.bCharFormat == ONE_AND_HALF_STOP_BITS)
-      stop = "1.5";
-    else if (rs232coding.bCharFormat == TWO_STOP_BITS)
-      stop = "2  ";
-    else
-      stop = "?  ";
-    if (rs232coding.bParityType == NO_PARITY)
-      parity = 'N';
-    else if (rs232coding.bParityType == ODD_PARITY)
-      parity = 'O';
-    else if (rs232coding.bParityType == EVEN_PARITY)
-      parity = 'E';
-    else if (rs232coding.bParityType == MARK_PARITY)
-      parity = 'M';
-    else if (rs232coding.bParityType == SPACE_PARITY)
-      parity = 'S';
-    else
-      parity = '?';
-    sprintf(buffer, "%6lu %u%c%s%2hu", rs232coding.dwDTERate,
-            rs232coding.bDataBits, parity, stop, ep2queue);
-    LCDgoto(0, 0);
-    LCDwrite(buffer);
-    LCDgoto(1, 0);
-    if (rs232state & RTS)
-      LCDwrite("RTS ");
-    else
-      LCDwrite("    ");
-    if (rs232state & CTS)
-      LCDwrite("CTS ");
-    else
-      LCDwrite("    ");
-    if (rs232state & DTR)
-      LCDwrite("DTR ");
-    else
-      LCDwrite("    ");
-    if (rs232state & DSR)
-      LCDwrite("DSR ");
-    else
-      LCDwrite("    ");
-    if (rs232state & DCD)
-      LCDwrite("DCD ");
-    else
-      LCDwrite("    ");
-  }
-}
 
 static void ResetState(void) {
   ep2queue = 0;
@@ -303,7 +249,6 @@ usbd_callback_list_t const * USBDgetApplicationCallbacks() {
 
 int Configure() {
   ResetState();
-  LCDsetRefresh(LCDrefresh);
   PowerLEDconfigure();
   return 0;
 }

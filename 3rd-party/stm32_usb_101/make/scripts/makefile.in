@@ -1,5 +1,5 @@
-#TOOLCHAIN = arm-elf-
-TOOLCHAIN = arm-none-eabi-
+TOOLCHAIN = arm-elf-
+# TOOLCHAIN = arm-none-eabi-
 CC        = $(TOOLCHAIN)gcc
 AS        = $(TOOLCHAIN)as
 AR        = $(TOOLCHAIN)ar

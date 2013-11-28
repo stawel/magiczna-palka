@@ -13,6 +13,7 @@ else
 fi
 
 openocd -d0 \
- -f  board/stm32f4discovery.cfg\
+ -f ../scripts/stlink-v2.cfg -f ../scripts/stm32f4x_stlink.cfg \
  -c "init" -c "reset halt" \
- -c "program $file"
+ -c "flash write_image erase unlock $file 0x8000000" \
+ -c "verify_image $file" -c "reset" -c "shutdown"
