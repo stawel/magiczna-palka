@@ -140,14 +140,14 @@ static usb_string_descriptor_t(1) const string_lang = {
   {HTOUSBS(LANG_US_ENGLISH)}
 };
 
-static usb_string_descriptor_t(16) const string_manufacturer = {
-  sizeof(usb_string_descriptor_t(16)),
+static usb_string_descriptor_t(14) const string_manufacturer = {
+  sizeof(usb_string_descriptor_t(14)),
   STRING_DESCRIPTOR,
   {
-    HTOUSBS('M'), HTOUSBS('a'), HTOUSBS('r'), HTOUSBS('c'),
-    HTOUSBS('i'), HTOUSBS('n'), HTOUSBS(' '), HTOUSBS('P'),
-    HTOUSBS('e'), HTOUSBS('c'), HTOUSBS('z'), HTOUSBS('a'),
-    HTOUSBS('r'), HTOUSBS('s'), HTOUSBS('k'), HTOUSBS('i')
+    HTOUSBS('P'), HTOUSBS('a'), HTOUSBS('w'), HTOUSBS('e'),
+    HTOUSBS('l'), HTOUSBS(' '), HTOUSBS('S'), HTOUSBS('t'),
+    HTOUSBS('a'), HTOUSBS('w'), HTOUSBS('i'), HTOUSBS('c'),
+    HTOUSBS('k'), HTOUSBS('i')
   }
 };
 
