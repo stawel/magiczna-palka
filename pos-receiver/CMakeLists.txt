@@ -2,9 +2,11 @@
 
 
 
-set(COMMON_DIR ${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101/common)
+set(PECZARSKI_DIR ${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101)
+set(COMMON_DIR ${PECZARSKI_DIR}/common)
+set(EXUSB_DIR ${PECZARSKI_DIR}/exusb)
 set(CSRC ${COMMON_DIR}/src)
-set(EXSRC ${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101/exusb/src)
+set(EXSRC ${EXUSB_DIR}/src)
 
 
 
@@ -12,7 +14,7 @@ set(EXSRC ${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101/exusb/src)
 
 set(SOURCE
     com_dev.c
-#    usbd_main.c
+    usbd_main.c
     ${CSRC}/board_init_207.c
     ${CSRC}/boot_72_fs_0.c
     ${CSRC}/delay.c
@@ -25,22 +27,24 @@ set(SOURCE
     ${CSRC}/usbd_configure_207.c
     ${CSRC}/usbd_core.c
     ${CSRC}/usbd_interrupt_bbb.c
-    ${CSRC}/usbd_main.c
+#    ${CSRC}/usbd_main.c
     ${CSRC}/usbd_power_dummy.c
     ${CSRC}/syscalls_dummy.c
     ${EXSRC}/pwr_periph_2xx.c
+    ${CSRC}/startup_stm32.c
 )
 
-aux_source_directory(${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101/libraries/stm32/STM32F4xx_StdPeriph_Driver/src STDLIBC)
+aux_source_directory(${PECZARSKI_DIR}/libraries/stm32/STM32F4xx_StdPeriph_Driver/src STDLIBC)
 
 
-include_directories(${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101/exusb/include)
-include_directories(${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101/common/include)
-include_directories(${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101/exusb/include/stm32f4-discovery)
-include_directories(${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101/libraries/stm32/STM32F4xx_StdPeriph_Driver/inc)
-include_directories(${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101/libraries/stm32/CMSIS/Device/ST/STM32F4xx/Include)
-include_directories(${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101/libraries/stm32/CMSIS/Include)
-#include_directories(${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101/others/include/stm32f4-discovery)
+include_directories(${EXUSB_DIR}/include)
+include_directories(${COMMON_DIR}/include)
+include_directories(${CSRC})
+include_directories(${EXUSB_DIR}/include/stm32f4-discovery)
+include_directories(${PECZARSKI_DIR}/libraries/stm32/STM32F4xx_StdPeriph_Driver/inc)
+include_directories(${PECZARSKI_DIR}/libraries/stm32/CMSIS/Device/ST/STM32F4xx/Include)
+include_directories(${PECZARSKI_DIR}/libraries/stm32/CMSIS/Include)
+#include_directories(${PECZARSKI_DIR}/others/include/stm32f4-discovery)
 
 #set(TOOLCHAIN arm-elf-)
 set(TOOLCHAIN arm-none-eabi-)
