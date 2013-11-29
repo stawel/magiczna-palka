@@ -13,6 +13,7 @@ set(EXSRC ${EXUSB_DIR}/src)
 
 
 set(SOURCE
+    adc.c
     com_dev.c
     usbd_main.c
     ${CSRC}/board_init_207.c
@@ -46,11 +47,13 @@ include_directories(${PECZARSKI_DIR}/libraries/stm32/CMSIS/Device/ST/STM32F4xx/I
 include_directories(${PECZARSKI_DIR}/libraries/stm32/CMSIS/Include)
 #include_directories(${PECZARSKI_DIR}/others/include/stm32f4-discovery)
 
-#set(TOOLCHAIN arm-elf-)
-set(TOOLCHAIN arm-none-eabi-)
+#set(TOOLCHAIN arm-elf)
+set(TOOLCHAIN arm-none-eabi)
 
-SET(CMAKE_C_COMPILER ${TOOLCHAIN}gcc)
-SET(CMAKE_CXX_COMPILER ${TOOLCHAIN}g++)
+include_directories(/usr/${TOOLCHAIN}/include)
+
+SET(CMAKE_C_COMPILER ${TOOLCHAIN}-gcc)
+SET(CMAKE_CXX_COMPILER ${TOOLCHAIN}-g++)
 
 add_definitions(-DUSE_STDPERIPH_DRIVER)
 add_definitions(-DSTM32F4XX)

@@ -441,6 +441,8 @@ static uint8_t const help[] =
   "  W to switch white LED on,\r\n"
   "  w to switch white LED off.\r\n";
 
+void adcStart();
+
 void EP1OUT() {
   uint8_t buffer[BLK_BUFF_SIZE];
   uint16_t i, len;
@@ -466,6 +468,9 @@ void EP1OUT() {
       case 'w':
         PowerLEDoff();
         break;
+      case 's':
+    	adcStart();
+    	break;
       case ' ':
       case '\n':
       case '\r':
