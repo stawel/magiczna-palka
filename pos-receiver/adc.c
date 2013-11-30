@@ -12,17 +12,10 @@
 #define MAX 1024
 #define ADC3_DR_ADDRESS     ((uint32_t)0x4001224C)
 
-__IO uint16_t buf[MAX];
+__IO uint8_t buf[MAX];
 
 void ADC_Configuration(void)
 {
-	char text[]= "pawel jest super";
-	char * buf2=(char*)buf;
-	int i;
-	for(i=0;i< sizeof(text);i++) {
-		buf2[i]=text[i];
-	}
-
 
 	ADC_InitTypeDef       ADC_InitStructure;
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
@@ -41,8 +34,10 @@ void ADC_Configuration(void)
 	DMA_InitStructure.DMA_BufferSize = MAX;
 	DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
 	DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
-	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
-	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
+//	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
+//	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
+	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
 	DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
 	DMA_InitStructure.DMA_Priority = DMA_Priority_High;
 	DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;
@@ -66,7 +61,8 @@ void ADC_Configuration(void)
 	ADC_CommonInit(&ADC_CommonInitStructure);
 
 	/* ADC3 Init ****************************************************************/
-	ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b;
+//	ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b;
+	ADC_InitStructure.ADC_Resolution = ADC_Resolution_8b;
 	ADC_InitStructure.ADC_ScanConvMode = DISABLE;
 	ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
 	ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
@@ -93,9 +89,13 @@ void ADC_Configuration(void)
 
 uint8_t text[]="pawel";
 
+uint8_t buf8[MAX];
 void adcStart()
 {
-
+	int i;
+	for(i=0;i<MAX;i++) {
+		buf8[i] = buf[i];
+	}
 //	USBDwriteEx(ENDP1, (uint8_t const *)text, sizeof(text) - 1);
 //	USBDwriteEx(ENDP1, (uint8_t const *)text, sizeof(text) - 1);
 	USBDwriteEx(ENDP1, (uint8_t const *)buf, MAX);
