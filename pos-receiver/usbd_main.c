@@ -7,6 +7,8 @@
 #include <usbd_configure.h>
 #include <usbd_power.h>
 
+void ADC_Configuration(void);
+
 int main(void) {
   int         sysclk;
   usb_speed_t speed;
@@ -26,11 +28,10 @@ int main(void) {
   Delay(2000000);
   IRQprotectionConfigure();
   ErrorResetable(ClockConfigure(sysclk), 2);
-  ErrorResetable(LCDconfigure(), 3);
   ErrorResetable(PWRconfigure(HIGH_IRQ_PRIO, 0, sysclk), 4);
   ErrorResetable(USBDconfigure(MIDDLE_IRQ_PRIO, 0, sysclk), 5);
   RedLEDoff();
   /* Configuration process is finished successfully. */
-  for (;;)
-    LCDrunRefresh();
+  ADC_Configuration();
+  for (;;);
 }
