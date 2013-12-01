@@ -32,6 +32,5 @@ int main(void) {
   ErrorResetable(USBDconfigure(MIDDLE_IRQ_PRIO, 0, sysclk), 5);
   RedLEDoff();
   /* Configuration process is finished successfully. */
-  ADC_Configuration();
   for (;;);
 }

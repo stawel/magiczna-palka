@@ -8,6 +8,8 @@
 #include <stm32f4xx_dma.h>
 #include <stm32f4xx_gpio.h>
 #include <stm32f4xx_rcc.h>
+#include <misc.h>
+
 
 #define MAX 1024
 #define ADC3_DR_ADDRESS     ((uint32_t)0x4001224C)
@@ -38,13 +40,26 @@ void ADC_Configuration(void)
 //	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
 	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
 	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
-	DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+//	DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+	DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
 	DMA_InitStructure.DMA_Priority = DMA_Priority_High;
 	DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;
 	DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_HalfFull;
 	DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;
 	DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
 	DMA_Init(DMA2_Stream0, &DMA_InitStructure);
+
+	// Enable DMA1 Channel Transfer Complete interrupt
+	DMA_ITConfig(DMA2_Stream0, DMA_IT_TC, ENABLE);
+
+	NVIC_InitTypeDef NVIC_InitStructure;
+	//Enable DMA1 channel IRQ Channel */
+	NVIC_InitStructure.NVIC_IRQChannel = DMA2_Stream0_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+
 	DMA_Cmd(DMA2_Stream0, ENABLE);
 
 	/* Configure ADC3 Channel12 pin as analog input ******************************/
@@ -87,16 +102,23 @@ void ADC_Configuration(void)
 	ADC_SoftwareStartConv(ADC3);
 }
 
-uint8_t text[]="pawel";
+void DMA2_Stream0_IRQHandler(void)
+{
+  //Test on DMA1 Channel1 Transfer Complete interrupt
+  if(DMA_GetITStatus(DMA2_Stream0, DMA_IT_TCIF0))
+  {
+	DMA_ClearITPendingBit(DMA2_Stream0, DMA_FLAG_TCIF0);
+	ADC_DMACmd(ADC3, DISABLE);
 
-uint8_t buf8[MAX];
+	/* Enable ADC3 */
+	ADC_Cmd(ADC3, DISABLE);
+	USBDwriteEx(ENDP1, (uint8_t const *)buf, MAX);
+
+   //Clear DMA1 Channel1 Half Transfer, Transfer Complete and Global interrupt pending bits
+  }
+}
+
 void adcStart()
 {
-	int i;
-	for(i=0;i<MAX;i++) {
-		buf8[i] = buf[i];
-	}
-//	USBDwriteEx(ENDP1, (uint8_t const *)text, sizeof(text) - 1);
-//	USBDwriteEx(ENDP1, (uint8_t const *)text, sizeof(text) - 1);
-	USBDwriteEx(ENDP1, (uint8_t const *)buf, MAX);
+	ADC_Configuration();
 }
