@@ -11,8 +11,8 @@ import math
 print "Setting up port"
 port=serial.Serial('/dev/ttyACM0',115200)
 
-start_char = 's';
-data_size  = 1024;
+start_char = '@';
+data_size  = 1024*8;
 
 def get_data(diff = 0):
     yData=[]

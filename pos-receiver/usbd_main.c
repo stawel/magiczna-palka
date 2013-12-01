@@ -8,6 +8,7 @@
 #include <usbd_power.h>
 
 void ADC_Configuration(void);
+void PIN_Configuration(void);
 
 int main(void) {
   int         sysclk;
@@ -31,6 +32,7 @@ int main(void) {
   ErrorResetable(PWRconfigure(HIGH_IRQ_PRIO, 0, sysclk), 4);
   ErrorResetable(USBDconfigure(MIDDLE_IRQ_PRIO, 0, sysclk), 5);
   RedLEDoff();
+  PIN_Configuration();
   /* Configuration process is finished successfully. */
   for (;;);
 }

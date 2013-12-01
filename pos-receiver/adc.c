@@ -9,14 +9,37 @@
 #include <stm32f4xx_gpio.h>
 #include <stm32f4xx_rcc.h>
 #include <misc.h>
+#include <delay.h>
 
-
-#define MAX 1024
+#define MAX 1024*8
 #define ADC3_DR_ADDRESS     ((uint32_t)0x4001224C)
 
 __IO uint8_t buf[MAX];
 
-void ADC_Configuration(void)
+#define PIN2 GPIO_Pin_15
+#define PIN1 GPIO_Pin_13
+#define PIN0 GPIO_Pin_11
+
+void PIN_Configuration(void)
+{
+  /* Enable ADC3, DMA2 and GPIO clocks ****************************************/
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2 | RCC_AHB1Periph_GPIOC | RCC_AHB1Periph_GPIOD, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC3, ENABLE);
+
+	GPIO_InitTypeDef      GPIO_InitStructure;
+
+	GPIO_InitStructure.GPIO_Pin = PIN0 | PIN1 | PIN2;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+	GPIO_ResetBits(GPIOD, PIN0 | PIN1 | PIN2);
+}
+
+
+void ADC_Configuration(int pin)
 {
 
 	ADC_InitTypeDef       ADC_InitStructure;
@@ -24,9 +47,6 @@ void ADC_Configuration(void)
 	DMA_InitTypeDef       DMA_InitStructure;
 	GPIO_InitTypeDef      GPIO_InitStructure;
 
-	/* Enable ADC3, DMA2 and GPIO clocks ****************************************/
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2 | RCC_AHB1Periph_GPIOC, ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC3, ENABLE);
 
 	/* DMA2 Stream0 channel0 configuration **************************************/
 	DMA_InitStructure.DMA_Channel = DMA_Channel_2;
@@ -99,7 +119,17 @@ void ADC_Configuration(void)
 
 
 	/* Start ADC3 Software Conversion */
+	if(pin &1) GPIO_SetBits(GPIOD,   PIN1);
+	else	   GPIO_ResetBits(GPIOD, PIN1);
+	if(pin &2) GPIO_SetBits(GPIOD,   PIN2);
+	else	   GPIO_ResetBits(GPIOD, PIN2);
+
+	__disable_irq();
+	GPIO_ResetBits(GPIOD, PIN0);
+	Delay(50);
+	GPIO_SetBits(GPIOD, PIN0);
 	ADC_SoftwareStartConv(ADC3);
+	__enable_irq();
 }
 
 void DMA2_Stream0_IRQHandler(void)
@@ -118,7 +148,7 @@ void DMA2_Stream0_IRQHandler(void)
   }
 }
 
-void adcStart()
+void adcStart(int c)
 {
-	ADC_Configuration();
+	ADC_Configuration(c);
 }

@@ -468,8 +468,10 @@ void EP1OUT() {
       case 'w':
         PowerLEDoff();
         break;
-      case 's':
-    	adcStart();
+      case '@':
+      case 'A':
+      case 'B':
+        adcStart(buffer[i]-'@');
     	break;
       case ' ':
       case '\n':
