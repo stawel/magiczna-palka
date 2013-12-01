@@ -126,10 +126,10 @@ void ADC_Configuration(int pin)
 
 	__disable_irq();
 	GPIO_ResetBits(GPIOD, PIN0);
-	Delay(50);
-	GPIO_SetBits(GPIOD, PIN0);
 	ADC_SoftwareStartConv(ADC3);
 	__enable_irq();
+	Delay(50);
+	GPIO_SetBits(GPIOD, PIN0);
 }
 
 void DMA2_Stream0_IRQHandler(void)
