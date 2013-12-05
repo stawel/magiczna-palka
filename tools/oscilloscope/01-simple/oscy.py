@@ -12,7 +12,7 @@ print "Setting up port"
 port=serial.Serial('/dev/ttyACM0',115200)
 
 start_char = '@';
-data_size  = 1024*8;
+data_size  = 1024*16;
 
 def get_data(diff = 0):
     yData=[]

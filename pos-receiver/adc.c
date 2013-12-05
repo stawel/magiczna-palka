@@ -11,7 +11,7 @@
 #include <misc.h>
 #include <delay.h>
 
-#define MAX 1024*8
+#define MAX 1024*16
 #define ADC3_DR_ADDRESS     ((uint32_t)0x4001224C)
 
 __IO uint8_t buf[MAX];

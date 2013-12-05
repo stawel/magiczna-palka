@@ -7,7 +7,7 @@ import scipy.optimize as optimization
 import scipy.signal as signal
 
 wave_f=(3624-3293)/8.
-minimum_signal = 20
+minimum_signal = 220
 gamma_okr = 5
 
 
@@ -29,7 +29,7 @@ def get_gamma(y, diff):
 
 def get_dolek(y,diff):
     w = int(math.ceil(wave_f))
-    wf = w
+    wf = wave_f
     data_s=[]
     data_c=[]
     x=[]

@@ -6,7 +6,7 @@ import math
 
 print "Setting up port"
 port_data=serial.Serial('/dev/ttyACM0',115200,timeout=2)
-data_size=1024*8
+data_size=1024*16
 
 def get_data(pin,diff = 0):
     yData=[]
