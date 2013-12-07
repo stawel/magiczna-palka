@@ -39,7 +39,7 @@ def refresh_pattern(sign, idx):
     old_cor = correlate(sw,pattern[idx])[0]
     error = get_error(pattern[idx],sw,pattern_cor[idx],old_cor)[1]
     power = sqrt(sw_cor)
-    print 'idx: %d  power: %10.3f nowa corelacja: %10.3f  cor old: %10.3f error: %3.10f' % (idx, power, sw_cor , old_cor , error)
+#    print 'idx: %d  power: %10.3f nowa corelacja: %10.3f  cor old: %10.3f error: %3.10f' % (idx, power, sw_cor , old_cor , error)
     if(error<1. and power > 150.0):
         pattern_cor[idx]=sw_cor
         pattern[idx]=sw
