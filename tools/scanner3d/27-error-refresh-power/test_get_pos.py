@@ -104,14 +104,9 @@ def cut_arrays(x,y):
 
 def update_line(num):
     idx = 2
-    x,y = get_data.get_data(idx);
-    l1.set_data(x,y)
-    x2,sy,cy,p1,p2,p3,max_r = get_dolek.get_dolek(y,200.)
+    x, y, cut_pos_min, cut_x, cut_y = get_dolek.get_data_gorka(idx, len(szuk[idx]));
 
-    cut_pos_max=p3 + int(get_dolek.wave_f)*3
-    cut_pos_min=cut_pos_max - len(szuk[idx]) - int(get_dolek.wave_f)*3
-    cut_y= y[cut_pos_min:cut_pos_max]
-    cut_x= x[cut_pos_min:cut_pos_max]
+    l1.set_data(x,y)
     y2,pos_fk_min, val_cor,y3 = get_pos(cut_y,idx)
 
     l2.set_data(cut_arrays(cut_x,[i/1000+195. for i in y2]))
@@ -120,6 +115,8 @@ def update_line(num):
     pos_fk_min += cut_pos_min
     pos_fk_max =  pos_fk_min + len(szuk[idx])
     r,gamma,d = get_dolek.get_gamma(y[pos_fk_min:pos_fk_max],200.)
+    pos = pos_fk_min-gamma
+
     pos = pos_fk_min-gamma
     print pos_fk_min, pos
 #    print y[int(pos-100):int(pos)+len(szuk[idx])]

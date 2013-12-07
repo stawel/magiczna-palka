@@ -16,14 +16,15 @@
 
 __IO uint8_t buf[MAX];
 
-#define PIN2 GPIO_Pin_15
-#define PIN1 GPIO_Pin_13
+#define PIN2 GPIO_Pin_9
+#define PIN1 GPIO_Pin_7
 #define PIN0 GPIO_Pin_11
+#define PIN_GROUP GPIOE
 
 void PIN_Configuration(void)
 {
   /* Enable ADC3, DMA2 and GPIO clocks ****************************************/
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2 | RCC_AHB1Periph_GPIOC | RCC_AHB1Periph_GPIOD, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2 | RCC_AHB1Periph_GPIOC | RCC_AHB1Periph_GPIOD |RCC_AHB1Periph_GPIOE, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC3, ENABLE);
 
 	GPIO_InitTypeDef      GPIO_InitStructure;
@@ -33,9 +34,9 @@ void PIN_Configuration(void)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
+	GPIO_Init(PIN_GROUP, &GPIO_InitStructure);
 
-	GPIO_ResetBits(GPIOD, PIN0 | PIN1 | PIN2);
+	GPIO_ResetBits(PIN_GROUP, PIN0 | PIN1 | PIN2);
 }
 
 
@@ -119,17 +120,18 @@ void ADC_Configuration(int pin)
 
 
 	/* Start ADC3 Software Conversion */
-	if(pin &1) GPIO_SetBits(GPIOD,   PIN1);
-	else	   GPIO_ResetBits(GPIOD, PIN1);
-	if(pin &2) GPIO_SetBits(GPIOD,   PIN2);
-	else	   GPIO_ResetBits(GPIOD, PIN2);
+	if(!(pin &1))  GPIO_SetBits(PIN_GROUP,   PIN1);
+	else	   	   GPIO_ResetBits(PIN_GROUP, PIN1);
+	if(!(pin &2))  GPIO_SetBits(PIN_GROUP,   PIN2);
+	else	       GPIO_ResetBits(PIN_GROUP, PIN2);
+	Delay(100);
 
 	__disable_irq();
-	GPIO_ResetBits(GPIOD, PIN0);
+	GPIO_ResetBits(PIN_GROUP, PIN0);
 	ADC_SoftwareStartConv(ADC3);
 	__enable_irq();
 	Delay(50);
-	GPIO_SetBits(GPIOD, PIN0);
+	GPIO_SetBits(PIN_GROUP, PIN0);
 }
 
 void DMA2_Stream0_IRQHandler(void)

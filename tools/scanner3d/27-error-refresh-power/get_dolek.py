@@ -5,9 +5,9 @@ import time
 import math
 import scipy.optimize as optimization
 import scipy.signal as signal
+import get_data
 
 wave_f=(3624-3293)/8.
-minimum_signal = 220
 gamma_okr = 5
 
 
@@ -27,43 +27,54 @@ def get_gamma(y, diff):
     return r, gamma_px, d
 
 
-def get_dolek(y,diff):
+def get_gorka(y):
     w = int(math.ceil(wave_f))
-    wf = wave_f
-    data_s=[]
-    data_c=[]
+    wf = w
+    data_s = []
+    data_c = []
+    data_sin = [[], []]
     x=[]
-    pos_start = pos_max = pos_end = pos_min = last_r = max_r = min_r = 0
     for i in range(len(y)/w - 1):
         t1=0
         t2=0
         for j in range(w):
-            t1+=math.sin(((i*w+j)*math.pi*2)/wf)*y[i*w+j]
-            t2+=math.cos(((i*w+j)*math.pi*2)/wf)*y[i*w+j]
+            t = i*w+j
+            t_n= int(math.ceil(t))
+            s = math.sin((t_n*math.pi*2)/w)
+            c = math.cos((t_n*math.pi*2)/w)
+            t1+=s*y[t_n]
+            t2+=c*y[t_n]
+            data_sin[0].append(t_n)
+            data_sin[1].append(s*20)
+#        r= (t1**2+t2**2)**0.5/w*2
         r= (t1**2+t2**2)**0.5
         gamma= math.atan2(t2,t1)
-        data_s.append(r+diff)
-        data_c.append(gamma+diff)
-        x.append(i*w)
+        data_s.append(r)
+        data_c.append(gamma)
+        x.append(i*w+w/2)
 
 
+    max_r = max(data_s)
+    min_r = max_r/4.
+#    min_r = 2*max(data_s[:20])
+    data_s2 = [max(min_r,a) for a in data_s]
+    pos_max2=signal.argrelmax(np.array(data_s2), order=2)[0]
+    pos_max = pos_max2[0]*w + w/2
 
-        if pos_start < 1 and r > minimum_signal:
-            pos_start = i*w
+#    print pos_max
 
-        if pos_start > 1 and pos_end < 1 and max_r < r and max_r == min_r:
-            pos_max = i*w- w*gamma/(math.pi*2)
-            min_r = r
-            max_r = r
+    info = x, data_s, data_c, data_sin, max_r, min_r
+    return pos_max, info
 
-        if pos_start > 1 and pos_end < 1 and min_r > r:
-            min_r = r
-            pos_min = (i+1)*w
 
-        if pos_start > 1 and pos_end < 1 and r > min_r:
-            pos_end = pos_min
+def get_data_gorka(idx, szuk_len):
+    x,y = get_data.get_data(idx);
+    pos_max,info = get_gorka(y)
 
-        last_r = r
+    cut_pos_min=    pos_max - int(wave_f)*6
+    cut_pos_max=cut_pos_min + int(wave_f)*4 + szuk_len
 
-    return x,data_s,data_c,pos_start, pos_max, pos_end,max_r
+    cut_y= y[cut_pos_min:cut_pos_max]
+    cut_x= x[cut_pos_min:cut_pos_max]
 
+    return x,y,cut_pos_min, cut_x, cut_y

@@ -21,7 +21,7 @@ print get_data.get_data(0)
 fig1 = plt.figure()
 
 plt.xlim(0, 4000)
-plt.ylim(0, 256)
+plt.ylim(-128, 128)
 plt.title('test')
 
 l1, = plt.plot([], [], 'r-')
@@ -39,15 +39,18 @@ lp5, = plt.plot([], [], 'c-')
 
 
 def update_line(num):
-    idx = 2
-    x,y = get_data.get_data(idx);
+    idx = 0
+    x,y = get_data.get_data(idx,-128);
     l1.set_data(x,y)
-    x2,sy,cy,p1,p2,p3,max_r = get_dolek.get_dolek(y,200.)
+    p,info  = get_dolek.get_gorka(y)
+    x2,sy,cy, data_sin , max_r, avr_r = info
 
-    lp1.set_data([p3,p3],[0,256])
-    lp2.set_data([p2,p2],[0,256])
-    lp4.set_data([p1,p1],[0,256])
+    lp2.set_data([p,p],[0,256])
+
+    lp4.set_data([0,8000],[max_r,max_r])
+    lp5.set_data([0,8000],[avr_r,avr_r])
     l3.set_data(x2,sy)
+    l2.set_data(data_sin)
     return
 
 

@@ -17,6 +17,7 @@ def get_data(pin,diff = 0):
     if pin == 2:
         send = 'A'
 
+
     port_data.write(send)
     port_data.flushInput()
     i=1

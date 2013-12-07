@@ -471,6 +471,7 @@ void EP1OUT() {
       case '@':
       case 'A':
       case 'B':
+      case 'C':
         adcStart(buffer[i]-'@');
     	break;
       case ' ':
