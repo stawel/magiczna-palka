@@ -13,9 +13,10 @@ def get_data(pin,diff = 0):
     xData=[]
     send ='@'
     if pin == 1:
-        send = 'B'
-    if pin == 2:
         send = 'A'
+    if pin == 2:
+        send = 'B'
+
 
     port_data.write(send)
     port_data.flushInput()
@@ -31,9 +32,5 @@ def get_data(pin,diff = 0):
 
     return xData,yData
 
-
-
-
-print get_data(0)
 
 

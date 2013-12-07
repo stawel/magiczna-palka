@@ -9,13 +9,11 @@ import mpl_toolkits.mplot3d.axes3d as p3
 import math
 import scipy.optimize as optimization
 import scipy.signal as signal
-import get_data
-import get_dolek
 
-print get_data.get_data(0)
-
-
-
+import sys
+sys.path.append('..')
+import mp3d.signal
+import mp3d.com
 
 
 fig1 = plt.figure()
@@ -104,7 +102,7 @@ def cut_arrays(x,y):
 
 def update_line(num):
     idx = 2
-    x, y, cut_pos_min, cut_x, cut_y = get_dolek.get_data_gorka(idx, len(szuk[idx]));
+    x, y, cut_pos_min, cut_x, cut_y = mp3d.signal.get_data_first_max(idx, len(szuk[idx]));
 
     l1.set_data(x,y)
     y2,pos_fk_min, val_cor,y3 = get_pos(cut_y,idx)
@@ -114,7 +112,7 @@ def update_line(num):
 
     pos_fk_min += cut_pos_min
     pos_fk_max =  pos_fk_min + len(szuk[idx])
-    r,gamma,d = get_dolek.get_gamma(y[pos_fk_min:pos_fk_max],200.)
+    r,gamma,d = mp3d.signal.get_gamma(y[pos_fk_min:pos_fk_max],200.)
     pos = pos_fk_min-gamma
 
     pos = pos_fk_min-gamma

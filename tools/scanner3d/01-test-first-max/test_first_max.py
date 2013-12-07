@@ -9,12 +9,13 @@ import mpl_toolkits.mplot3d.axes3d as p3
 import math
 import scipy.optimize as optimization
 import scipy.signal as signal
-import get_data
-import get_dolek
 
-print get_data.get_data(0)
+import sys
+sys.path.append('..')
+import mp3d.signal
+import mp3d.com
 
-
+print mp3d.com.get_data(0)
 
 
 
@@ -40,9 +41,9 @@ lp5, = plt.plot([], [], 'c-')
 
 def update_line(num):
     idx = 0
-    x,y = get_data.get_data(idx,-128);
+    x,y = mp3d.com.get_data(idx,-128);
     l1.set_data(x,y)
-    p,info  = get_dolek.get_gorka(y)
+    p,info  = mp3d.signal.get_first_max(y)
     x2,sy,cy, data_sin , max_r, avr_r = info
 
     lp2.set_data([p,p],[0,256])

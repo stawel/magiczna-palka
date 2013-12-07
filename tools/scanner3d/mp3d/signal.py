@@ -5,14 +5,15 @@ import time
 import math
 import scipy.optimize as optimization
 import scipy.signal as signal
-import get_data
+import com
+
 
 wave_f=(3624-3293)/8.
-gamma_okr = 5
+gamma_test_period = 5
 
 
 def get_gamma(y, diff):
-    okr = gamma_okr
+    okr = gamma_test_period
     t1=t2=0
     d = []
     w=okr*int(wave_f)
@@ -27,7 +28,7 @@ def get_gamma(y, diff):
     return r, gamma_px, d
 
 
-def get_gorka(y):
+def get_first_max(y):
     w = int(math.ceil(wave_f))
     wf = w
     data_s = []
@@ -67,9 +68,9 @@ def get_gorka(y):
     return pos_max, info
 
 
-def get_data_gorka(idx, szuk_len):
-    x,y = get_data.get_data(idx);
-    pos_max,info = get_gorka(y)
+def get_data_first_max(idx, szuk_len, diff = 0):
+    x,y = com.get_data(idx, diff);
+    pos_max,info = get_first_max(y)
 
     cut_pos_min=    pos_max - int(wave_f)*6
     cut_pos_max=cut_pos_min + int(wave_f)*4 + szuk_len
