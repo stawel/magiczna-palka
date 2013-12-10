@@ -5447,129 +5447,44 @@ Metric Code Size 5664</description>
 &lt;/ul&gt;
 &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
 <packages>
-<package name="EFBAA40D101">
-<description>&lt;b&gt;Piezoelectric Acoustic Transducer&lt;/b&gt;&lt;p&gt;
-Source: Panbasonic .. 2SC1685.pdf</description>
-<circle x="0" y="0" radius="8.375" width="0.2032" layer="21"/>
-<pad name="1" x="-5" y="0" drill="1.1" diameter="1.6764"/>
-<pad name="2" x="5" y="0" drill="1.1" diameter="1.6764"/>
-<text x="-3.175" y="3.175" size="1.27" layer="25">&gt;NAME</text>
-<text x="-3.81" y="-3.81" size="1.27" layer="27">&gt;VALUE</text>
-<rectangle x1="7.2" y1="-0.8" x2="8.375" y2="0.8" layer="21"/>
-</package>
-<package name="EFBRD22C41">
-<description>&lt;b&gt;Piezoelectric Acoustic Transducer&lt;/b&gt;&lt;p&gt;
-Source: Panbasonic .. 2SC1685.pdf</description>
-<circle x="0" y="0" radius="10.9" width="0.2032" layer="21"/>
-<pad name="1" x="-5" y="0" drill="1.1" diameter="1.6764"/>
-<pad name="2" x="5" y="0" drill="1.1" diameter="1.6764"/>
-<text x="-3.175" y="3.175" size="1.27" layer="25">&gt;NAME</text>
-<text x="-3.81" y="-3.81" size="1.27" layer="27">&gt;VALUE</text>
-<rectangle x1="9.675" y1="-0.8" x2="10.85" y2="0.8" layer="21"/>
-</package>
-<package name="EFBRD24C411">
-<description>&lt;b&gt;Piezoelectric Acoustic Transducer&lt;/b&gt;&lt;p&gt;
-Source: Panbasonic .. 2SC1685.pdf</description>
-<circle x="0" y="0" radius="11.9" width="0.2032" layer="21"/>
-<pad name="1" x="-5" y="0" drill="1.1" diameter="1.6764"/>
-<pad name="2" x="5" y="0" drill="1.1" diameter="1.6764"/>
-<text x="-3.175" y="3.175" size="1.27" layer="25">&gt;NAME</text>
-<text x="-3.81" y="-3.81" size="1.27" layer="27">&gt;VALUE</text>
-<rectangle x1="10.675" y1="-0.8" x2="11.85" y2="0.8" layer="21"/>
-</package>
-<package name="EFBRD22C413">
-<description>&lt;b&gt;Piezoelectric Acoustic Transducer&lt;/b&gt;&lt;p&gt;
-Source: Panbasonic .. 2SC1685.pdf</description>
-<circle x="0" y="0" radius="10.9" width="0.2032" layer="21"/>
-<pad name="1" x="-5" y="0" drill="1.1" diameter="1.6764"/>
-<pad name="2" x="5" y="0" drill="1.1" diameter="1.6764"/>
-<text x="-3.175" y="3.175" size="1.27" layer="25">&gt;NAME</text>
-<text x="-3.81" y="-3.81" size="1.27" layer="27">&gt;VALUE</text>
-<rectangle x1="9.675" y1="-0.8" x2="10.85" y2="0.8" layer="21"/>
+<package name="AL201P">
+<description>&lt;b&gt;SPEAKER&lt;/b&gt;</description>
+<circle x="0" y="0" radius="2.032" width="0.1524" layer="21"/>
+<circle x="0" y="0" radius="9.398" width="0.1524" layer="21"/>
+<circle x="0" y="0" radius="10.414" width="0.1524" layer="21"/>
+<pad name="1" x="-3.81" y="0" drill="1.016" diameter="2.54" shape="octagon"/>
+<pad name="2" x="4.445" y="0" drill="1.016" diameter="2.54" shape="octagon"/>
+<text x="-3.175" y="10.795" size="1.778" layer="25" ratio="10">&gt;NAME</text>
+<text x="-3.81" y="-5.08" size="1.778" layer="27" ratio="10">&gt;VALUE</text>
 </package>
 </packages>
 <symbols>
-<symbol name="B2P">
-<wire x1="-1.27" y1="3.175" x2="0" y2="3.175" width="0.1524" layer="94"/>
-<wire x1="0" y1="3.175" x2="0" y2="3.81" width="0.1524" layer="94"/>
-<wire x1="0" y1="3.175" x2="0" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="0.635" y1="4.445" x2="0.635" y2="1.905" width="0.1524" layer="94"/>
-<wire x1="0.635" y1="1.905" x2="1.905" y2="1.905" width="0.1524" layer="94"/>
-<wire x1="1.905" y1="1.905" x2="1.905" y2="4.445" width="0.1524" layer="94"/>
-<wire x1="1.905" y1="4.445" x2="0.635" y2="4.445" width="0.1524" layer="94"/>
-<wire x1="2.54" y1="3.81" x2="2.54" y2="3.175" width="0.1524" layer="94"/>
-<wire x1="2.54" y1="3.175" x2="3.81" y2="3.175" width="0.1524" layer="94"/>
-<wire x1="2.54" y1="3.175" x2="2.54" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="2.54" y1="-2.54" x2="2.54" y2="1.27" width="0.1524" layer="94"/>
-<wire x1="0" y1="-2.54" x2="0" y2="1.27" width="0.1524" layer="94"/>
-<wire x1="-2.54" y1="1.27" x2="0" y2="1.27" width="0.254" layer="94"/>
-<wire x1="5.08" y1="1.27" x2="5.08" y2="5.08" width="0.254" layer="94"/>
-<wire x1="5.08" y1="5.08" x2="5.715" y2="5.08" width="0.254" layer="94"/>
-<wire x1="5.715" y1="5.08" x2="5.715" y2="5.715" width="0.254" layer="94"/>
-<wire x1="5.715" y1="5.715" x2="-3.175" y2="5.715" width="0.254" layer="94"/>
-<wire x1="-3.175" y1="5.715" x2="-3.175" y2="5.08" width="0.254" layer="94"/>
-<wire x1="-3.175" y1="5.08" x2="-2.54" y2="5.08" width="0.254" layer="94"/>
-<wire x1="-2.54" y1="5.08" x2="-2.54" y2="1.27" width="0.254" layer="94"/>
-<wire x1="-2.54" y1="5.08" x2="5.08" y2="5.08" width="0.254" layer="94"/>
-<wire x1="2.54" y1="1.27" x2="5.08" y2="1.27" width="0.254" layer="94"/>
-<wire x1="0" y1="1.27" x2="2.54" y2="1.27" width="0.254" layer="94"/>
-<text x="-2.54" y="6.35" size="1.778" layer="95">&gt;NAME</text>
-<text x="6.35" y="0" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="2" x="5.08" y="-2.54" visible="pad" length="short" direction="pas" rot="R180"/>
-<pin name="1" x="-2.54" y="-2.54" visible="pad" length="short" direction="pas"/>
+<symbol name="SP">
+<wire x1="-1.905" y1="-0.635" x2="1.905" y2="-0.635" width="0.254" layer="94"/>
+<wire x1="1.905" y1="-0.635" x2="1.905" y2="0" width="0.254" layer="94"/>
+<wire x1="1.905" y1="2.54" x2="-1.905" y2="2.54" width="0.254" layer="94"/>
+<wire x1="-1.905" y1="-0.635" x2="-1.905" y2="0" width="0.254" layer="94"/>
+<wire x1="1.905" y1="2.54" x2="5.08" y2="5.08" width="0.254" layer="94"/>
+<wire x1="5.08" y1="5.08" x2="-5.08" y2="5.08" width="0.254" layer="94"/>
+<wire x1="-1.905" y1="2.54" x2="-5.08" y2="5.08" width="0.254" layer="94"/>
+<wire x1="2.54" y1="0" x2="1.905" y2="0" width="0.1524" layer="94"/>
+<wire x1="1.905" y1="0" x2="1.905" y2="2.54" width="0.254" layer="94"/>
+<wire x1="-2.54" y1="0" x2="-1.905" y2="0" width="0.1524" layer="94"/>
+<wire x1="-1.905" y1="0" x2="-1.905" y2="2.54" width="0.254" layer="94"/>
+<text x="-3.81" y="6.35" size="1.778" layer="95">&gt;NAME</text>
+<text x="-3.81" y="-3.175" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="2" x="5.08" y="0" visible="pad" length="short" direction="pas" rot="R180"/>
+<pin name="1" x="-5.08" y="0" visible="pad" length="short" direction="pas"/>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="EFB?" prefix="SG">
-<description>&lt;b&gt;Piezoelectric Acoustic Transducer&lt;/b&gt;&lt;p&gt;
-Source: Panbasonic .. 2SC1685.pdf</description>
+<deviceset name="AL201P" prefix="SP">
+<description>&lt;b&gt;SPEAKER&lt;/b&gt;&lt;p&gt; Source: Buerklin</description>
 <gates>
-<gate name="G$1" symbol="B2P" x="0" y="0"/>
+<gate name="G$1" symbol="SP" x="0" y="0"/>
 </gates>
 <devices>
-<device name="AA40D101" package="EFBAA40D101">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="MF" value="" constant="no"/>
-<attribute name="MPN" value="" constant="no"/>
-<attribute name="OC_FARNELL" value="unknown" constant="no"/>
-<attribute name="OC_NEWARK" value="unknown" constant="no"/>
-</technology>
-</technologies>
-</device>
-<device name="RD22C41" package="EFBRD22C41">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="MF" value="" constant="no"/>
-<attribute name="MPN" value="" constant="no"/>
-<attribute name="OC_FARNELL" value="unknown" constant="no"/>
-<attribute name="OC_NEWARK" value="unknown" constant="no"/>
-</technology>
-</technologies>
-</device>
-<device name="RD24C411" package="EFBRD24C411">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="MF" value="" constant="no"/>
-<attribute name="MPN" value="" constant="no"/>
-<attribute name="OC_FARNELL" value="unknown" constant="no"/>
-<attribute name="OC_NEWARK" value="unknown" constant="no"/>
-</technology>
-</technologies>
-</device>
-<device name="RD22C413" package="EFBRD22C413">
+<device name="" package="AL201P">
 <connects>
 <connect gate="G$1" pin="1" pad="1"/>
 <connect gate="G$1" pin="2" pad="2"/>
@@ -5757,7 +5672,6 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="GND3" library="supply1" deviceset="GND" device=""/>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
-<part name="SG1" library="buzzer" deviceset="EFB?" device="AA40D101"/>
 <part name="GND6" library="supply1" deviceset="GND" device=""/>
 <part name="SUPPLY1" library="supply2" deviceset="VCC" device=""/>
 <part name="JP1" library="pinhead" deviceset="PINHD-1X3" device=""/>
@@ -5766,6 +5680,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="C6" library="resistor" deviceset="C-EU" device="C1206" value="100n"/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
 <part name="C7" library="resistor" deviceset="C-EU" device="C1206" value="100n"/>
+<part name="SP1" library="buzzer" deviceset="AL201P" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5777,7 +5692,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <instance part="IC1" gate="P" x="157.48" y="55.88"/>
 <instance part="R1" gate="G$1" x="35.56" y="83.82"/>
 <instance part="R2" gate="G$1" x="53.34" y="66.04"/>
-<instance part="R3" gate="G$1" x="58.42" y="71.12"/>
+<instance part="R3" gate="G$1" x="53.34" y="71.12"/>
 <instance part="R4" gate="G$1" x="40.64" y="17.78"/>
 <instance part="R5" gate="G$1" x="22.86" y="30.48"/>
 <instance part="R6" gate="G$1" x="124.46" y="66.04" rot="R90"/>
@@ -5792,7 +5707,6 @@ In this library the device names are the same as the pin names of the symbols, t
 <instance part="GND3" gate="1" x="132.08" y="33.02"/>
 <instance part="GND4" gate="1" x="147.32" y="33.02"/>
 <instance part="GND5" gate="1" x="157.48" y="33.02"/>
-<instance part="SG1" gate="G$1" x="-2.54" y="50.8" rot="R90"/>
 <instance part="GND6" gate="1" x="0" y="40.64"/>
 <instance part="SUPPLY1" gate="G$1" x="157.48" y="86.36"/>
 <instance part="JP1" gate="A" x="86.36" y="30.48"/>
@@ -5801,6 +5715,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <instance part="C6" gate="G$1" x="139.7" y="55.88"/>
 <instance part="GND8" gate="1" x="139.7" y="33.02"/>
 <instance part="C7" gate="G$1" x="66.04" y="33.02" rot="R90"/>
+<instance part="SP1" gate="G$1" x="0" y="50.8" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -5811,7 +5726,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <pinref part="R3" gate="G$1" pin="1"/>
 <wire x1="43.18" y1="71.12" x2="45.72" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="C2" gate="G$1" pin="2"/>
-<wire x1="45.72" y1="71.12" x2="53.34" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="71.12" x2="48.26" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="38.1" y1="93.98" x2="45.72" y2="93.98" width="0.1524" layer="91"/>
 <wire x1="45.72" y1="93.98" x2="45.72" y2="83.82" width="0.1524" layer="91"/>
 <pinref part="R1" gate="G$1" pin="2"/>
@@ -5825,7 +5740,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <segment>
 <pinref part="R3" gate="G$1" pin="2"/>
 <pinref part="C1" gate="G$1" pin="1"/>
-<wire x1="63.5" y1="71.12" x2="66.04" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="71.12" x2="66.04" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -5834,11 +5749,6 @@ In this library the device names are the same as the pin names of the symbols, t
 <pinref part="GND1" gate="1" pin="GND"/>
 <wire x1="73.66" y1="71.12" x2="81.28" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="81.28" y1="71.12" x2="81.28" y2="68.58" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="GND6" gate="1" pin="GND"/>
-<pinref part="SG1" gate="G$1" pin="1"/>
-<wire x1="0" y1="43.18" x2="0" y2="48.26" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="R7" gate="G$1" pin="1"/>
@@ -5870,6 +5780,11 @@ In this library the device names are the same as the pin names of the symbols, t
 <pinref part="C6" gate="G$1" pin="2"/>
 <pinref part="GND8" gate="1" pin="GND"/>
 <wire x1="139.7" y1="50.8" x2="139.7" y2="35.56" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="GND6" gate="1" pin="GND"/>
+<pinref part="SP1" gate="G$1" pin="1"/>
+<wire x1="0" y1="43.18" x2="0" y2="45.72" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$4" class="0">
@@ -5910,12 +5825,12 @@ In this library the device names are the same as the pin names of the symbols, t
 <pinref part="IC1" gate="A" pin="IN+"/>
 <pinref part="R2" gate="G$1" pin="1"/>
 <wire x1="48.26" y1="66.04" x2="45.72" y2="66.04" width="0.1524" layer="91"/>
-<pinref part="SG1" gate="G$1" pin="2"/>
 <wire x1="45.72" y1="66.04" x2="43.18" y2="66.04" width="0.1524" layer="91"/>
-<wire x1="0" y1="55.88" x2="0" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="0" y1="60.96" x2="45.72" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="45.72" y1="60.96" x2="45.72" y2="66.04" width="0.1524" layer="91"/>
 <junction x="45.72" y="66.04"/>
+<pinref part="SP1" gate="G$1" pin="2"/>
+<wire x1="0" y1="55.88" x2="0" y2="60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$9" class="0">
