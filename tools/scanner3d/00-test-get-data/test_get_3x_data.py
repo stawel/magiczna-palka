@@ -41,18 +41,11 @@ lp5, = plt.plot([], [], 'c-')
 
 def update_line(num):
     idx = 0
-    y = mp3d.com.get_first_data(idx,-128);
-    x = range(len(y))
-    l1.set_data(x,y)
-    p,info  = mp3d.signal.get_first_max(y)
-    x2,sy,cy, data_sin , max_r, avr_r = info
-
-    lp2.set_data([p,p],[0,256])
-
-    lp4.set_data([0,8000],[max_r,max_r])
-    lp5.set_data([0,8000],[avr_r,avr_r])
-    l3.set_data(x2,sy)
-    l2.set_data(data_sin)
+    y1, y2, y3 = mp3d.com.get_3x_data(idx,-128);
+    x = range(len(y1))
+    l1.set_data(x,y1)
+    l2.set_data(x,y2)
+    l3.set_data(x,y3)
     return
 
 

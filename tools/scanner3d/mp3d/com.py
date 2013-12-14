@@ -7,7 +7,7 @@ import collections
 
 print "Setting up port"
 port_data=serial.Serial('/dev/ttyACM0',115200,timeout=2)
-data_size=1024*16
+data_size=1024*16*3
 TimeInfo = collections.namedtuple('TimeInfo_com', ['all', 'read', 'write'])
 
 time_info = TimeInfo(0, 0, 0)
@@ -16,7 +16,6 @@ def get_data(pin,diff = 0):
     global time_info
     t0 = time.time()
     yData=[]
-    xData=[]
     send ='@'
     if pin == 1:
         send = 'A'
@@ -27,7 +26,6 @@ def get_data(pin,diff = 0):
     port_data.write(send)
     port_data.flushInput()
     t1 = time.time()
-    i=1
     raw=port_data.read(data_size)
     prog_pos=0;
 
@@ -36,11 +34,15 @@ def get_data(pin,diff = 0):
         for c in raw:
             t=float(ord(c)) + diff
             yData.append(t)
-            xData.append(i)
-            i=i+1
 
     time_info = TimeInfo(time.time() - t0, t2 - t1, t1 - t0)
-    return xData,yData
+    return yData
 
+def get_3x_data(pin,diff = 0):
+    y = get_data(pin, diff)
+    return y[2::3],y[1::3],y[0::3]
 
+def get_first_data(pin,diff = 0):
+    y1,y2,y2 = get_3x_data(pin, diff)
+    return y1
 

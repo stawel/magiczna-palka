@@ -83,7 +83,8 @@ def get_data_first_max2(idx, szuk_len, diff = 0):
 
 
 def get_data_first_max(idx, szuk_len, diff = 0):
-    x,y = com.get_data(idx, diff);
+    y = com.get_first_data(idx, diff);
+    x = range(len(y))
     t0 = time.time()
     pos_max,info = get_first_max(y)
     print 'time get_first_max: ', time.time() - t0
