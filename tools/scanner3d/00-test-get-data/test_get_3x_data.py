@@ -21,8 +21,9 @@ print mp3d.com.get_data(0)
 
 fig1 = plt.figure()
 
-plt.xlim(0, 4000)
-plt.ylim(-128, 128)
+plt.xlim(7700, 10000)
+#plt.ylim(-228, 228)
+plt.ylim(-200, 200)
 plt.title('test')
 
 l1, = plt.plot([], [], 'r-')
@@ -40,12 +41,12 @@ lp5, = plt.plot([], [], 'c-')
 
 
 def update_line(num):
-    idx = 0
+    idx = 1
     y1, y2, y3 = mp3d.com.get_3x_data(idx,-128);
     x = range(len(y1))
-    l1.set_data(x,y1)
+    l1.set_data(x,[y-100 for y in y1])
     l2.set_data(x,y2)
-    l3.set_data(x,y3)
+    l3.set_data(x,[y+100 for y in y3])
     return
 
 

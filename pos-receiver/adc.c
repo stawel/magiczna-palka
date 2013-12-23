@@ -154,14 +154,13 @@ void ADC_Configuration(int pin)
 	else	   	   GPIO_ResetBits(PIN_GROUP, PIN1);
 	if(!(pin &2))  GPIO_SetBits(PIN_GROUP,   PIN2);
 	else	       GPIO_ResetBits(PIN_GROUP, PIN2);
-	Delay(100);
 
 	__disable_irq();
 	GPIO_ResetBits(PIN_GROUP, PIN0);
 	ADC_SoftwareStartConv(ADC1);
-	__enable_irq();
 	Delay(50);
 	GPIO_SetBits(PIN_GROUP, PIN0);
+	__enable_irq();
 }
 
 void DMA2_Stream0_IRQHandler(void)

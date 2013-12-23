@@ -40,7 +40,7 @@ def get_data(pin,diff = 0):
 
 def get_3x_data(pin,diff = 0):
     y = get_data(pin, diff)
-    return y[2::3],y[1::3],y[0::3]
+    return y[2::3],y[0::3],y[1::3]
 
 def get_first_data(pin,diff = 0):
     y1,y2,y2 = get_3x_data(pin, diff)
