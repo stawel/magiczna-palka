@@ -6,10 +6,14 @@ import math
 import collections
 
 print "Setting up port"
-port_data=serial.Serial('/dev/ttyACM0',115200,timeout=2)
-data_size=1024*16*3
-TimeInfo = collections.namedtuple('TimeInfo_com', ['all', 'read', 'write'])
+port_data = serial.Serial('/dev/ttyACM0',115200,timeout=2)
+data_channels = 3
+data_size = 1024*16*data_channels
+Fsampling_kHz = 1600.0
+T=data_size/data_channels/Fsampling_kHz
 
+
+TimeInfo = collections.namedtuple('TimeInfo_com', ['all', 'read', 'write'])
 time_info = TimeInfo(0, 0, 0)
 
 def get_data(pin,diff = 0):

@@ -20,7 +20,7 @@ print mp3d.com.get_data(0)
 
 
 fft_size=2048
-Fsampling_kHz = 1600.0
+Fsampling_kHz = mp3d.com.Fsampling_kHz
 
 #Tsampling_ms = 1.0 / Fsampling_kHz
 
@@ -56,7 +56,7 @@ fft_p2 = 0
 fft_p3 = 0
 
 def update_line(num):
-    idx = 1
+    idx = 0
     y1, y2, y3 = mp3d.com.get_3x_data(idx,-128);
     x = arange(0,len(y1)) / Fsampling_kHz
     y1, y3 = [y-100 for y in y1], [y+100 for y in y3]
