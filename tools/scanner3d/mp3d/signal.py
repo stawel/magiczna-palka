@@ -13,12 +13,8 @@ wave_f=(3624-3293)/8.
 gamma_test_period = 5
 
 
-TimeInfo = collections.namedtuple('TimeInfo_sig', ['all', 'data_first_max', 'get_pos', 'get_gamma', 'refresh_pattern'])
-time_info = TimeInfo(0,0,0,0,0)
 
-
-
-def get_gamma(y, diff):
+def get_gamma(y):
     okr = gamma_test_period
     t1=t2=0
     d = []
@@ -26,7 +22,7 @@ def get_gamma(y, diff):
     for i in range(min(w,len(y))):
         t1+=math.sin((i*math.pi*2*okr)/w)*y[i]
         t2+=math.cos((i*math.pi*2*okr)/w)*y[i]
-        d.append(math.cos((i*math.pi*2)/w*okr)*10+diff)
+        d.append(math.cos((i*math.pi*2)/w*okr)*10)
     r= (t1**2+t2**2)**0.5
     gamma= math.atan2(t2,t1)
     gamma_px=gamma*w/(math.pi*2*okr)
@@ -61,7 +57,7 @@ def get_first_max(y):
         data_c.append(gamma)
         x.append(i*w+w/2)
 
-    print 'time get_first_max_loop: ', time.time() - t0
+#    print 'time get_first_max_loop: ', time.time() - t0
 
     max_r = max(data_s)
     min_r = max_r/4.
@@ -76,21 +72,21 @@ def get_first_max(y):
     return pos_max, info
 
 
-def get_data_first_max2(idx, szuk_len, diff = 0):
-    x,y = com.get_data(idx, diff);
-    cut_pos_min=0
-    return x,y,cut_pos_min, x, y
+#def get_data_first_max2(idx, szuk_len):
+#    x,y = com.get(idx);
+#    cut_pos_min=0
+#    return x,y,cut_pos_min, x, y
 
 
-def get_data_first_max(idx, szuk_len, diff = 0):
-    y = com.get_first_data(idx, diff);
+def get_data_first_max(idx, szuk_len):
+    y = com.get(idx);
     x = range(len(y))
     t0 = time.time()
     pos_max,info = get_first_max(y)
-    print 'time get_first_max: ', time.time() - t0
+#    print 'time get_first_max: ', time.time() - t0
 
-    cut_pos_min=    pos_max - int(wave_f)*6
-    cut_pos_max=cut_pos_min + int(wave_f)*4 + szuk_len
+    cut_pos_min =     pos_max - szuk_len
+    cut_pos_max = cut_pos_min + szuk_len + szuk_len
 
     cut_y= y[cut_pos_min:cut_pos_max]
     cut_x= x[cut_pos_min:cut_pos_max]
@@ -98,21 +94,4 @@ def get_data_first_max(idx, szuk_len, diff = 0):
     return x,y,cut_pos_min, cut_x, cut_y
 
 
-def calculate_pos(idx, diff):
-    global time_info
-    t0 = time.time()
-    pattern_len = len(find_pattern.pattern[idx])
-    x, y, cut_pos_min, cut_x, cut_y = get_data_first_max(idx, pattern_len, diff);
-    t1 = time.time()
-    y2,pos_fk_min, val_cor,y3 = find_pattern.get_pos(cut_y, idx)
-    t2 = time.time()
-    pos_fk_min += cut_pos_min
-    pos_fk_max =  pos_fk_min + pattern_len
-    r,gamma,d = get_gamma(y[pos_fk_min:pos_fk_max],200.)
-    t3 = time.time()
-    pos = pos_fk_min - gamma
-    find_pattern.refresh_pattern(y[int(math.floor(pos)):int(math.floor(pos)) + pattern_len],idx)
-    t4 = time.time()
-    time_info=TimeInfo(t4 - t0, t1 - t0, t2 - t1, t3 - t2, t4 - t3)
-    return x, y, pos
 

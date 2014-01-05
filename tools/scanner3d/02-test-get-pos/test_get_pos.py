@@ -19,7 +19,7 @@ import mp3d.com
 fig1 = plt.figure()
 
 plt.xlim(0, 4000)
-plt.ylim(0, 256)
+plt.ylim(-128, 128)
 plt.title('test')
 
 l1, = plt.plot([], [], 'r-')
@@ -102,6 +102,7 @@ def cut_arrays(x,y):
 
 def update_line(num):
     idx = 2
+    mp3d.com.read_all_data()
     x, y, cut_pos_min, cut_x, cut_y = mp3d.signal.get_data_first_max(idx, len(szuk[idx]));
 
     l1.set_data(x,y)
@@ -112,7 +113,7 @@ def update_line(num):
 
     pos_fk_min += cut_pos_min
     pos_fk_max =  pos_fk_min + len(szuk[idx])
-    r,gamma,d = mp3d.signal.get_gamma(y[pos_fk_min:pos_fk_max],200.)
+    r,gamma,d = mp3d.signal.get_gamma(y[pos_fk_min:pos_fk_max])
     pos = pos_fk_min-gamma
 
     pos = pos_fk_min-gamma

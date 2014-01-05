@@ -9,6 +9,7 @@ import mpl_toolkits.mplot3d.axes3d as p3
 import math
 import scipy.optimize as optimization
 import scipy.signal as signal
+import operator
 
 import sys
 sys.path.append('..')
@@ -47,6 +48,7 @@ def move(y1, diff):
     return [y+diff for y in y1]
 
 def update_line(num):
+    mp3d.com.clear_time_info()
     idx = 0
     y1, y2, y3 = mp3d.com.get_3x_data(idx,-128);
     x = arange(0, len(y1)) / mp3d.com.Fsampling_kHz
@@ -65,6 +67,7 @@ def update_line(num):
     l21.set_data(x,move(y1, distance-distance_small))
     l22.set_data(x,move(y2, distance))
     l23.set_data(x,move(y3, distance+distance_small))
+    print mp3d.com.time_info
     return
 
 
