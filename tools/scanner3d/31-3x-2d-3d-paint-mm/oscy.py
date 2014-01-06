@@ -151,7 +151,11 @@ cid = fig2.canvas.mpl_connect('key_press_event', onclick)
 dot_ani = animation.FuncAnimation(fig2, update_dot, 25,
                               interval=20, blit=False)
 
-plt.show()
+
+try:
+    plt.show()
+finally:
+    mp3d.xyz.exit()
 
 
 

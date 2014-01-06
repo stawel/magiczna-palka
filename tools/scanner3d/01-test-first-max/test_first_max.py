@@ -15,9 +15,6 @@ sys.path.append('..')
 import mp3d.signal
 import mp3d.com
 
-print mp3d.com.get_data(0)
-
-
 
 fig1 = plt.figure()
 
@@ -40,8 +37,9 @@ lp5, = plt.plot([], [], 'c-')
 
 
 def update_line(num):
+    mp3d.com.read_all_data()
     idx = 0
-    y = mp3d.com.get_first_data(idx,-128);
+    y = mp3d.com.get(idx);
     x = range(len(y))
     l1.set_data(x,y)
     p,info  = mp3d.signal.get_first_max(y)
@@ -61,7 +59,8 @@ line_ani = animation.FuncAnimation(fig1, update_line, None,
 #, blit=True)
 #line_ani.save('lines.mp4')
 
-
-plt.show()
-
+try:
+    plt.show()
+finally:
+    mp3d.com.exit()
 

@@ -15,7 +15,6 @@ sys.path.append('..')
 import mp3d.signal
 import mp3d.com
 
-print mp3d.com.get_data(0)
 
 
 
@@ -41,8 +40,9 @@ lp5, = plt.plot([], [], 'c-')
 
 
 def update_line(num):
+    mp3d.com.read_all_data()
     idx = 1
-    y1, y2, y3 = mp3d.com.get_3x_data(idx,-128);
+    y1, y2, y3 = mp3d.com.get(idx*3+0), mp3d.com.get(idx*3+1), mp3d.com.get(idx*3+2);
     x = range(len(y1))
     l1.set_data(x,[y-100 for y in y1])
     l2.set_data(x,y2)
@@ -55,7 +55,8 @@ line_ani = animation.FuncAnimation(fig1, update_line, None,
 #, blit=True)
 #line_ani.save('lines.mp4')
 
-
-plt.show()
-
+try:
+    plt.show()
+finally:
+    mp3d.com.exit()
 

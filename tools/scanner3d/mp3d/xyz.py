@@ -68,6 +68,10 @@ def get_xyz_pos(dl, up, dr):
 def start():
     com.read_all_data()
 
+def exit():
+    com.exit()
+
+
 def get_3x_xyz():
     return 0
 

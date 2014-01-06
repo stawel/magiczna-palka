@@ -16,7 +16,6 @@ sys.path.append('..')
 import mp3d.signal
 import mp3d.com
 
-print mp3d.com.get_data(0)
 
 
 distance = 200
@@ -48,22 +47,22 @@ def move(y1, diff):
     return [y+diff for y in y1]
 
 def update_line(num):
-    mp3d.com.clear_time_info()
+    mp3d.com.read_all_data()
     idx = 0
-    y1, y2, y3 = mp3d.com.get_3x_data(idx,-128);
+    y1, y2, y3 = mp3d.com.get(idx*3+0), mp3d.com.get(idx*3+1), mp3d.com.get(idx*3+2);
     x = arange(0, len(y1)) / mp3d.com.Fsampling_kHz
     l01.set_data(x,move(y1, -distance-distance_small))
     l02.set_data(x,move(y2, -distance))
     l03.set_data(x,move(y3, -distance+distance_small))
 
     idx = 1
-    y1, y2, y3 = mp3d.com.get_3x_data(idx,-128);
+    y1, y2, y3 = mp3d.com.get(idx*3+0), mp3d.com.get(idx*3+1), mp3d.com.get(idx*3+2);
     l11.set_data(x,move(y1, -distance_small))
     l12.set_data(x,move(y2, 0))
     l13.set_data(x,move(y3, +distance_small))
 
     idx = 2
-    y1, y2, y3 = mp3d.com.get_3x_data(idx,-128);
+    y1, y2, y3 = mp3d.com.get(idx*3+0), mp3d.com.get(idx*3+1), mp3d.com.get(idx*3+2);
     l21.set_data(x,move(y1, distance-distance_small))
     l22.set_data(x,move(y2, distance))
     l23.set_data(x,move(y3, distance+distance_small))
@@ -76,7 +75,8 @@ line_ani = animation.FuncAnimation(fig1, update_line, None,
 #, blit=True)
 #line_ani.save('lines.mp4')
 
-
-plt.show()
-
+try:
+    plt.show()
+finally:
+    mp3d.com.exit()
 

@@ -16,8 +16,6 @@ sys.path.append('..')
 import mp3d.signal
 import mp3d.com
 
-print mp3d.com.get_data(0)
-
 
 fft_size=2048
 Fsampling_kHz = mp3d.com.Fsampling_kHz
@@ -57,7 +55,8 @@ fft_p3 = 0
 
 def update_line(num):
     idx = 0
-    y1, y2, y3 = mp3d.com.get_3x_data(idx,-128);
+    mp3d.com.read_all_data()
+    y1, y2, y3 = mp3d.com.get(idx), mp3d.com.get(idx+1), mp3d.com.get(idx+2);
     x = arange(0,len(y1)) / Fsampling_kHz
     y1, y3 = [y-100 for y in y1], [y+100 for y in y3]
     l1.set_data(x, y1)
@@ -113,5 +112,5 @@ line_ani = animation.FuncAnimation(fig1, update_line, None,
 
 
 plt.show()
-
+mp3d.com.exit()
 

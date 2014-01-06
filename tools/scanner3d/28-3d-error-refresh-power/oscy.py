@@ -108,11 +108,10 @@ def update_dot(num):
 dot_ani = animation.FuncAnimation(fig2, update_dot, 25,
                               interval=50, blit=False)
 
-plt.show()
 
-
-
-
-plt.show()
+try:
+    plt.show()
+finally:
+    mp3d.xyz.exit()
 
 

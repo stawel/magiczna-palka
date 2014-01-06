@@ -87,7 +87,8 @@ line_ani = animation.FuncAnimation(fig1, update_line, None,
 #, blit=True)
 #line_ani.save('lines.mp4')
 
-
-plt.show()
-
+try:
+    plt.show()
+finally:
+    mp3d.com.exit()
 
