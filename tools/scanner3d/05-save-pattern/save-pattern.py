@@ -18,7 +18,6 @@ import mp3d.signal
 import mp3d.com
 import mp3d.find_pattern
 
-print mp3d.com.get_data(0)
 
 
 distance = 200
@@ -85,7 +84,6 @@ def move(y1, diff):
 
 def update_line(num):
     global data
-    mp3d.com.clear_time_info()
     mp3d.com.read_all_data()
     idx = 0
 
@@ -155,5 +153,5 @@ line_ani = animation.FuncAnimation(fig1, update_line, None,
 
 
 plt.show()
-
+mp3d.com.exit()
 

@@ -49,7 +49,7 @@ def init(signals):
         patterns.append(patt)
         patterns_cor.append(patt_cor)
 
-    print patterns, patterns_cor
+    #print patterns, patterns_cor
 
 
 def init1(sign, dim):
