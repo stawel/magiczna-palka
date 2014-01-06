@@ -10,8 +10,23 @@ import math
 import scipy.optimize as optimization
 import scipy.signal as signal
 import pickle
+import collections
+import operator
 
 filename = '/home/stawel/patterns.pkl'
+
+
+TimeInfo = collections.namedtuple('TimeInfo_fp', ['all', 'refresh_pattern', 'get_pos', 'get_error'])
+time_info = TimeInfo(0,0,0,0)
+
+def clear_time_info():
+    global time_info
+    time_info = TimeInfo(0, 0, 0, 0)
+
+def add_time_info(t):
+    global time_info
+    time_info = TimeInfo(*map(operator.add,time_info, t))
+
 
 patterns = []
 patterns_cor = []
@@ -64,6 +79,7 @@ def init_from_file():
 
 def refresh_pattern(sign, idx):
     global patterns, patterns_cor
+    t0 = time.time()
     sw_avr = sum(sign) / float(len(sign))
     sw = []
     for x in sign:
@@ -76,9 +92,11 @@ def refresh_pattern(sign, idx):
     if(error<1. and power > 150.0):
         patterns_cor[idx]=sw_cor
         patterns[idx]=sw
+    add_time_info(TimeInfo(0, time.time()-t0,0,0))
 
 
 def get_error(xl,yl,xx_cor,xy_cor):
+    t0 = time.time()
     error_wsp=2.
     error=100
     suma=0
@@ -87,10 +105,13 @@ def get_error(xl,yl,xx_cor,xy_cor):
         for x,y in zip(xl,yl):
             suma+=((y-x*cor)/error_wsp)**2
         error=sqrt(suma/abs(xy_cor))
+
+    add_time_info(TimeInfo(0, 0, 0, time.time()-t0))
     return suma/10., error
 
 
 def get_pos(y,idx):
+    t0 = time.time()
     avr = sum(y) / float(len(y))
     cy = [x-avr for x in  y]
     data_s=correlate(cy ,patterns[idx])
@@ -107,6 +128,7 @@ def get_pos(y,idx):
     else:
         pos = 0
 
+    add_time_info(TimeInfo(0, 0, time.time()-t0, 0))
     return data_s,pos, data_s[pos], data_e
 
 

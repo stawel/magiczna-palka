@@ -38,7 +38,8 @@ lp5, = plt.plot([], [], 'c-')
 
 def update_line(num):
     mp3d.com.read_all_data()
-    idx = 0
+    mp3d.signal.clear_time_info()
+    idx = 2
     y = mp3d.com.get(idx);
     x = range(len(y))
     l1.set_data(x,y)
@@ -51,6 +52,7 @@ def update_line(num):
     lp5.set_data([0,8000],[avr_r,avr_r])
     l3.set_data(x2,sy)
     l2.set_data(data_sin)
+    print mp3d.signal.time_info
     return
 
 

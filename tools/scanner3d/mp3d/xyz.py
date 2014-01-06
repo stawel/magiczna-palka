@@ -10,10 +10,19 @@ import find_pattern
 #sound speed in m/s (temp: 20C)
 sound_speed = 331.5+0.6*20
 
-TimeInfo = collections.namedtuple('TimeInfo_sig', ['all', 'data_first_max', 'get_pos', 'get_gamma', 'refresh_pattern'])
+find_pattern.init_from_file()
+
+TimeInfo = collections.namedtuple('TimeInfo_xyz', ['all', 'data_first_max', 'get_pos', 'get_gamma', 'refresh_pattern'])
 time_info = TimeInfo(0,0,0,0,0)
 
-find_pattern.init_from_file()
+def clear_time_info():
+    global time_info
+    time_info = TimeInfo(0, 0, 0, 0, 0)
+
+def add_time_info(t):
+    global time_info
+    time_info = TimeInfo(*map(operator.add,time_info, t))
+
 
 def move(x,diff):
     return [i+diff for i in x]

@@ -8,13 +8,25 @@ import scipy.signal as signal
 import collections
 import com
 import find_pattern
+import operator
 
 wave_f=(3624-3293)/8.
 gamma_test_period = 5
 
+TimeInfo = collections.namedtuple('TimeInfo_sig', ['all', 'get_first_max', 'get_pos', 'get_gamma'])
+time_info = TimeInfo(0,0,0,0)
+
+def clear_time_info():
+    global time_info
+    time_info = TimeInfo(0, 0, 0, 0)
+
+def add_time_info(t):
+    global time_info
+    time_info = TimeInfo(*map(operator.add,time_info, t))
 
 
 def get_gamma(y):
+    time0 = time.time()
     okr = gamma_test_period
     t1=t2=0
     d = []
@@ -27,6 +39,8 @@ def get_gamma(y):
     gamma= math.atan2(t2,t1)
     gamma_px=gamma*w/(math.pi*2*okr)
 #    print 'gamma: %+2.10f gamma_px: %+2.10f' % (gamma, gamma_px)
+
+    add_time_info(TimeInfo(0, 0, 0, time.time()-time0))
     return r, gamma_px, d
 
 
@@ -69,6 +83,8 @@ def get_first_max(y):
 #    print pos_max
 
     info = x, data_s, data_c, data_sin, max_r, min_r
+
+    add_time_info(TimeInfo(0,time.time()-t0,0,0))
     return pos_max, info
 
 
@@ -79,9 +95,9 @@ def get_first_max(y):
 
 
 def get_data_first_max(idx, szuk_len):
+    t0 = time.time()
     y = com.get(idx);
     x = range(len(y))
-    t0 = time.time()
     pos_max,info = get_first_max(y)
 #    print 'time get_first_max: ', time.time() - t0
 
@@ -91,6 +107,7 @@ def get_data_first_max(idx, szuk_len):
     cut_y= y[cut_pos_min:cut_pos_max]
     cut_x= x[cut_pos_min:cut_pos_max]
 
+    add_time_info(TimeInfo(time.time()-t0,0,0,0))
     return x,y,cut_pos_min, cut_x, cut_y
 
 
