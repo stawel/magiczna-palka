@@ -56,10 +56,10 @@ def update_line(num):
     x, y, cut_pos_min, cut_x, cut_y = mp3d.signal.get_data_first_max(idx, szuk_len);
 
     l1.set_data(x,y)
-    y2,pos_fk_min, val_cor,y3 = mp3d.find_pattern.get_pos(cut_y,idx)
+    y2,pos_fk_min, val_cor,x3, y3 = mp3d.find_pattern.get_pos(cut_y,idx)
 
-    l2.set_data(cut_arrays(cut_x,[i/1000+195. for i in y2]))
-    l5.set_data(cut_arrays(cut_x,[i+195. for i in y3]))
+    l2.set_data(cut_arrays(cut_x, y2 / 1000.))
+    l5.set_data(cut_arrays(array(x3) + cut_pos_min, array(y3)))
 
     pos_fk_min += cut_pos_min
     pos_fk_max =  pos_fk_min + szuk_len
@@ -78,9 +78,12 @@ def update_line(num):
     cx= x[pos_fk_min:(pos_fk_min+szuk_len)]
     cy= y[pos_fk_min:(pos_fk_min+szuk_len)]
     avr_cy = sum(cy)/float(len(cy))
-    l3.set_data(cut_arrays(cx,[i+195. for i in mp3d.find_pattern.patterns[idx]]))
-    l4.set_data(cut_arrays(cx,[abs(cy[i] -  mp3d.find_pattern.patterns[idx][i]  * val_cor/mp3d.find_pattern.patterns_cor[idx] - avr_cy) +avr_cy  for i in range(min(szuk_len,len(cy)))]))
-    z = [mp3d.find_pattern.patterns[idx][i]  * val_cor/mp3d.find_pattern.patterns_cor[idx] + avr_cy  for i in range(szuk_len)]
+    l3.set_data(cut_arrays(cx, mp3d.find_pattern.patterns[idx] + 195.))
+    if len(cy) == len(mp3d.find_pattern.patterns[idx]):
+        lerror = abs(cy - avr_cy - mp3d.find_pattern.patterns[idx]*val_cor/mp3d.find_pattern.patterns_cor[idx])
+#        print 'error:',math.sqrt(inner(lerror,lerror))
+        l4.set_data(cut_arrays(cx, lerror +avr_cy))
+    z = mp3d.find_pattern.patterns[idx]  * val_cor/mp3d.find_pattern.patterns_cor[idx] + avr_cy
     l3.set_data(cut_arrays(cx,z))
 #    l3.set_data(x2,sy)
     print mp3d.signal.time_info

@@ -72,10 +72,8 @@ pos = [0,0,0,
 
 data = [0,0,0, 0,0,0, 0,0,0]
 
-mp3d.find_pattern.init1(pp, 9)
-
-
 pos2 = mp3d.find_pattern.read_patterns()
+
 if pos2 is not None:
     pos = pos2
 

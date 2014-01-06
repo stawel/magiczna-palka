@@ -41,7 +41,7 @@ def update_line(num):
     mp3d.signal.clear_time_info()
     idx = 2
     y = mp3d.com.get(idx);
-    x = range(len(y))
+    x = arange(len(y))
     l1.set_data(x,y)
     p,info  = mp3d.signal.get_first_max(y)
     x2,sy,cy, data_sin , max_r, avr_r = info
@@ -57,7 +57,7 @@ def update_line(num):
 
 
 line_ani = animation.FuncAnimation(fig1, update_line, None,
-    interval=30)
+    interval=200)
 #, blit=True)
 #line_ani.save('lines.mp4')
 

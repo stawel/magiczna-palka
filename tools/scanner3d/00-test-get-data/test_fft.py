@@ -58,7 +58,7 @@ def update_line(num):
     mp3d.com.read_all_data()
     y1, y2, y3 = mp3d.com.get(idx), mp3d.com.get(idx+1), mp3d.com.get(idx+2);
     x = arange(0,len(y1)) / Fsampling_kHz
-    y1, y3 = [y-100 for y in y1], [y+100 for y in y3]
+    y1, y3 = y1-100, y3+100
     l1.set_data(x, y1)
     l2.set_data(x, y2)
     l3.set_data(x, y3)
@@ -106,7 +106,7 @@ def onclick(event):
 cid = fig1.canvas.mpl_connect('button_press_event', onclick)
 
 line_ani = animation.FuncAnimation(fig1, update_line, None,
-    interval=30)
+    interval=200)
 #, blit=True)
 #line_ani.save('lines.mp4')
 

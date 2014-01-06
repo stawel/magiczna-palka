@@ -35,8 +35,10 @@ def read_patterns():
     global patterns
     try:
         with open(filename, 'rb') as f:
-            patterns = pickle.load(f)
+            patterns2 = pickle.load(f)
             extras = pickle.load(f)
+            for i in patterns2:
+                patterns.append(array(i))
             return extras
     except IOError:
         print "can't read file:", filename
@@ -57,11 +59,11 @@ def init(signals):
     global patterns, patterns_cor
     for sign in signals:
         avr = sum(sign) / float(len(sign))
-        patt=[]
+        patt= []
         for x in sign:
             patt.append(x-avr)
         patt_cor = correlate(patt,patt)[0]
-        patterns.append(patt)
+        patterns.append(array(patt))
         patterns_cor.append(patt_cor)
 
     #print patterns, patterns_cor
@@ -81,12 +83,10 @@ def refresh_pattern(sign, idx):
     global patterns, patterns_cor
     t0 = time.time()
     sw_avr = sum(sign) / float(len(sign))
-    sw = []
-    for x in sign:
-        sw.append(x-sw_avr)
+    sw = array(sign) - sw_avr
     sw_cor = correlate(sw,sw)[0]
     old_cor = correlate(sw,patterns[idx])[0]
-    error = get_error(patterns[idx],sw,patterns_cor[idx],old_cor)[1]
+    error = get_error(patterns[idx],sw,patterns_cor[idx],old_cor)
     power = sqrt(sw_cor)
 #    print 'idx: %d  power: %10.3f nowa corelacja: %10.3f  cor old: %10.3f error: %3.10f' % (idx, power, sw_cor , old_cor , error)
     if(error<1. and power > 150.0):
@@ -97,31 +97,30 @@ def refresh_pattern(sign, idx):
 
 def get_error(xl,yl,xx_cor,xy_cor):
     t0 = time.time()
-    error_wsp=2.
     error=100
-    suma=0
     cor=abs(xy_cor)/xx_cor
     if len(xl) == len(yl):
-        for x,y in zip(xl,yl):
-            suma+=((y-x*cor)/error_wsp)**2
-        error=sqrt(suma/abs(xy_cor))
+        err_array = (yl-xl*cor)
+        error = sqrt(inner(err_array,err_array))
+
+#    lerror = abs(cy - avr_cy - mp3d.find_pattern.patterns[idx]*val_cor/mp3d.find_pattern.patterns_cor[idx])
 
     add_time_info(TimeInfo(0, 0, 0, time.time()-t0))
-    return suma/10., error
+    return error
 
 
 def get_pos(y,idx):
     t0 = time.time()
     avr = sum(y) / float(len(y))
-    cy = [x-avr for x in  y]
+    cy = y-avr #[x-avr for x in  y]
     data_s=correlate(cy ,patterns[idx])
     data_e = []
-    data_c = []
+    data_xe = []
     duze = signal.argrelmax(data_s)[0]
     for j in duze:
-        v,e = get_error(patterns[idx],cy[j:j+len(patterns[idx])], patterns_cor[idx], data_s[j])
-        data_c.append(v)
+        e = get_error(patterns[idx],cy[j:j+len(patterns[idx])], patterns_cor[idx], data_s[j])
         data_e.append(e)
+        data_xe.append(j)
     if len(data_e) > 0:
         pos_i = argmin(data_e)
         pos = duze[pos_i]
@@ -129,6 +128,6 @@ def get_pos(y,idx):
         pos = 0
 
     add_time_info(TimeInfo(0, 0, time.time()-t0, 0))
-    return data_s,pos, data_s[pos], data_e
+    return data_s, pos, data_s[pos], data_xe, data_e
 
 

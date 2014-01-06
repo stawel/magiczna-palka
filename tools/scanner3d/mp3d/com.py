@@ -6,6 +6,7 @@ import math
 import collections
 import operator
 import threading
+import numpy
 
 print "Setting up port"
 port_name = '/dev/ttyACM0'
@@ -39,15 +40,9 @@ def send_command(port, pin):
     port.flush()
 
 def read_raw_data(port, diff):
-    yData=[]
-    raw=port.read(data_size)
-    prog_pos=0;
-
-    if len(raw)>0:
-        for c in raw:
-            t=float(ord(c)) + diff
-            yData.append(t)
-    return yData
+    raw = port.read(data_size)
+    data_array =  numpy.fromstring(raw,dtype='uint8')+diff
+    return data_array;
 
 def get_data(port, pin, diff = 0):
     t0 = time.time()
@@ -56,6 +51,7 @@ def get_data(port, pin, diff = 0):
     yData = read_raw_data(port, diff)
     t2 = time.time()
 
+    #print 'read2:', t2-t1
     add_time_info(TimeInfo(0, t2 - t1, t1 - t0))
     return yData
 
@@ -87,7 +83,7 @@ def get(idx):
 def doThread():
     global dataBuf
     try:
-        with serial.Serial(port_name,115200,timeout=2) as port_data:
+        with serial.Serial(port_name,1152000,timeout=2) as port_data:
             while True:
                 startSig.wait()
                 startSig.clear()
@@ -99,6 +95,7 @@ def doThread():
                 y11, y12, y13 = get_3x_data(port_data,1,-128)
                 y21, y22, y23 = get_3x_data(port_data,2,-128)
 
+                #print "doThread timing2:", time.time() - t0
                 threadLock.acquire()
                 dataBuf =  [y01,y02,y03,
                             y11,y12,y13,

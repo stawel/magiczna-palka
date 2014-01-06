@@ -24,9 +24,6 @@ def add_time_info(t):
     time_info = TimeInfo(*map(operator.add,time_info, t))
 
 
-def move(x,diff):
-    return [i+diff for i in x]
-
 def calculate_pos(idx):
     global time_info
     t0 = time.time()

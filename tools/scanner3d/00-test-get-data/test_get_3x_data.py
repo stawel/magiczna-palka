@@ -44,9 +44,9 @@ def update_line(num):
     idx = 1
     y1, y2, y3 = mp3d.com.get(idx*3+0), mp3d.com.get(idx*3+1), mp3d.com.get(idx*3+2);
     x = range(len(y1))
-    l1.set_data(x,[y-100 for y in y1])
+    l1.set_data(x,y1-100)
     l2.set_data(x,y2)
-    l3.set_data(x,[y+100 for y in y3])
+    l3.set_data(x,y3+100)
     return
 
 
