@@ -93,6 +93,10 @@ def update_dot(num):
         dot.set_data(points[0],points[1])
         dot2.set_data(points[0],points[2])
 
+        dot3d.set_data(points[0],points[1])
+        dot3d.set_3d_properties(points[2])
+        fig3.canvas.draw()
+
 
 fig3 = plt.figure()
 ax = p3.Axes3D(fig3)

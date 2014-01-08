@@ -40,11 +40,11 @@ def update_line(num):
     mp3d.xyz.start()
     t_data = 0.
     x,y, wyn1 = mp3d.xyz.calculate_pos(0)
-    l1.set_data(x,mp3d.xyz.move(y,+100))
+    l1.set_data(x,y+100)
     lp1.set_data([wyn1,wyn1],[0,256])
 
     x,y, wyn2 = mp3d.xyz.calculate_pos(1)
-    l2.set_data(x,mp3d.xyz.move(y,+50))
+    l2.set_data(x,y+50)
     lp2.set_data([wyn2,wyn2],[0,256])
 
     x,y, wyn3 = mp3d.xyz.calculate_pos(2)

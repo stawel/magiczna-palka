@@ -88,6 +88,11 @@ def get_first_max(y):
     return pos_max, info
 
 
+def get_data_first_max2(idx, szuk_len):
+    y = com.get(idx);
+    x = arange(len(y))
+    cut_pos_min=0
+    return x,y,cut_pos_min, x, y
 
 def get_data_first_max(idx, szuk_len):
     t0 = time.time()

@@ -99,9 +99,12 @@ def get_error(xl,yl,xx_cor,xy_cor):
     t0 = time.time()
     error=100
     cor=abs(xy_cor)/xx_cor
+    yy2_cor = math.sqrt(correlate(yl ,yl))
     if len(xl) == len(yl):
         err_array = (yl-xl*cor)
         error = sqrt(inner(err_array,err_array))
+#        if(yy2_cor<1):
+#            error /= yy2_cor
 
 #    lerror = abs(cy - avr_cy - mp3d.find_pattern.patterns[idx]*val_cor/mp3d.find_pattern.patterns_cor[idx])
 
@@ -118,12 +121,13 @@ def get_pos(y,idx):
     data_xe = []
     duze = signal.argrelmax(data_s)[0]
     for j in duze:
-        e = get_error(patterns[idx],cy[j:j+len(patterns[idx])], patterns_cor[idx], data_s[j])
-        data_e.append(e)
-        data_xe.append(j)
+        if data_s[j]>100000:
+            e = get_error(patterns[idx],cy[j:j+len(patterns[idx])], patterns_cor[idx], data_s[j])
+            data_e.append(e)
+            data_xe.append(j)
     if len(data_e) > 0:
         pos_i = argmin(data_e)
-        pos = duze[pos_i]
+        pos = data_xe[pos_i]
     else:
         pos = 0
 

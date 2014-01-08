@@ -28,9 +28,9 @@ def calculate_pos(idx):
     global time_info
     t0 = time.time()
     pattern_len = len(find_pattern.patterns[idx])
-    x, y, cut_pos_min, cut_x, cut_y = signal.get_data_first_max(idx, pattern_len);
+    x, y, cut_pos_min, cut_x, cut_y = signal.get_data_first_max2(idx, pattern_len);
     t1 = time.time()
-    y2,pos_fk_min, val_cor,y3 = find_pattern.get_pos(cut_y, idx)
+    y2,pos_fk_min, val_cor,x3,y3 = find_pattern.get_pos(cut_y, idx)
     t2 = time.time()
     pos_fk_min += cut_pos_min
     pos_fk_max =  pos_fk_min + pattern_len

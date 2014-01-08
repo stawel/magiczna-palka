@@ -53,7 +53,7 @@ def update_line(num):
     mp3d.com.read_all_data()
     mp3d.signal.clear_time_info()
     mp3d.find_pattern.clear_time_info()
-    x, y, cut_pos_min, cut_x, cut_y = mp3d.signal.get_data_first_max(idx, szuk_len);
+    x, y, cut_pos_min, cut_x, cut_y = mp3d.signal.get_data_first_max2(idx, szuk_len);
 
     l1.set_data(x,y)
     y2,pos_fk_min, val_cor,x3, y3 = mp3d.find_pattern.get_pos(cut_y,idx)
