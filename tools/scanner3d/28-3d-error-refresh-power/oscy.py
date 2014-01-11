@@ -84,19 +84,10 @@ ax.set_title('3D Test')
 data = 0
 
 
-def get_xyz_pos(r1, r2, r3):
-    a = 1650./2.
-    b = 850.
-    y = (r3**2-r1**2)/(4.*a)
-    z = ((r1**2-(y-a)**2-r2**2 + y**2)/b+b)/2.
-    x = (abs(r1**2 - (y-a)**2 - z**2))**0.5
-    print r1,r2,r2, ' -> ' ,x,y,z
-    return x,y,z
-
 def update_dot(num):
     global wyn_ox,wyn_oy,wyn_oz
     if wyn1*wyn2*wyn3 > 0:
-        x,y,z = get_xyz_pos(wyn1 ,wyn2 ,wyn3)
+        x,y,z = mp3d.xyz.get_xyz_pos(wyn1 ,wyn2 ,wyn3)
         if wyn_ox == 0:
             wyn_ox=x
             wyn_oy=y
