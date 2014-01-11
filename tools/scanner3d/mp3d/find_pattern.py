@@ -79,7 +79,7 @@ def init_from_file():
     patterns = []
     init(p)
 
-a = 0
+
 def refresh_pattern(sign, idx):
     global patterns, patterns_cor, a
     t0 = time.time()
@@ -89,9 +89,8 @@ def refresh_pattern(sign, idx):
     old_cor = correlate(sw, patterns[idx])[0]
     error = get_error(patterns[idx], sw, patterns_cor[idx], old_cor)
     power = sqrt(sw_cor)
-    print 'idx: %d  power: %10.3f nowa corelacja: %10.3f  cor old: %10.3f error: %3.10f' % (idx, power, sw_cor , old_cor , error)
-    if(error<150. and power > 150.0 and a < 1):
-        a=1
+    if(error<1500. and power > 150.0):
+        print 'idx: %d  power: %10.3f nowa corelacja: %10.3f  cor old: %10.3f error: %3.10f' % (idx, power, sw_cor , old_cor , error)
         patterns_cor[idx]=sw_cor
         patterns[idx]=sw
     add_time_info(TimeInfo(0, time.time()-t0,0,0))
@@ -114,22 +113,15 @@ def get_pos(y,idx):
     t0 = time.time()
     avr = sum(y) / float(len(y))
     cy = y-avr #[x-avr for x in  y]
-    data_s=correlate(cy ,patterns[idx])
-    data_e = []
-    data_xe = []
-    duze = signal.argrelmax(data_s)[0]
+    corel = correlate(cy ,patterns[idx])
+    errors = [(float('inf'),0)]
+    duze = signal.argrelmax(corel)[0]
     for j in duze:
-        e = get_error(patterns[idx],cy[j:j+len(patterns[idx])], patterns_cor[idx], data_s[j])
-        data_e.append(e)
-        data_xe.append(j)
-    if len(data_e) > 0:
-        pos_i = argmin(data_e)
-        pos = data_xe[pos_i]
-        print "!!!!!!!!!!!!!!!!error:",data_e[pos_i]
-    else:
-        pos = 0
+        e = get_error(patterns[idx],cy[j:j+len(patterns[idx])], patterns_cor[idx], corel[j])
+        errors.append( (e,j) )
 
+    errors.sort(key=operator.itemgetter(0))
     add_time_info(TimeInfo(0, 0, time.time()-t0, 0))
-    return data_s, pos, data_s[pos], data_xe, data_e
+    return errors, corel
 
 

@@ -2,10 +2,14 @@
 import collections
 import time
 import math
+import numpy
+import itertools
+import operator
 
 import signal
 import com
 import find_pattern
+
 
 #sound speed in m/s (temp: 20C)
 sound_speed = 331.5+0.6*20
@@ -30,21 +34,79 @@ def calculate_pos(idx):
     pattern_len = len(find_pattern.patterns[idx])
     x, y, cut_pos_min, cut_x, cut_y = signal.get_data_first_max2(idx, pattern_len);
     t1 = time.time()
-    y2,pos_fk_min, val_cor,x3,y3 = find_pattern.get_pos(cut_y, idx)
+    errors, corel = find_pattern.get_pos(cut_y, idx)
     t2 = time.time()
-    pos_fk_min += cut_pos_min
-    t3 = time.time()
-    pos = pos_fk_min 
-    find_pattern.refresh_pattern(y[pos_fk_min:pos_fk_min + pattern_len],idx)
-    t4 = time.time()
-    time_info=TimeInfo(t4 - t0, t1 - t0, t2 - t1, t3 - t2, t4 - t3)
-    return x, y, pos
+    time_info=TimeInfo(t2 - t0, t1 - t0, t2 - t1, 0, 0)
+    return x, y, errors
+
+def refresh(XYE_pos, idxs):
+    for channel in range(len(XYE_pos)):
+        x,y,e = XYE_pos[channel]
+        pos = e[idxs[channel]][1]
+        pattern_len = len(find_pattern.patterns[channel])
+        find_pattern.refresh_pattern(y[pos:pos + pattern_len],channel)
 
 
-def calculate_pos_mm(idx):
-    x , y, pos = calculate_pos(idx)
+def to_mm(pos):
     t =  pos / com.Fsampling_kHz
     return t*sound_speed
+
+current_distance = numpy.array([0.,0.,0.])
+
+def distance(x,y):
+    return numpy.linalg.norm(x-y)
+
+def gen_pos3x(XYE_pos, idxs):
+    pos3x = []
+    leng = []
+    err = 0.
+    for i in range(len(idxs)):
+        e = XYE_pos[i][2]
+        p = e[0]
+        if idxs[i] < len(e):
+            p= e[idxs[i]]
+        leng.append(p)
+
+    for i in range(3):
+        r1=leng[3*i+0][1]
+        r2=leng[3*i+1][1]
+        r3=leng[3*i+2][1]
+        err = err + leng[3*i+0][0] + leng[3*i+1][0] + leng[3*i+2][0]
+        p = get_xyz_pos(to_mm(r1),to_mm(r2),to_mm(r3))
+        pos3x.append(p)
+    return err, pos3x
+
+def get_pos3x():
+    global current_distance
+    start()
+    XYE_pos = []
+    for i in range(9):
+        XYE_pos.append(calculate_pos(i))
+
+    prod = [[0,1]]*9
+    output = []
+    for e in itertools.product(*prod):
+        err, pos3x =gen_pos3x(XYE_pos, e)
+        d01, d02, d12 = distance(pos3x[0],pos3x[1]), distance(pos3x[0],pos3x[2]), distance(pos3x[1],pos3x[2])
+        if current_distance[0] == 0:
+            current_distance = numpy.array([d01,d02,d12])
+
+        distd = numpy.array([d01, d02, d12])
+        r = distance(distd, current_distance)
+        wsp = err*r
+        output.append( (wsp, r,err,e, distd, pos3x) )
+
+    output.sort(key=operator.itemgetter(0))
+    d01,d02,d12 = output[0][4]
+    pos3x = output[0][5]
+    print 'wsp:', output[0][0],'r:', output[0][1], ' error:', output[0][2], 'perm:', output[0][3]
+    print 'e01: %10.3f  e02: %10.3f  e12: %10.3f' % tuple(numpy.array([d01, d02, d12]) - current_distance)
+    print 'd01: %10.3f  d02: %10.3f  d12: %10.3f' % (d01, d02, d12)
+
+    refresh(XYE_pos,output[0][3])
+    return pos3x
+
+
 
 #big triangle dimensions in mm
 #     up (0,h,0)
@@ -66,7 +128,7 @@ def get_xyz_pos(dl, up, dr):
     x = (dl**2-dr**2)/(2.*a)
     y = ((dl**2-up**2 -(x+a/2.)**2+ x**2)/h+h)/2.
     z = (abs(up**2 - x**2 - (y-h)**2))**0.5
-    return x,y,z
+    return numpy.array([x,y,z])
 
 
 def start():

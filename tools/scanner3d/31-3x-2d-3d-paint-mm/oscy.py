@@ -23,16 +23,6 @@ szuk_len = len(mp3d.find_pattern.patterns[0])
 
 
 
-wyn = [0,0,0, 0,0,0, 0,0,0]
-wyn_ox = wyn_oy = wyn_oz = 0
-
-def update_line(num):
-    global wyn
-    mp3d.xyz.start()
-    t_data = 0.
-    for i in range(9):
-        wyn[i] = mp3d.xyz.calculate_pos_mm(i)
-        print wyn[i]
 
 fig2 = plt.figure()
 
@@ -62,40 +52,29 @@ dot2, = plt.plot([0.5],[0.5],'r.')
 
 #ax.set_title('3D Test')
 
-data = 0
 
+pos_o = array([0,0,0])
+points = array([array([0,0,0]),array([0,0,0]),array([0,0,0])])
 
-points = [[0,0,0],[0,0,0],[0,0,0]]
-x=0
-y=0
-z=0
-
-dotup = 0
-dot_last_up = 0
 def update_dot(num):
-    global wyn_ox,wyn_oy,wyn_oz,x,y,z,dotup
+    global pos_o, points
     t0 = time.time()
-    update_line(num)
-    dotup+=1
-#    print 'time:', time.time()-t0;
-    if wyn[0]*wyn[1]*wyn[2] > 0:
-        l = len(points[0])
-        for i in range(3):
-            x,y,z = mp3d.xyz.get_xyz_pos(wyn[0+3*i] ,wyn[1+3*i] ,wyn[2+3*i])
-            if wyn_ox == 0:
-                wyn_ox=x
-                wyn_oy=y
-                wyn_oz=z
-            points[0][l-i-1]=x-wyn_ox
-            points[1][l-i-1]=y-wyn_oy
-            points[2][l-i-1]=z-wyn_oz
 
-        dot.set_data(points[0],points[1])
-        dot2.set_data(points[0],points[2])
+    pos3x = mp3d.xyz.get_pos3x();
+    l = len(points)
+    if pos_o[0] == 0:
+        pos_o = pos3x[0]
 
-        dot3d.set_data(points[0],points[1])
-        dot3d.set_3d_properties(points[2])
-        fig3.canvas.draw()
+    for i in range(3):
+        points[l-i-1]=pos3x[i] - pos_o
+
+    pT=points.T
+    dot.set_data(pT[0],pT[1])
+    dot2.set_data(pT[0],pT[2])
+
+    dot3d.set_data(pT[0],pT[1])
+    dot3d.set_3d_properties(pT[2])
+    fig3.canvas.draw()
 
 
 fig3 = plt.figure()
@@ -116,35 +95,6 @@ ax.set_zlabel('Z')
 def onclick(event):
     global points,wyn_ox,wyn_oy,wyn_oz,x,y,z, dot_last_up, dotup
 #    print('you pressed', event.key, event.xdata, event.ydata)
-    if event.key == 'c' and dot_last_up != dotup:
-        dot_last_up = dotup
-        l = len(points[0])
-        points[0].append(points[0][l-1])
-        points[1].append(points[1][l-1])
-        points[2].append(points[2][l-1])
-
-    if event.key == 'x' and len(points[0]) > 1:
-        points[0].pop()
-        points[1].pop()
-        points[2].pop()
-
-    if event.key == '-':
-        points = [[0],[0],[0]]
-
-    if event.key == 'p':
-        print 'scan:'
-        print points
-
-    if event.key == 'o':
-        wyn_ox=x
-        wyn_oy=y
-        wyn_oz=z
-
-    if event.key == 'w':
-        dot3d.set_data(points[0],points[1])
-        dot3d.set_3d_properties(points[2])
-        fig3.canvas.draw()
-
 
 cid = fig2.canvas.mpl_connect('key_press_event', onclick)
 
