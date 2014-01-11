@@ -60,7 +60,7 @@ l25, = plt.plot([], [], 'c-')
 l26, = plt.plot([], [], 'm-')
 
 
-size = 1000
+size = 600
 
 
 
@@ -102,7 +102,7 @@ def update_line(num):
 
         dist = dist_big[i/3]+dist_small[i%3]
         l[i].set_data(x,move(y, dist))
-        lp[i].set_data(x[pos[i]:pos[i]+size],move(mp3d.find_pattern.patterns[i], dist))
+        lp[i].set_data(x[pos[i]:pos[i]+len(mp3d.find_pattern.patterns[i])],move(mp3d.find_pattern.patterns[i], dist))
 
         data.append(y)
     return

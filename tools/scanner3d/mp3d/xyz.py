@@ -37,7 +37,7 @@ def calculate_pos(idx):
     r,gamma,d = signal.get_gamma(y[pos_fk_min:pos_fk_max])
     t3 = time.time()
     pos = pos_fk_min - gamma
-    find_pattern.refresh_pattern(y[int(math.floor(pos)):int(math.floor(pos)) + pattern_len],idx)
+    find_pattern.refresh_pattern(y[pos_fk_min:pos_fk_min + pattern_len],idx)
     t4 = time.time()
     time_info=TimeInfo(t4 - t0, t1 - t0, t2 - t1, t3 - t2, t4 - t3)
     return x, y, pos

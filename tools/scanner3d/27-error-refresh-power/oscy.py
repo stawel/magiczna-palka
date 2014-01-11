@@ -65,7 +65,7 @@ def update_line(num):
     pos = pos_fk_min-gamma
     print pos_fk_min, pos
 #    print y[int(pos-100):int(pos)+len(szuk[idx])]
-    mp3d.find_pattern.refresh_pattern(y[int(math.floor(pos)):int(math.floor(pos))+szuk_len],idx)
+    mp3d.find_pattern.refresh_pattern(y[pos_fk_min:pos_fk_min+szuk_len],idx)
     lp2.set_data([pos,pos],[0,256])
 #    lp3.set_data([pos_fk_min,pos_fk_min],[0,256])
 #    lp1.set_data([cut_pos_min,cut_pos_min],[0,256])

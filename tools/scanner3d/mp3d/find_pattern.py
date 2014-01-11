@@ -79,17 +79,19 @@ def init_from_file():
     patterns = []
     init(p)
 
+a = 0
 def refresh_pattern(sign, idx):
-    global patterns, patterns_cor
+    global patterns, patterns_cor, a
     t0 = time.time()
     sw_avr = sum(sign) / float(len(sign))
-    sw = array(sign) - sw_avr
-    sw_cor = correlate(sw,sw)[0]
-    old_cor = correlate(sw,patterns[idx])[0]
-    error = get_error(patterns[idx],sw,patterns_cor[idx],old_cor)
+    sw = sign - sw_avr
+    sw_cor = correlate(sw, sw)[0]
+    old_cor = correlate(sw, patterns[idx])[0]
+    error = get_error(patterns[idx], sw, patterns_cor[idx], old_cor)
     power = sqrt(sw_cor)
-#    print 'idx: %d  power: %10.3f nowa corelacja: %10.3f  cor old: %10.3f error: %3.10f' % (idx, power, sw_cor , old_cor , error)
-    if(error<1. and power > 150.0):
+    print 'idx: %d  power: %10.3f nowa corelacja: %10.3f  cor old: %10.3f error: %3.10f' % (idx, power, sw_cor , old_cor , error)
+    if(error<150. and power > 150.0 and a < 1):
+        a=1
         patterns_cor[idx]=sw_cor
         patterns[idx]=sw
     add_time_info(TimeInfo(0, time.time()-t0,0,0))
@@ -99,14 +101,10 @@ def get_error(xl,yl,xx_cor,xy_cor):
     t0 = time.time()
     error=100
     cor=abs(xy_cor)/xx_cor
-    yy2_cor = math.sqrt(correlate(yl ,yl))
     if len(xl) == len(yl):
-        err_array = (yl-xl*cor)
-        error = sqrt(inner(err_array,err_array))
-#        if(yy2_cor<1):
-#            error /= yy2_cor
-
-#    lerror = abs(cy - avr_cy - mp3d.find_pattern.patterns[idx]*val_cor/mp3d.find_pattern.patterns_cor[idx])
+        yl_avr = sum(yl) / float(len(yl))
+        err_array = (((yl-yl_avr)/cor)-xl)
+        error = sqrt(inner(err_array,err_array)/xx_cor)*1000.
 
     add_time_info(TimeInfo(0, 0, 0, time.time()-t0))
     return error
@@ -121,13 +119,13 @@ def get_pos(y,idx):
     data_xe = []
     duze = signal.argrelmax(data_s)[0]
     for j in duze:
-        if data_s[j]>100000:
-            e = get_error(patterns[idx],cy[j:j+len(patterns[idx])], patterns_cor[idx], data_s[j])
-            data_e.append(e)
-            data_xe.append(j)
+        e = get_error(patterns[idx],cy[j:j+len(patterns[idx])], patterns_cor[idx], data_s[j])
+        data_e.append(e)
+        data_xe.append(j)
     if len(data_e) > 0:
         pos_i = argmin(data_e)
         pos = data_xe[pos_i]
+        print "!!!!!!!!!!!!!!!!error:",data_e[pos_i]
     else:
         pos = 0
 
