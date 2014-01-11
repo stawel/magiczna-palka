@@ -121,6 +121,7 @@ def get_pos(y,idx):
         errors.append( (e,j) )
 
     errors.sort(key=operator.itemgetter(0))
+
     add_time_info(TimeInfo(0, 0, time.time()-t0, 0))
     return errors, corel
 

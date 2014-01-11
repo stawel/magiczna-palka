@@ -76,34 +76,51 @@ def gen_pos3x(XYE_pos, idxs):
         pos3x.append(p)
     return err, pos3x
 
+def short_len_errors(errors):
+    last_err = float('inf');
+    leng = 0
+    for er in errors:
+        if er[0] <= last_err*1.3 and leng < 4:
+            leng=leng+1
+            last_err=er[0]
+        else:
+            break
+    return leng
+
 def get_pos3x():
     global current_distance
     start()
     XYE_pos = []
+    errors_len = []
     for i in range(9):
-        XYE_pos.append(calculate_pos(i))
+        xye = calculate_pos(i)
+        XYE_pos.append(xye)
+        errors_len.append(short_len_errors(xye[2]))
 
-    prod = [[0,1]]*9
     output = []
-    for e in itertools.product(*prod):
-        err, pos3x =gen_pos3x(XYE_pos, e)
+    
+    print errors_len
+    for e in itertools.product(*[ range(i) for i in errors_len]):
+        err, pos3x = gen_pos3x(XYE_pos, e)
         d01, d02, d12 = distance(pos3x[0],pos3x[1]), distance(pos3x[0],pos3x[2]), distance(pos3x[1],pos3x[2])
-        if current_distance[0] == 0:
-            current_distance = numpy.array([d01,d02,d12])
 
         distd = numpy.array([d01, d02, d12])
         r = distance(distd, current_distance)
-        wsp = err*r
+        wsp = r
         output.append( (wsp, r,err,e, distd, pos3x) )
 
     output.sort(key=operator.itemgetter(0))
     d01,d02,d12 = output[0][4]
     pos3x = output[0][5]
-    print 'wsp:', output[0][0],'r:', output[0][1], ' error:', output[0][2], 'perm:', output[0][3]
+    r = output[0][1]
+    print 'wsp:', output[0][0],'r:', r, ' error:', output[0][2], 'perm:', output[0][3]
     print 'e01: %10.3f  e02: %10.3f  e12: %10.3f' % tuple(numpy.array([d01, d02, d12]) - current_distance)
     print 'd01: %10.3f  d02: %10.3f  d12: %10.3f' % (d01, d02, d12)
 
-    refresh(XYE_pos,output[0][3])
+#    refresh(XYE_pos,output[0][3])
+    if current_distance[0] == 0 or r < 10.:
+        current_distance = numpy.array([d01,d02,d12])
+        refresh(XYE_pos,output[0][3])
     return pos3x
 
 
