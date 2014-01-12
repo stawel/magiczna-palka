@@ -61,7 +61,7 @@ l26, = plt.plot([], [], 'm-')
 
 
 size = 600
-
+size = 4000
 
 
 pp = [0 for i in range(size)]

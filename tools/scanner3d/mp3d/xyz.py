@@ -37,11 +37,11 @@ def calculate_pos(idx):
     errors, corel = find_pattern.get_pos(cut_y, idx)
     t2 = time.time()
     time_info=TimeInfo(t2 - t0, t1 - t0, t2 - t1, 0, 0)
-    return x, y, errors
+    return x, y, errors, corel
 
 def refresh(XYE_pos, idxs):
     for channel in range(len(XYE_pos)):
-        x,y,e = XYE_pos[channel]
+        x,y,e,c = XYE_pos[channel]
         pos = e[idxs[channel]][1]
         pattern_len = len(find_pattern.patterns[channel])
         find_pattern.refresh_pattern(y[pos:pos + pattern_len],channel)
@@ -76,26 +76,29 @@ def gen_pos3x(XYE_pos, idxs):
         pos3x.append(p)
     return err, pos3x
 
-def short_len_errors(errors):
+def short_len_errors(errors, errors_len):
     last_err = float('inf');
     leng = 0
     for er in errors:
-        if er[0] <= last_err*1.3 and leng < 4:
+        if er[0] <= last_err*1.3 and leng < errors_len:
             leng=leng+1
             last_err=er[0]
         else:
             break
     return leng
 
-def get_pos3x():
-    global current_distance
+info = [[]]*9
+
+def get_pos3x(permit_refresh = True, force_refresh = False, max_errors_len=2):
+    global current_distance, info
     start()
     XYE_pos = []
     errors_len = []
     for i in range(9):
         xye = calculate_pos(i)
         XYE_pos.append(xye)
-        errors_len.append(short_len_errors(xye[2]))
+        errors_len.append(short_len_errors(xye[2], max_errors_len))
+        info[i] = xye
 
     output = []
     
@@ -118,7 +121,7 @@ def get_pos3x():
     print 'd01: %10.3f  d02: %10.3f  d12: %10.3f' % (d01, d02, d12)
 
 #    refresh(XYE_pos,output[0][3])
-    if current_distance[0] == 0 or r < 10.:
+    if force_refresh or (permit_refresh and current_distance[0] == 0 or r < 10.):
         current_distance = numpy.array([d01,d02,d12])
         refresh(XYE_pos,output[0][3])
     return pos3x

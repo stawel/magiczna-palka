@@ -15,7 +15,8 @@ sys.path.append('..')
 import mp3d.signal
 import mp3d.com
 import mp3d.find_pattern
-
+import mp3d.xyz
+import operator
 
 fig1 = plt.figure()
 
@@ -41,30 +42,35 @@ lp5, = plt.plot([], [], 'c-')
 #mp3d.find_pattern.init1(szuk_org,3)
 mp3d.find_pattern.init_from_file()
 
-idx = 2
+idx = 0
 szuk_len = len(mp3d.find_pattern.patterns[idx])
 
 def cut_arrays(x,y):
     m=min(len(x),len(y))
     return x[:m],y[:m]
 
+fref = False
 
 def update_line(num):
-    mp3d.com.read_all_data()
-    mp3d.signal.clear_time_info()
-    mp3d.find_pattern.clear_time_info()
-    x, y, cut_pos_min, cut_x, cut_y = mp3d.signal.get_data_first_max2(idx, szuk_len);
+    mp3d.xyz.get_pos3x(permit_refresh = False, force_refresh = fref, max_errors_len = 1)
+
+    x,y,errors,cor = mp3d.xyz.info[idx]
+
+    cut_x=x
+    cut_y=cor
 
     l1.set_data(x,y)
-    y2,pos_fk_min, val_cor,x3, y3 = mp3d.find_pattern.get_pos(cut_y,idx)
+    pos = errors[0][1]
+    val_cor = cor[pos]
+    errors.sort(key=operator.itemgetter(1))
 
-    l2.set_data(cut_arrays(cut_x, y2 / 1000.))
-    l5.set_data(cut_arrays(array(x3) + cut_pos_min, array(y3)))
+    l2.set_data(cut_arrays(cut_x, cut_y / 1000.))
+    errl = array(errors).T
+    l5.set_data(errl[1],errl[0])
 
-    pos = pos_fk_min
+#    pos = pos_fk_min
 
     print pos
-    mp3d.find_pattern.refresh_pattern(y[pos:pos+szuk_len],idx)
     lp2.set_data([pos,pos],[0,256])
 
     cx= x[pos:(pos+szuk_len)]
@@ -83,6 +89,19 @@ def update_line(num):
 #    l3.set_data(x2,sy)
     print mp3d.signal.time_info
     print mp3d.find_pattern.time_info
+
+
+
+def onclick(event):
+    global fref
+#    print('you pressed', event.key, event.xdata, event.ydata)
+    if event.key == 'x':
+        fref = not fref
+        print fref
+
+
+
+cid = fig1.canvas.mpl_connect('key_press_event', onclick)
 
 
 
