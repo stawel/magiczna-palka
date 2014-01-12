@@ -24,7 +24,7 @@ distance_small = 10
 fig1 = plt.figure()
 
 plt.xlim(0, mp3d.com.T)
-plt.ylim(-distance-128, distance+128)
+plt.ylim(-distance-128, 2*distance+128)
 plt.title('test')
 plt.xlabel('time (ms)')
 
@@ -40,6 +40,10 @@ l13, = plt.plot([], [], 'b-')
 l21, = plt.plot([], [], 'r-')
 l22, = plt.plot([], [], 'g-')
 l23, = plt.plot([], [], 'b-')
+
+l31, = plt.plot([], [], 'r-')
+l32, = plt.plot([], [], 'g-')
+l33, = plt.plot([], [], 'b-')
 
 
 
@@ -63,6 +67,12 @@ def update_line(num):
     l21.set_data(x, y1 + (distance-distance_small))
     l22.set_data(x, y2 + distance)
     l23.set_data(x, y3 + (distance+distance_small))
+
+    idx = 3
+    y1, y2, y3 = mp3d.com.get(idx*3+0), mp3d.com.get(idx*3+1), mp3d.com.get(idx*3+2);
+    l31.set_data(x, y1 + (2*distance-distance_small))
+    l32.set_data(x, y2 + (2*distance))
+    l33.set_data(x, y3 + (2*distance+distance_small))
     print mp3d.com.time_info
     return
 

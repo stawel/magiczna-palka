@@ -11,10 +11,10 @@ import numpy
 print "Setting up port"
 port_name = '/dev/ttyACM0'
 data_channels = 3
+data_tracks = 4
 data_size = 1024*16*data_channels
 Fsampling_kHz = 1600.0
 T=data_size/data_channels/Fsampling_kHz
-
 
 TimeInfo = collections.namedtuple('TimeInfo_com', ['all', 'read', 'write'])
 time_info = TimeInfo(0, 0, 0)
@@ -36,6 +36,8 @@ def send_command(port, pin):
         send = 'A'
     if pin == 2:
         send = 'B'
+    if pin == 3:
+        send = 'C'
     port.write(send)
     port.flush()
 
@@ -65,9 +67,7 @@ endSig   = threading.Event()
 exitSig   = threading.Event()
 
 threadLock = threading.RLock()
-dataBuf = data =   [[],[],[],
-                    [],[],[],
-                    [],[],[]]
+dataBuf = data =   [[]] * (data_tracks*data_channels)
 
 def read_all_data():
     global data
@@ -91,15 +91,17 @@ def doThread():
                     return
                 clear_time_info()
                 t0 = time.time()
-                y01, y02, y03 = get_3x_data(port_data,0,-128)
-                y11, y12, y13 = get_3x_data(port_data,1,-128)
-                y21, y22, y23 = get_3x_data(port_data,2,-128)
+                localDataBuf = []
+                for i in range(data_tracks):
+                    y1, y2, y3 = get_3x_data(port_data,i,-128)
+                    localDataBuf.append(y1)
+                    localDataBuf.append(y2)
+                    localDataBuf.append(y3)
+
 
                 #print "doThread timing2:", time.time() - t0
                 threadLock.acquire()
-                dataBuf =  [y01,y02,y03,
-                            y11,y12,y13,
-                            y21,y22,y23]
+                dataBuf =  localDataBuf
                 threadLock.release()
                 endSig.set();
 
