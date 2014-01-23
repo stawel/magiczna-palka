@@ -20,7 +20,7 @@ import operator
 
 fig1 = plt.figure()
 
-plt.xlim(0, 4000)
+plt.xlim(4000, 10000)
 plt.ylim(-128, 128)
 plt.title('test')
 
@@ -42,7 +42,7 @@ lp5, = plt.plot([], [], 'c-')
 #mp3d.find_pattern.init1(szuk_org,3)
 mp3d.find_pattern.init_from_file()
 
-idx = 2
+idx = 0
 szuk_len = len(mp3d.find_pattern.patterns[idx])
 
 def cut_arrays(x,y):

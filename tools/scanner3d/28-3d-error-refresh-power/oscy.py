@@ -38,7 +38,7 @@ fref = True
 def update_line(num):
     global wyn1,wyn2,wyn3, fref
     mp3d.xyz.start()
-    mp3d.xyz.get_posNx(permit_refresh = False, force_refresh = fref, best_match_error_len = 1)
+    mp3d.xyz.get_posNx(permit_refresh = False, force_refresh = fref, best_match_error_len = 3)
 #    fref=False
 
     x,y, err1,c = mp3d.xyz.xyec_info[0]

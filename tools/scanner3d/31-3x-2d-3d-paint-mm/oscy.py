@@ -10,6 +10,7 @@ import mpl_toolkits.mplot3d.axes3d as p3
 import math
 import scipy.optimize as optimization
 import scipy.signal as signal
+import numpy.linalg
 
 import sys
 sys.path.append('..')
@@ -56,8 +57,17 @@ points_nr = mp3d.xyz.points_nr
 pos_o = array([0,0,0])
 points = array([[0,0,0]]*points_nr)
 
+def setVector(idx, a, b):
+    v = np.array([a, b])
+    vT= v.T
+    vectors3d[idx].set_data(vT[0],vT[1])
+    vectors3d[idx].set_3d_properties(vT[2])
+def v3d_sqrt(a):
+    return a/np.sqrt(numpy.linalg.norm(a))
+
+
 def update_dot(num):
-    global pos_o, points
+    global pos_o, points, vectors3d
     t0 = time.time()
 
     posNx = mp3d.xyz.get_posNx();
@@ -74,11 +84,19 @@ def update_dot(num):
 
     dot3d.set_data(pT[0],pT[1])
     dot3d.set_3d_properties(pT[2])
+
+    v0 = v3d_sqrt(mp3d.xyz.best_3d_match_info[0])
+    v1 = v3d_sqrt(mp3d.xyz.best_3d_match_info[1])
+    
+    print 'v1:' ,v1
+    setVector(1, points[1], points[1] + v0)
+    setVector(0, points[2], points[2] + v1)
     fig3.canvas.draw()
 
 
 fig3 = plt.figure()
 ax = p3.Axes3D(fig3)
+vectors3d = [ax.plot(np.array([0,1]),np.array([0,1]),np.array([0,1]),color)[0] for color in ['r','g','b']]
 dot3d, = plt.plot([0.5],[0.5],'g.')
 
 ax.set_xlim3d([-limit, limit])

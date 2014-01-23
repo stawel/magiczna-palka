@@ -32,16 +32,17 @@ last_measured_position = [0]*com.data_tracks
 
 #speed in pixels
 #speed_limit = 1000
-speed_limit=20000
+min_speed_limit=1000
+speed_limit = 20000
 def truncate_based_on_speed(idx, szuk_len):
+    global speed_limit, min_speed_limit
     y = com.get(idx);
     x = numpy.arange(len(y))
     cut_pos_min=max(0,last_measured_position[idx] - speed_limit)
     cut_pos_max=cut_pos_min+ len(find_pattern.patterns[idx]) + 2*speed_limit
     if cut_pos_min == 0:
         cut_pos_max = len(y)
-
-    print last_measured_position
+    speed_limit = max(min_speed_limit, speed_limit*0.80)
     return x,y,cut_pos_min, x[cut_pos_min:cut_pos_max] , y[cut_pos_min:cut_pos_max]
 
 
@@ -66,6 +67,7 @@ def refresh(XYE_pos, idxs):
         find_pattern.refresh_pattern(y[pos:pos + pattern_len],channel)
         last_measured_position.append(x[pos])
 
+    print 'last_measured_position:', last_measured_position
 
 def to_mm(pos):
     t =  pos / com.Fsampling_kHz
@@ -81,9 +83,10 @@ def generate_posNx_by_idx(XYEC_pos, idxs):
     err = 0.
     for i in range(len(idxs)):
         e = XYEC_pos[i][2]
-        p = e[0]
+        x = XYEC_pos[i][0]
+        p = (e[0][0],x[e[0][1]])
         if idxs[i] < len(e):
-            p= e[idxs[i]]
+            p= (e[idxs[i]][0],x[e[idxs[i]][1]])
         leng.append(p)
 
     for i in range(len(idxs)/com.data_channels):
