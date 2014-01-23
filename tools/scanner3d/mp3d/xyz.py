@@ -52,7 +52,6 @@ def to_mm(pos):
     t =  pos / com.Fsampling_kHz
     return t*sound_speed
 
-current_distance = numpy.array([0.,0.,0.])
 
 def distance(x,y):
     return numpy.linalg.norm(x-y)
@@ -77,7 +76,7 @@ def generate_posNx_by_idx(XYEC_pos, idxs):
         posNx.append(p)
     return err, posNx
 
-def short_len_errors(errors, errors_len):
+def get_short_error_len(errors, errors_len):
     last_err = float('inf');
     leng = 0
     for er in errors:
@@ -88,43 +87,56 @@ def short_len_errors(errors, errors_len):
             break
     return leng
 
-info = [[]]*com.data_tracks
+best_3d_match_info = numpy.array([0.,0.,0.])
 
-def get_posNx(permit_refresh = True, force_refresh = False, max_errors_len=2):
-    global current_distance, info
-    start()
-    XYEC_pos = []
-    errors_len = []
-    for i in range(com.data_tracks):
-        xyec = calculate_pos(i)
-        XYEC_pos.append(xyec)
-        errors_len.append(short_len_errors(xyec[2], max_errors_len))
-        info[i] = xyec
+def is_ok_3d_match(info3d):
+    return best_3d_match_info[0] == 0 or distance(info3d, best_3d_match_info) < 10.
 
+def refresh_3d_match(info3d):
+    global best_3d_match_info
+    best_3d_match_info = info3d
+
+def get_best_3d_match(errors_short_len, XYEC_pos):
     output = []
-    
-    print errors_len
-    for e in itertools.product(*[ range(i) for i in errors_len]):
-        err, posNx = generate_posNx_by_idx(XYEC_pos, e)
+    print errors_short_len
+    for idx in itertools.product(*[ range(i) for i in errors_short_len]):
+        err, posNx = generate_posNx_by_idx(XYEC_pos, idx)
         d01, d02, d12 = distance(posNx[0],posNx[1]), distance(posNx[0],posNx[2]), distance(posNx[1],posNx[2])
 
         distd = numpy.array([d01, d02, d12])
-        r = distance(distd, current_distance)
+        r = distance(distd, best_3d_match_info)
         wsp = r
-        output.append( (wsp, r,err,e, distd, posNx) )
+        output.append( (wsp, r,err, idx, distd, posNx) )
 
     output.sort(key=operator.itemgetter(0))
     d01,d02,d12 = output[0][4]
     posNx = output[0][5]
     r = output[0][1]
     print 'wsp:', output[0][0],'r:', r, ' error:', output[0][2], 'perm:', output[0][3]
-    print 'e01: %10.3f  e02: %10.3f  e12: %10.3f' % tuple(numpy.array([d01, d02, d12]) - current_distance)
+    print 'e01: %10.3f  e02: %10.3f  e12: %10.3f' % tuple(numpy.array([d01, d02, d12]) - best_3d_match_info)
     print 'd01: %10.3f  d02: %10.3f  d12: %10.3f' % (d01, d02, d12)
+    return posNx, idx, numpy.array([d01,d02,d12])
+
+errors_info = [[]]*com.data_tracks
+
+
+def get_posNx(permit_refresh = True, force_refresh = False, max_errors_len=2):
+    global current_distance, errors_info
+    start()
+    XYEC_pos = []
+    errors_short_len = []
+    for i in range(com.data_tracks):
+        xyec = calculate_pos(i)
+        XYEC_pos.append(xyec)
+        errors_short_len.append(get_short_error_len(xyec[2], max_errors_len))
+        errors_info[i] = xyec
+
+    posNx, idx, info3d = get_best_3d_match(errors_short_len, XYEC_pos)
 
 #    refresh(XYE_pos,output[0][3])
-    if force_refresh or (permit_refresh and current_distance[0] == 0 or r < 10.):
-        current_distance = numpy.array([d01,d02,d12])
-        refresh(XYEC_pos,output[0][3])
+    if force_refresh or (permit_refresh and is_ok_3d_match(info3d)):
+        refresh_3d_match(info3d)
+        refresh(XYEC_pos, idx)
     return posNx
 
 
