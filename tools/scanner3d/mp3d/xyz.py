@@ -28,24 +28,43 @@ def add_time_info(t):
     global time_info
     time_info = TimeInfo(*map(operator.add,time_info, t))
 
+last_measured_position = [0]*com.data_tracks
+
+#speed in pixels
+#speed_limit = 1000
+speed_limit=20000
+def truncate_based_on_speed(idx, szuk_len):
+    y = com.get(idx);
+    x = numpy.arange(len(y))
+    cut_pos_min=max(0,last_measured_position[idx] - speed_limit)
+    cut_pos_max=cut_pos_min+ len(find_pattern.patterns[idx]) + 2*speed_limit
+    if cut_pos_min == 0:
+        cut_pos_max = len(y)
+
+    print last_measured_position
+    return x,y,cut_pos_min, x[cut_pos_min:cut_pos_max] , y[cut_pos_min:cut_pos_max]
+
 
 def calculate_pos(idx, truncate_errors = True):
     global time_info
     t0 = time.time()
     pattern_len = len(find_pattern.patterns[idx])
-    x, y, cut_pos_min, cut_x, cut_y = signal.get_data_first_max2(idx, pattern_len);
+    x, y, cut_x_pos, cut_x, cut_y = truncate_based_on_speed(idx, pattern_len);
     t1 = time.time()
     errors, corel = find_pattern.get_pos(cut_y, idx, truncate_errors=truncate_errors)
     t2 = time.time()
     time_info=TimeInfo(t2 - t0, t1 - t0, t2 - t1, 0, 0)
-    return x, y, errors, corel
+    return  cut_x, cut_y, errors, corel
 
 def refresh(XYE_pos, idxs):
+    global last_measured_position
+    last_measured_position = []
     for channel in range(len(XYE_pos)):
         x,y,e,c = XYE_pos[channel]
         pos = e[idxs[channel]][1]
         pattern_len = len(find_pattern.patterns[channel])
         find_pattern.refresh_pattern(y[pos:pos + pattern_len],channel)
+        last_measured_position.append(x[pos])
 
 
 def to_mm(pos):
@@ -76,14 +95,26 @@ def generate_posNx_by_idx(XYEC_pos, idxs):
         posNx.append(p)
     return err, posNx
 
-best_3d_match_info = numpy.array([0.,0.,0.])
+best_3d_match_info = numpy.array([0.,0.,0.]),  numpy.array([0.,0.,0.])
+
+def distance_info3d(info1,info2):
+    return distance(info1[0],info2[0]) + distance(info1[1],info2[1])
 
 def is_ok_3d_match(info3d):
-    return best_3d_match_info[0] == 0 or distance(info3d, best_3d_match_info) < 10.
+    return best_3d_match_info[0][0] == 0 or distance_info3d(info3d, best_3d_match_info) < 10000.
 
 def refresh_3d_match(info3d):
     global best_3d_match_info
     best_3d_match_info = info3d
+
+def analize_3d(err,posNx):
+    a0,b0 = posNx[0]-posNx[1], posNx[2]-posNx[1]
+    c0 = numpy.cross(a0,b0)
+    a1,b1 = posNx[1]-posNx[2], posNx[3]-posNx[2]
+    c1 = numpy.cross(a1,b1)
+    info3d = (c0,c1)
+    wsp = distance_info3d(info3d, best_3d_match_info)
+    return wsp, info3d
 
 def get_best_3d_match(XYEC_info, max_errors_len):
     output = []
@@ -91,36 +122,32 @@ def get_best_3d_match(XYEC_info, max_errors_len):
     print 'errors_len:', errors_len
     for idx in itertools.product(*[ range(i) for i in errors_len]):
         err, posNx = generate_posNx_by_idx(XYEC_info, idx)
-        d01, d02, d12 = distance(posNx[0],posNx[1]), distance(posNx[0],posNx[2]), distance(posNx[1],posNx[2])
-
-        distd = numpy.array([d01, d02, d12])
-        r = distance(distd, best_3d_match_info)
-        wsp = r
-        output.append( (wsp, r,err, idx, distd, posNx) )
+        wsp, info3d = analize_3d(err, posNx)
+#        print 'all pos:', posNx
+#        print 'wsp:', wsp,'r:', info3d, 'idx:', idx
+        output.append( (wsp, err, idx, posNx, info3d) )
 
     output.sort(key=operator.itemgetter(0))
-    d01,d02,d12 = output[0][4]
-    posNx = output[0][5]
-    r = output[0][1]
-    print 'wsp:', output[0][0],'r:', r, ' error:', output[0][2], 'perm:', output[0][3]
-    print 'e01: %10.3f  e02: %10.3f  e12: %10.3f' % tuple(numpy.array([d01, d02, d12]) - best_3d_match_info)
-    print 'd01: %10.3f  d02: %10.3f  d12: %10.3f' % (d01, d02, d12)
-    return posNx, idx, numpy.array([d01,d02,d12])
+    wsp, err, idx, posNx, info3d = output[0]
+    print '!!wsp:', wsp,'r:', info3d, 'idx:', idx
+#    print 'e01: %10.3f  e02: %10.3f  e12: %10.3f' % tuple(numpy.array([d01, d02, d12]) - best_3d_match_info)
+#    print 'd01: %10.3f  d02: %10.3f  d12: %10.3f' % (d01, d02, d12)
+    return posNx, idx, info3d
 
 xyec_info = [[]]*com.data_tracks
 
 
-def get_posNx(permit_refresh = True, force_refresh = False, truncate_errors=True, best_match_error_len=2):
+def get_posNx(permit_refresh = True, force_refresh = False, truncate_errors=True, best_match_error_len=3):
     global current_distance, xyec_info
     start()
     xyec_info = [calculate_pos(i, truncate_errors=truncate_errors) for i in range(com.data_tracks)]
 
     posNx, idx, info3d = get_best_3d_match(xyec_info, best_match_error_len)
 
-#    refresh(XYE_pos,output[0][3])
     if force_refresh or (permit_refresh and is_ok_3d_match(info3d)):
         refresh_3d_match(info3d)
         refresh(xyec_info, idx)
+
     return posNx
 
 

@@ -52,7 +52,7 @@ def cut_arrays(x,y):
 fref = False
 
 def update_line(num):
-    mp3d.xyz.get_posNx(permit_refresh = False, force_refresh = fref, truncate_errors=False, best_match_error_len = 1)
+    mp3d.xyz.get_posNx(permit_refresh = False, force_refresh = fref, truncate_errors=True, best_match_error_len = 1)
 
     x,y,errors,cor = mp3d.xyz.xyec_info[idx]
 
@@ -66,12 +66,12 @@ def update_line(num):
 
     l2.set_data(cut_arrays(cut_x, cut_y / 1000.))
     errl = array(errors).T
-    l5.set_data(errl[1],errl[0]/10)
+    l5.set_data(np.array(errl[1])+x[0],errl[0]/10)
 
 #    pos = pos_fk_min
 
     print pos
-    lp2.set_data([pos,pos],[0,256])
+    lp2.set_data([x[pos],x[pos]],[0,256])
 
     cx= x[pos:(pos+szuk_len)]
     cy= y[pos:(pos+szuk_len)]

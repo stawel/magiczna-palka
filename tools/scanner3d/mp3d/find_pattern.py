@@ -109,7 +109,7 @@ def get_error(xl,yl,xx_cor,xy_cor):
     return error
 
 
-def get_pos(y,idx, truncate_errors = True, max_errors_len = 2, truncate_factor = 1.3):
+def get_pos(y,idx, truncate_errors = True, max_errors_len = 10, truncate_factor = 1.3):
     t0 = time.time()
     avr = sum(y) / float(len(y))
     cy = y-avr #[x-avr for x in  y]

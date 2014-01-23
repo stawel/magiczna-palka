@@ -34,27 +34,28 @@ lp4, = plt.plot([], [], 'y-')
 
 wyn1 = wyn2 = wyn3 = 0
 wyn_ox = wyn_oy = wyn_oz = 0
-
+fref = True
 def update_line(num):
-    global wyn1,wyn2,wyn3
+    global wyn1,wyn2,wyn3, fref
     mp3d.xyz.start()
-    t_data = 0.
-    x,y, err1,c = mp3d.xyz.calculate_pos(0)
-    wyn1 = err1[0][1]
+    mp3d.xyz.get_posNx(permit_refresh = False, force_refresh = fref, best_match_error_len = 1)
+#    fref=False
+
+    x,y, err1,c = mp3d.xyz.xyec_info[0]
+    wyn1 = x[err1[0][1]]
     l1.set_data(x,y+100)
     lp1.set_data([wyn1,wyn1],[0,256])
 
-    x,y, err2,c = mp3d.xyz.calculate_pos(1)
-    wyn2 = err2[0][1]
+    x,y, err2,c = mp3d.xyz.xyec_info[1]
+    wyn2 = x[err2[0][1]]
     l2.set_data(x,y+50)
     lp2.set_data([wyn2,wyn2],[0,256])
 
-    x,y, err3,c = mp3d.xyz.calculate_pos(2)
-    wyn3 = err3[0][1]
+    x,y, err3,c = mp3d.xyz.xyec_info[2]
+    wyn3 = x[err3[0][1]]
     l3.set_data(x,y)
     lp3.set_data([wyn3,wyn3],[0,256])
 
-    print 'time_data:', t_data, ' time_calc:'
 
 line_ani = animation.FuncAnimation(fig1, update_line, None,
     interval=30)
