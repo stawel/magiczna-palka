@@ -29,13 +29,13 @@ def add_time_info(t):
     time_info = TimeInfo(*map(operator.add,time_info, t))
 
 
-def calculate_pos(idx):
+def calculate_pos(idx, truncate_errors = True):
     global time_info
     t0 = time.time()
     pattern_len = len(find_pattern.patterns[idx])
     x, y, cut_pos_min, cut_x, cut_y = signal.get_data_first_max2(idx, pattern_len);
     t1 = time.time()
-    errors, corel = find_pattern.get_pos(cut_y, idx)
+    errors, corel = find_pattern.get_pos(cut_y, idx, truncate_errors=truncate_errors)
     t2 = time.time()
     time_info=TimeInfo(t2 - t0, t1 - t0, t2 - t1, 0, 0)
     return x, y, errors, corel
@@ -76,17 +76,6 @@ def generate_posNx_by_idx(XYEC_pos, idxs):
         posNx.append(p)
     return err, posNx
 
-def get_short_error_len(errors, errors_len):
-    last_err = float('inf');
-    leng = 0
-    for er in errors:
-        if er[0] <= last_err*1.3 and leng < errors_len:
-            leng=leng+1
-            last_err=er[0]
-        else:
-            break
-    return leng
-
 best_3d_match_info = numpy.array([0.,0.,0.])
 
 def is_ok_3d_match(info3d):
@@ -96,11 +85,12 @@ def refresh_3d_match(info3d):
     global best_3d_match_info
     best_3d_match_info = info3d
 
-def get_best_3d_match(errors_short_len, XYEC_pos):
+def get_best_3d_match(XYEC_info, max_errors_len):
     output = []
-    print errors_short_len
-    for idx in itertools.product(*[ range(i) for i in errors_short_len]):
-        err, posNx = generate_posNx_by_idx(XYEC_pos, idx)
+    errors_len = [min(len(i[2]), max_errors_len) for i in XYEC_info]
+    print 'errors_len:', errors_len
+    for idx in itertools.product(*[ range(i) for i in errors_len]):
+        err, posNx = generate_posNx_by_idx(XYEC_info, idx)
         d01, d02, d12 = distance(posNx[0],posNx[1]), distance(posNx[0],posNx[2]), distance(posNx[1],posNx[2])
 
         distd = numpy.array([d01, d02, d12])
@@ -117,26 +107,20 @@ def get_best_3d_match(errors_short_len, XYEC_pos):
     print 'd01: %10.3f  d02: %10.3f  d12: %10.3f' % (d01, d02, d12)
     return posNx, idx, numpy.array([d01,d02,d12])
 
-errors_info = [[]]*com.data_tracks
+xyec_info = [[]]*com.data_tracks
 
 
-def get_posNx(permit_refresh = True, force_refresh = False, max_errors_len=2):
-    global current_distance, errors_info
+def get_posNx(permit_refresh = True, force_refresh = False, truncate_errors=True, best_match_error_len=2):
+    global current_distance, xyec_info
     start()
-    XYEC_pos = []
-    errors_short_len = []
-    for i in range(com.data_tracks):
-        xyec = calculate_pos(i)
-        XYEC_pos.append(xyec)
-        errors_short_len.append(get_short_error_len(xyec[2], max_errors_len))
-        errors_info[i] = xyec
+    xyec_info = [calculate_pos(i, truncate_errors=truncate_errors) for i in range(com.data_tracks)]
 
-    posNx, idx, info3d = get_best_3d_match(errors_short_len, XYEC_pos)
+    posNx, idx, info3d = get_best_3d_match(xyec_info, best_match_error_len)
 
 #    refresh(XYE_pos,output[0][3])
     if force_refresh or (permit_refresh and is_ok_3d_match(info3d)):
         refresh_3d_match(info3d)
-        refresh(XYEC_pos, idx)
+        refresh(xyec_info, idx)
     return posNx
 
 

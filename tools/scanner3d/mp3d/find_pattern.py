@@ -98,7 +98,7 @@ def refresh_pattern(sign, idx):
 
 def get_error(xl,yl,xx_cor,xy_cor):
     t0 = time.time()
-    error=100
+    error=float('inf');
     cor=abs(xy_cor)/xx_cor
     if len(xl) == len(yl):
         yl_avr = sum(yl) / float(len(yl))
@@ -109,19 +109,30 @@ def get_error(xl,yl,xx_cor,xy_cor):
     return error
 
 
-def get_pos(y,idx):
+def get_pos(y,idx, truncate_errors = True, max_errors_len = 2, truncate_factor = 1.3):
     t0 = time.time()
     avr = sum(y) / float(len(y))
     cy = y-avr #[x-avr for x in  y]
     corel = correlate(cy ,patterns[idx])
     errors = [(float('inf'),0)]
     duze = signal.argrelmax(corel)[0]
-    for j in duze:
-        e = get_error(patterns[idx],cy[j:j+len(patterns[idx])], patterns_cor[idx], corel[j])
-        errors.append( (e,j) )
+    for px in duze:
+        e = get_error(patterns[idx],cy[px:px+len(patterns[idx])], patterns_cor[idx], corel[px])
+        errors.append( (e,px) )
 
     errors.sort(key=operator.itemgetter(0))
-    errors=np.array(errors)
+
+    if truncate_errors:
+        t_errors=[]
+        last_err = float('inf');
+        errors = errors[:max_errors_len]
+        for er in errors:
+            if er[0] <= last_err*truncate_factor:
+                t_errors.append(er)
+                last_err=er[0]
+            else:
+                break
+        errors=t_errors
 
     add_time_info(TimeInfo(0, 0, time.time()-t0, 0))
     return errors, corel

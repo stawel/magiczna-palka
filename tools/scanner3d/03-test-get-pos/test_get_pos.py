@@ -52,9 +52,9 @@ def cut_arrays(x,y):
 fref = False
 
 def update_line(num):
-    mp3d.xyz.get_pos3x(permit_refresh = False, force_refresh = fref, max_errors_len = 1)
+    mp3d.xyz.get_posNx(permit_refresh = False, force_refresh = fref, truncate_errors=False, best_match_error_len = 1)
 
-    x,y,errors,cor = mp3d.xyz.info[idx]
+    x,y,errors,cor = mp3d.xyz.xyec_info[idx]
 
     cut_x=x
     cut_y=cor
@@ -84,7 +84,7 @@ def update_line(num):
         l4.set_data(cut_arrays(cx, lerror +avr_cy-100.))
 
     lp4.set_data(cx,(cy-avr_cy)/cor-100.)
-    z = mp3d.find_pattern.patterns[idx] + avr_cy
+    z = mp3d.find_pattern.patterns[idx]
     l3.set_data(cut_arrays(cx,z-100.))
 #    l3.set_data(x2,sy)
     print mp3d.signal.time_info

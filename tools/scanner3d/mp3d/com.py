@@ -7,6 +7,7 @@ import collections
 import operator
 import threading
 import numpy
+import scipy.ndimage.filters
 
 print "Setting up port"
 port_name = '/dev/ttyACM0'
@@ -59,9 +60,13 @@ def get_data(port, pin, diff = 0):
     add_time_info(TimeInfo(0, t2 - t1, t1 - t0))
     return yData
 
+
+def filter_sign(y):
+    return scipy.ndimage.filters.gaussian_filter(y.astype(float),5)
+
 def get_3x_data(port, pin,diff = 0):
     y = get_data(port, pin, diff)
-    return y[2::3],y[0::3],y[1::3]
+    return filter_sign(y[2::3]),filter_sign(y[0::3]),filter_sign(y[1::3])
 
 
 startSig = threading.Event()
