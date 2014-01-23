@@ -39,15 +39,18 @@ def update_line(num):
     global wyn1,wyn2,wyn3
     mp3d.xyz.start()
     t_data = 0.
-    x,y, wyn1 = mp3d.xyz.calculate_pos(0)
+    x,y, err1,c = mp3d.xyz.calculate_pos(0)
+    wyn1 = err1[0][1]
     l1.set_data(x,y+100)
     lp1.set_data([wyn1,wyn1],[0,256])
 
-    x,y, wyn2 = mp3d.xyz.calculate_pos(1)
+    x,y, err2,c = mp3d.xyz.calculate_pos(1)
+    wyn2 = err2[0][1]
     l2.set_data(x,y+50)
     lp2.set_data([wyn2,wyn2],[0,256])
 
-    x,y, wyn3 = mp3d.xyz.calculate_pos(2)
+    x,y, err3,c = mp3d.xyz.calculate_pos(2)
+    wyn3 = err3[0][1]
     l3.set_data(x,y)
     lp3.set_data([wyn3,wyn3],[0,256])
 

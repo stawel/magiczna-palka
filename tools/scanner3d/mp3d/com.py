@@ -11,23 +11,25 @@ import numpy
 print "Setting up port"
 port_name = '/dev/ttyACM0'
 data_channels = 3
-data_tracks = 4
+data_tracks = 12
 data_size = 1024*16*data_channels
 Fsampling_kHz = 1600.0
 T=data_size/data_channels/Fsampling_kHz
 
 TimeInfo = collections.namedtuple('TimeInfo_com', ['all', 'read', 'write'])
 time_info = TimeInfo(0, 0, 0)
+time_info2 = TimeInfo(0, 0, 0)
 
 
 
 def clear_time_info():
-    global time_info
-    time_info = TimeInfo(0, 0, 0)
+    global time_info2,time_info
+    time_info = time_info2
+    time_info2 = TimeInfo(0, 0, 0)
 
 def add_time_info(t):
-    global time_info
-    time_info = TimeInfo(*map(operator.add,time_info, t))
+    global time_info2
+    time_info2 = TimeInfo(*map(operator.add,time_info2, t))
 
 
 def send_command(port, pin):
@@ -67,7 +69,7 @@ endSig   = threading.Event()
 exitSig   = threading.Event()
 
 threadLock = threading.RLock()
-dataBuf = data =   [[]] * (data_tracks*data_channels)
+dataBuf = data =   [[]] * (data_tracks)
 
 def read_all_data():
     global data
@@ -92,7 +94,7 @@ def doThread():
                 clear_time_info()
                 t0 = time.time()
                 localDataBuf = []
-                for i in range(data_tracks):
+                for i in range(data_tracks/data_channels):
                     y1, y2, y3 = get_3x_data(port_data,i,-128)
                     localDataBuf.append(y1)
                     localDataBuf.append(y2)

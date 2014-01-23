@@ -42,7 +42,7 @@ lp5, = plt.plot([], [], 'c-')
 #mp3d.find_pattern.init1(szuk_org,3)
 mp3d.find_pattern.init_from_file()
 
-idx = 0
+idx = 2
 szuk_len = len(mp3d.find_pattern.patterns[idx])
 
 def cut_arrays(x,y):
@@ -66,7 +66,7 @@ def update_line(num):
 
     l2.set_data(cut_arrays(cut_x, cut_y / 1000.))
     errl = array(errors).T
-    l5.set_data(errl[1],errl[0])
+    l5.set_data(errl[1],errl[0]/10)
 
 #    pos = pos_fk_min
 
@@ -81,11 +81,11 @@ def update_line(num):
     if len(cy) == len(mp3d.find_pattern.patterns[idx]):
         lerror = abs((cy-avr_cy)/cor - mp3d.find_pattern.patterns[idx])
         print 'error:',math.sqrt(inner(lerror,lerror))
-        l4.set_data(cut_arrays(cx, lerror +avr_cy))
+        l4.set_data(cut_arrays(cx, lerror +avr_cy-100.))
 
-    lp4.set_data(cx,(cy-avr_cy)/cor)
+    lp4.set_data(cx,(cy-avr_cy)/cor-100.)
     z = mp3d.find_pattern.patterns[idx] + avr_cy
-    l3.set_data(cut_arrays(cx,z))
+    l3.set_data(cut_arrays(cx,z-100.))
 #    l3.set_data(x2,sy)
     print mp3d.signal.time_info
     print mp3d.find_pattern.time_info

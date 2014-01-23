@@ -52,21 +52,21 @@ dot2, = plt.plot([0.5],[0.5],'r.')
 
 #ax.set_title('3D Test')
 
-
+points_nr = mp3d.xyz.points_nr
 pos_o = array([0,0,0])
-points = array([array([0,0,0]),array([0,0,0]),array([0,0,0])])
+points = array([[0,0,0]]*points_nr)
 
 def update_dot(num):
     global pos_o, points
     t0 = time.time()
 
-    pos3x = mp3d.xyz.get_pos3x();
+    posNx = mp3d.xyz.get_posNx();
     l = len(points)
     if pos_o[0] == 0:
-        pos_o = pos3x[0]
+        pos_o = posNx[0]
 
-    for i in range(3):
-        points[l-i-1]=pos3x[i] - pos_o
+    for i in range(points_nr):
+        points[l-i-1]=posNx[i] - pos_o
 
     pT=points.T
     dot.set_data(pT[0],pT[1])

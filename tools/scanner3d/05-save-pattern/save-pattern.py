@@ -27,7 +27,7 @@ fig1 = plt.figure()
 
 ax_data = plt.subplot(1,1,1)
 plt.xlim(0, mp3d.com.T)
-plt.ylim(-distance-128, distance+128)
+plt.ylim(-distance-128, 2*distance+128)
 plt.title('test')
 plt.xlabel('time (ms)')
 
@@ -59,20 +59,28 @@ l24, = plt.plot([], [], 'y-')
 l25, = plt.plot([], [], 'c-')
 l26, = plt.plot([], [], 'm-')
 
+l31, = plt.plot([], [], 'r-')
+l32, = plt.plot([], [], 'g-')
+l33, = plt.plot([], [], 'b-')
 
-size = 600
-size = 4000
+l34, = plt.plot([], [], 'y-')
+l35, = plt.plot([], [], 'c-')
+l36, = plt.plot([], [], 'm-')
 
 
-pp = [0 for i in range(size)]
+size =800
+#size = 4000
 
-pos = [0,0,0,
-       0,0,0,
-       0,0,0]
+dimensions = 12
 
-data = [0,0,0, 0,0,0, 0,0,0]
+pp = [0] * size
+pos = [0] * dimensions
+data = [0] * dimensions
 
 pos2 = mp3d.find_pattern.read_patterns()
+
+#mp3d.find_pattern.init1([0]*size, dimensions)
+#pos2 = [0]*dimensions
 
 if pos2 is not None:
     pos = pos2
@@ -85,18 +93,20 @@ def update_line(num):
     mp3d.com.read_all_data()
     idx = 0
 
-    dist_big   = [-distance, 0, distance]
+    dist_big   = [-distance, 0, distance, 2*distance]
     dist_small = [-distance_small, 0, distance_small]
     l = [l01,l02,l03,
          l11,l12,l13,
-         l21,l22,l23]
+         l21,l22,l23,
+         l31,l32,l33]
 
     lp =[l04,l05,l06,
          l14,l15,l16,
-         l24,l25,l26]
+         l24,l25,l26,
+         l34,l35,l36]
 
     data = []
-    for i in range(9):
+    for i in range(dimensions):
         y  = mp3d.com.get(i)
         x  = arange(0, len(y)) / mp3d.com.Fsampling_kHz
 
@@ -115,6 +125,9 @@ def onclick(event):
         if event.ydata < -distance/2:
             idx = 0
             dist = -distance
+        elif event.ydata > 3*distance/2:
+            idx = 3
+            dist = 2*distance
         elif event.ydata > distance/2:
             idx = 2
             dist = distance

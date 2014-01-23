@@ -13,6 +13,7 @@ import find_pattern
 
 #sound speed in m/s (temp: 20C)
 sound_speed = 331.5+0.6*20
+points_nr = 4
 
 find_pattern.init_from_file()
 
@@ -56,25 +57,25 @@ current_distance = numpy.array([0.,0.,0.])
 def distance(x,y):
     return numpy.linalg.norm(x-y)
 
-def gen_pos3x(XYE_pos, idxs):
-    pos3x = []
+def generate_posNx_by_idx(XYEC_pos, idxs):
+    posNx = []
     leng = []
     err = 0.
     for i in range(len(idxs)):
-        e = XYE_pos[i][2]
+        e = XYEC_pos[i][2]
         p = e[0]
         if idxs[i] < len(e):
             p= e[idxs[i]]
         leng.append(p)
 
-    for i in range(3):
+    for i in range(len(idxs)/com.data_channels):
         r1=leng[3*i+0][1]
         r2=leng[3*i+1][1]
         r3=leng[3*i+2][1]
         err = err + leng[3*i+0][0] + leng[3*i+1][0] + leng[3*i+2][0]
         p = get_xyz_pos(to_mm(r1),to_mm(r2),to_mm(r3))
-        pos3x.append(p)
-    return err, pos3x
+        posNx.append(p)
+    return err, posNx
 
 def short_len_errors(errors, errors_len):
     last_err = float('inf');
@@ -87,34 +88,34 @@ def short_len_errors(errors, errors_len):
             break
     return leng
 
-info = [[]]*9
+info = [[]]*com.data_tracks
 
-def get_pos3x(permit_refresh = True, force_refresh = False, max_errors_len=2):
+def get_posNx(permit_refresh = True, force_refresh = False, max_errors_len=2):
     global current_distance, info
     start()
-    XYE_pos = []
+    XYEC_pos = []
     errors_len = []
-    for i in range(9):
-        xye = calculate_pos(i)
-        XYE_pos.append(xye)
-        errors_len.append(short_len_errors(xye[2], max_errors_len))
-        info[i] = xye
+    for i in range(com.data_tracks):
+        xyec = calculate_pos(i)
+        XYEC_pos.append(xyec)
+        errors_len.append(short_len_errors(xyec[2], max_errors_len))
+        info[i] = xyec
 
     output = []
     
     print errors_len
     for e in itertools.product(*[ range(i) for i in errors_len]):
-        err, pos3x = gen_pos3x(XYE_pos, e)
-        d01, d02, d12 = distance(pos3x[0],pos3x[1]), distance(pos3x[0],pos3x[2]), distance(pos3x[1],pos3x[2])
+        err, posNx = generate_posNx_by_idx(XYEC_pos, e)
+        d01, d02, d12 = distance(posNx[0],posNx[1]), distance(posNx[0],posNx[2]), distance(posNx[1],posNx[2])
 
         distd = numpy.array([d01, d02, d12])
         r = distance(distd, current_distance)
         wsp = r
-        output.append( (wsp, r,err,e, distd, pos3x) )
+        output.append( (wsp, r,err,e, distd, posNx) )
 
     output.sort(key=operator.itemgetter(0))
     d01,d02,d12 = output[0][4]
-    pos3x = output[0][5]
+    posNx = output[0][5]
     r = output[0][1]
     print 'wsp:', output[0][0],'r:', r, ' error:', output[0][2], 'perm:', output[0][3]
     print 'e01: %10.3f  e02: %10.3f  e12: %10.3f' % tuple(numpy.array([d01, d02, d12]) - current_distance)
@@ -123,8 +124,8 @@ def get_pos3x(permit_refresh = True, force_refresh = False, max_errors_len=2):
 #    refresh(XYE_pos,output[0][3])
     if force_refresh or (permit_refresh and current_distance[0] == 0 or r < 10.):
         current_distance = numpy.array([d01,d02,d12])
-        refresh(XYE_pos,output[0][3])
-    return pos3x
+        refresh(XYEC_pos,output[0][3])
+    return posNx
 
 
 
