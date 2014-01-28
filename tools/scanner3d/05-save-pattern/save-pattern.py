@@ -68,7 +68,7 @@ l35, = plt.plot([], [], 'c-')
 l36, = plt.plot([], [], 'm-')
 
 
-size =800
+size =300
 #size = 4000
 
 dimensions = 12

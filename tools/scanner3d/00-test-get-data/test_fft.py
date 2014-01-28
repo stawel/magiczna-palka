@@ -17,7 +17,7 @@ import mp3d.signal
 import mp3d.com
 
 
-fft_size=2048*2
+fft_size=2048*2*2
 Fsampling_kHz = mp3d.com.Fsampling_kHz
 
 #Tsampling_ms = 1.0 / Fsampling_kHz

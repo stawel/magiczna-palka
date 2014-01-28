@@ -52,7 +52,7 @@ def cut_arrays(x,y):
 fref = False
 
 def update_line(num):
-    mp3d.xyz.get_posNx(permit_refresh = False, force_refresh = fref, truncate_errors=True, best_match_error_len = 1)
+    mp3d.xyz.get_posNx(permit_refresh = False, force_refresh = fref, truncate_errors=False, best_match_error_len = 1)
 
     x,y,errors,cor = mp3d.xyz.xyec_info[idx]
 

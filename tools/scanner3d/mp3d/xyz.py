@@ -32,7 +32,7 @@ last_measured_position = [0]*com.data_tracks
 
 #speed in pixels
 #speed_limit = 1000
-min_speed_limit=1000
+min_speed_limit=20000
 speed_limit = 20000
 def truncate_based_on_speed(idx, szuk_len):
     global speed_limit, min_speed_limit
