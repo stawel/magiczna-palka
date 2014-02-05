@@ -62,8 +62,8 @@ def get_data(port, pin, diff = 0):
 
 
 def filter_sign(y):
-#    return y
-    return scipy.ndimage.filters.gaussian_filter(y.astype(float),5)
+    return y
+#    return scipy.ndimage.filters.gaussian_filter(y.astype(float),5)
 
 def get_3x_data(port, pin,diff = 0):
     y = get_data(port, pin, diff)
