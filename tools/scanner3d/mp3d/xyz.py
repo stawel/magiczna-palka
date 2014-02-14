@@ -140,7 +140,7 @@ def get_best_3d_match(XYEC_info, max_errors_len):
 xyec_info = [[]]*com.data_tracks
 
 
-def get_posNx(permit_refresh = True, force_refresh = False, truncate_errors=True, best_match_error_len=3):
+def get_posNx(permit_refresh = True, force_refresh = False, truncate_errors=True, best_match_error_len=2):
     global current_distance, xyec_info
     start()
     xyec_info = [calculate_pos(i, truncate_errors=truncate_errors) for i in range(com.data_tracks)]

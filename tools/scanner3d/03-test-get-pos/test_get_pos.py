@@ -93,11 +93,19 @@ def update_line(num):
 
 
 def onclick(event):
-    global fref
+    global fref,idx
 #    print('you pressed', event.key, event.xdata, event.ydata)
     if event.key == 'x':
         fref = not fref
         print fref
+
+    if event.key == 'n':
+        idx=(idx+1+12)%12
+        print idx
+
+    if event.key == 'p':
+        idx=(idx-1+12)%12
+        print idx
 
 
 

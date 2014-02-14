@@ -41,6 +41,7 @@ def send_command(port, pin):
         send = 'B'
     if pin == 3:
         send = 'C'
+#    send = '@'
     port.write(send)
     port.flush()
 
