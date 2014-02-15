@@ -68,7 +68,7 @@ l35, = plt.plot([], [], 'c-')
 l36, = plt.plot([], [], 'm-')
 
 
-size =400
+size =300
 #size = 4000
 
 dimensions = 12
@@ -121,7 +121,7 @@ def update_line(num):
 def onclick(event):
     global pos, patterns
     if ax_data == event.inaxes:
-        x = int (event.xdata * mp3d.com.Fsampling_kHz)
+        x = int (event.xdata * mp3d.com.Fsampling_kHz) - size/2
         if event.ydata < -distance/2:
             idx = 0
             dist = -distance
