@@ -19,9 +19,9 @@
 
 __IO uint8_t buf[MAX][MAX_SIGNALS];
 
-#define PIN2 GPIO_Pin_9
-#define PIN1 GPIO_Pin_7
-#define PIN0 GPIO_Pin_11
+#define PIN2 GPIO_Pin_4
+#define PIN1 GPIO_Pin_2
+#define PIN0 GPIO_Pin_5
 #define PIN_GROUP GPIOE
 
 void PIN_Configuration(void)
@@ -39,7 +39,7 @@ void PIN_Configuration(void)
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(PIN_GROUP, &GPIO_InitStructure);
 
-	GPIO_ResetBits(PIN_GROUP, PIN0 | PIN1 | PIN2);
+	GPIO_SetBits(PIN_GROUP, PIN0 | PIN1 | PIN2);
 
 
 	/* Configure ADC pins as analog input ******************************/
@@ -154,12 +154,13 @@ void ADC_Configuration(int pin)
 	else	   	   GPIO_ResetBits(PIN_GROUP, PIN1);
 	if(!(pin &2))  GPIO_SetBits(PIN_GROUP,   PIN2);
 	else	       GPIO_ResetBits(PIN_GROUP, PIN2);
+	Delay(1000); //100us
 
 	__disable_irq();
 	GPIO_ResetBits(PIN_GROUP, PIN0);
-	ADC_SoftwareStartConv(ADC1);
-	Delay(50);
+	Delay(1000); //100us
 	GPIO_SetBits(PIN_GROUP, PIN0);
+	ADC_SoftwareStartConv(ADC1);
 	__enable_irq();
 }
 
