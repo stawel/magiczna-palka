@@ -58,7 +58,7 @@ def update_line(num):
     mp3d.com.read_all_data()
     y1, y2, y3 = mp3d.com.get(idx), mp3d.com.get(idx+1), mp3d.com.get(idx+2);
     x = arange(0,len(y1)) / Fsampling_kHz
-    y1, y3 = y1-100, y3+100
+    y1, y3 = y1+100, y3-100
     l1.set_data(x, y1)
     l2.set_data(x, y2)
     l3.set_data(x, y3)

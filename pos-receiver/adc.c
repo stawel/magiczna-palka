@@ -19,8 +19,8 @@
 
 __IO uint8_t buf[MAX][MAX_SIGNALS];
 
-#define PIN2 GPIO_Pin_4
-#define PIN1 GPIO_Pin_2
+#define PIN2 GPIO_Pin_2
+#define PIN1 GPIO_Pin_4
 #define PIN0 GPIO_Pin_5
 #define PIN_GROUP GPIOE
 

@@ -17,7 +17,7 @@ sys.path.append('..')
 import mp3d.signal
 import mp3d.com
 import mp3d.find_pattern
-
+import mp3d.info
 
 
 distance = 200
@@ -27,7 +27,7 @@ fig1 = plt.figure()
 
 ax_data = plt.subplot(1,1,1)
 plt.xlim(0, mp3d.com.T)
-plt.ylim(-distance-128, 2*distance+128)
+plt.ylim(-2*distance-128, 1*distance+128)
 plt.title('test')
 plt.xlabel('time (ms)')
 
@@ -93,8 +93,8 @@ def update_line(num):
     mp3d.com.read_all_data()
     idx = 0
 
-    dist_big   = [-distance, 0, distance, 2*distance]
-    dist_small = [-distance_small, 0, distance_small]
+    dist_big   = [distance, 0, -distance, -2*distance]
+    dist_small = [distance_small, 0, -distance_small]
     l = [l01,l02,l03,
          l11,l12,l13,
          l21,l22,l23,
@@ -161,6 +161,8 @@ line_ani = animation.FuncAnimation(fig1, update_line, None,
     interval=30)
 #, blit=True)
 #line_ani.save('lines.mp4')
+
+#mp3d.info.add_sliders(plt)
 
 
 plt.show()

@@ -18,6 +18,7 @@ import mp3d.signal
 import mp3d.com
 import mp3d.find_pattern
 import mp3d.xyz
+import mp3d.info
 
 mp3d.find_pattern.init_from_file()
 szuk_len = len(mp3d.find_pattern.patterns[0])
@@ -92,7 +93,7 @@ def update_dot(num):
     setVector(1, points[1], points[1] + v0)
     setVector(0, points[2], points[2] + v1)
     fig3.canvas.draw()
-
+#    mp3d.info.update_sliders()
 
 fig3 = plt.figure()
 ax = p3.Axes3D(fig3)
@@ -110,19 +111,21 @@ ax.set_zlabel('Z')
 
 
 
+
 def onclick(event):
     global points,wyn_ox,wyn_oy,wyn_oz,x,y,z, dot_last_up, dotup
 #    print('you pressed', event.key, event.xdata, event.ydata)
 
+
 cid = fig2.canvas.mpl_connect('key_press_event', onclick)
-
-
 
 
 # Creating the Animation object
 dot_ani = animation.FuncAnimation(fig2, update_dot, 25,
-                              interval=20, blit=False)
+                              interval=100, blit=False)
 
+
+mp3d.info.add_sliders(plt)
 
 try:
     plt.show()

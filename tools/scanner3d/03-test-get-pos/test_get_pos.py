@@ -16,6 +16,7 @@ import mp3d.signal
 import mp3d.com
 import mp3d.find_pattern
 import mp3d.xyz
+import mp3d.info
 import operator
 
 fig1 = plt.figure()
@@ -50,8 +51,10 @@ def cut_arrays(x,y):
     return x[:m],y[:m]
 
 fref = False
+mylock = False
 
 def update_line(num):
+    global pos
     mp3d.xyz.get_posNx(permit_refresh = False, force_refresh = fref, truncate_errors=False, best_match_error_len = 1)
 
     x,y,errors,cor = mp3d.xyz.xyec_info[idx]
@@ -59,12 +62,17 @@ def update_line(num):
     cut_x=x
     cut_y=cor
 
+    if mylock:
+        mp3d.find_pattern.refresh_pattern(y[pos:pos+len(mp3d.find_pattern.patterns[idx])], idx)
+
+
     l1.set_data(x,y)
+
     pos = errors[0][1]
     val_cor = cor[pos]
     errors.sort(key=operator.itemgetter(1))
 
-    l2.set_data(cut_arrays(cut_x, cut_y / 1000.))
+    l2.set_data(cut_arrays(cut_x, cut_y / mp3d.find_pattern.get_pattern_power(idx)/len(mp3d.find_pattern.patterns[idx])))
     errl = array(errors).T
     l5.set_data(np.array(errl[1])+x[0],errl[0]/10)
 
@@ -93,7 +101,7 @@ def update_line(num):
 
 
 def onclick(event):
-    global fref,idx
+    global fref,idx,mylock
 #    print('you pressed', event.key, event.xdata, event.ydata)
     if event.key == 'x':
         fref = not fref
@@ -107,6 +115,10 @@ def onclick(event):
         idx=(idx-1+12)%12
         print idx
 
+    if event.key == 'q':
+        mylock=not mylock
+        print 'lock:', mylock
+
 
 
 cid = fig1.canvas.mpl_connect('key_press_event', onclick)
@@ -117,6 +129,9 @@ line_ani = animation.FuncAnimation(fig1, update_line, None,
     interval=30)
 #, blit=True)
 #line_ani.save('lines.mp4')
+
+mp3d.info.add_sliders(plt)
+
 
 try:
     plt.show()

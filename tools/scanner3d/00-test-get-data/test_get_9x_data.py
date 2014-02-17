@@ -49,30 +49,30 @@ l33, = plt.plot([], [], 'b-')
 
 def update_line(num):
     mp3d.com.read_all_data()
-    idx = 0
+    idx = 3
     y1, y2, y3 = mp3d.com.get(idx*3+0), mp3d.com.get(idx*3+1), mp3d.com.get(idx*3+2);
     x = arange(0, len(y1)) / mp3d.com.Fsampling_kHz
-    l01.set_data(x, y1 + (-distance-distance_small))
+    l01.set_data(x, y1 + (-distance+distance_small))
     l02.set_data(x, y2 + (-distance))
-    l03.set_data(x, y3 + (-distance+distance_small))
-
-    idx = 1
-    y1, y2, y3 = mp3d.com.get(idx*3+0), mp3d.com.get(idx*3+1), mp3d.com.get(idx*3+2);
-    l11.set_data(x, y1 - distance_small)
-    l12.set_data(x, y2)
-    l13.set_data(x, y3 + distance_small)
+    l03.set_data(x, y3 + (-distance-distance_small))
 
     idx = 2
     y1, y2, y3 = mp3d.com.get(idx*3+0), mp3d.com.get(idx*3+1), mp3d.com.get(idx*3+2);
-    l21.set_data(x, y1 + (distance-distance_small))
-    l22.set_data(x, y2 + distance)
-    l23.set_data(x, y3 + (distance+distance_small))
+    l11.set_data(x, y1 + distance_small)
+    l12.set_data(x, y2)
+    l13.set_data(x, y3 - distance_small)
 
-    idx = 3
+    idx = 1
     y1, y2, y3 = mp3d.com.get(idx*3+0), mp3d.com.get(idx*3+1), mp3d.com.get(idx*3+2);
-    l31.set_data(x, y1 + (2*distance-distance_small))
+    l21.set_data(x, y1 + (distance+distance_small))
+    l22.set_data(x, y2 + distance)
+    l23.set_data(x, y3 + (distance-distance_small))
+
+    idx = 0
+    y1, y2, y3 = mp3d.com.get(idx*3+0), mp3d.com.get(idx*3+1), mp3d.com.get(idx*3+2);
+    l31.set_data(x, y1 + (2*distance+distance_small))
     l32.set_data(x, y2 + (2*distance))
-    l33.set_data(x, y3 + (2*distance+distance_small))
+    l33.set_data(x, y3 + (2*distance-distance_small))
     print mp3d.com.time_info
     return
 

@@ -69,6 +69,14 @@ def refresh(XYE_pos, idxs):
 
     print 'last_measured_position:', last_measured_position
 
+def refresh_nosave(XYE_pos, idxs):
+    for channel in range(len(XYE_pos)):
+        x,y,e,c = XYE_pos[channel]
+        pos = e[idxs[channel]][1]
+        pattern_len = len(find_pattern.patterns[channel])
+        find_pattern.refresh_pattern(y[pos:pos + pattern_len],channel,save=False)
+
+
 def to_mm(pos):
     t =  pos / com.Fsampling_kHz
     return t*sound_speed
@@ -150,6 +158,8 @@ def get_posNx(permit_refresh = True, force_refresh = False, truncate_errors=True
     if force_refresh or (permit_refresh and is_ok_3d_match(info3d)):
         refresh_3d_match(info3d)
         refresh(xyec_info, idx)
+    else:
+        refresh_nosave(xyec_info, idx)
 
     return posNx
 

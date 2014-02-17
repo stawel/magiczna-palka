@@ -47,9 +47,9 @@ def update_line(num):
     x1 = range(len(y1))
     x2 = range(len(y2))
     x3 = range(len(y3))
-    l1.set_data(x1,y1-100)
+    l1.set_data(x1,y1+100)
     l2.set_data(x2,y2)
-    l3.set_data(x3,y3+100)
+    l3.set_data(x3,y3-100)
     return
 
 
