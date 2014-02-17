@@ -12,7 +12,7 @@
 #include <delay.h>
 
 #define MAX 1024*16
-#define MAX_SIGNALS 3
+#define MAX_SIGNALS 3*2
 
 #define ADC3_DR_ADDRESS     ((uint32_t)0x4001224C)
 #define ADC_CDR_ADDRESS    	 ((uint32_t)0x40012308)
