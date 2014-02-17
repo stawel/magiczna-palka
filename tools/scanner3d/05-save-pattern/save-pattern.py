@@ -68,7 +68,7 @@ l35, = plt.plot([], [], 'c-')
 l36, = plt.plot([], [], 'm-')
 
 
-size =300
+size =400
 #size = 4000
 
 dimensions = 12
@@ -122,25 +122,25 @@ def onclick(event):
     global pos, patterns
     if ax_data == event.inaxes:
         x = int (event.xdata * mp3d.com.Fsampling_kHz) - size/2
-        if event.ydata < -distance/2:
-            idx = 0
-            dist = -distance
-        elif event.ydata > 3*distance/2:
+        if event.ydata < -3*distance/2:
             idx = 3
-            dist = 2*distance
+            dist = -2*distance
         elif event.ydata > distance/2:
-            idx = 2
+            idx = 0
             dist = distance
-        else:
+        elif event.ydata > -distance/2:
             idx = 1
             dist = 0
+        else:
+            idx = 2
+            dist = -distance
         y = event.ydata-dist
 
         if y > -distance_small*2 and y < distance_small*2:
             if y < -distance_small/2:
-                idy = 0
-            elif y > distance_small/2:
                 idy = 2
+            elif y > distance_small/2:
+                idy = 0
             else:
                 idy = 1
 
