@@ -1,0 +1,145 @@
+\documentclass{pracamgr}
+\usepackage{polski}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage[utf8]{inputenc}
+\usepackage[pdfborder={0 0 0}]{hyperref}
+
+%include ps
+\usepackage{graphicx}
+%\epstopdfsetup{update}
+%\DeclareGraphicsExtensions{.ps}
+%\epstopdfDeclareGraphicsRule{.ps}{pdf}{.pdf}{ps2pdf -dEPSCrop -dNOSAFER #1 \OutputFile}
+
+
+% Dane magistranta:
+
+\author{Paweł Stawicki}
+\nralbumu{189254}
+
+\title{Skaner 3D (??)}
+\tytulang{3D scanner}
+
+\kierunek{Informatyka}
+\opiekun{dra Marcina Peczarskiego}
+
+\date{Czerwiec 2014}
+
+%Podać dziedzinę wg klasyfikacji Socrates-Erasmus:
+\dziedzina{ 
+%11.0 Matematyka, Informatyka:\\ 
+%11.1 Matematyka\\ 
+%11.2 Statystyka\\ 
+11.3 Informatyka\\ 
+%11.4 Sztuczna inteligencja\\ 
+%11.5 Nauki aktuarialne\\
+%11.9 Inne nauki matematyczne i informatyczne
+}
+
+%Klasyfikacja tematyczna wedlug AMS (matematyka) lub ACM (informatyka)
+%\klasyfikacja{D. Software\\
+%  D.127. Blabalgorithms\\
+%  D.127.6. Numerical blabalysis}
+\klasyfikacja{
+TODO: dodać
+}
+
+% S?owa kluczowe:
+\keywords{TODO: dodać}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\renewcommand{\algorithmiccomment}[1]{// #1}
+
+% Tu jest dobre miejsce na Twoje w?asne makra i ?rodowiska:
+\newtheorem{defi}{Definicja}[section]
+\newtheorem*{ndefi}{Definicja}
+\newtheorem{theorem}{Twierdzenie}[section]
+
+\newcommand{\V}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\T}[1]{\ensuremath{ {#1}^{\mathbf{{T}}}}}
+\newcommand{\Tnawiasy}[1]{\ensuremath{ ({#1})^{\mathbf{{T}}}}}
+\newcommand{\M}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\Sp}[1]{\ensuremath{\mathcal{#1}}}
+\newcommand{\SpG}[1]{\ensuremath{\langle {#1} \rangle }}
+\newcommand{\cialo}[1]{\ensuremath{\mathcal{#1}}}
+
+\newcommand{\nxn}{\ensuremath{ n \times n }}
+
+\newcommand{\prodA}[2]{\ensuremath{ \langle #1 , #2 \rangle_{\M{A}}}}
+\newcommand{\prodAA}[2]{\ensuremath{ \T{#1} \M{A} #2 }}
+\newcommand{\prodAATnawiasy}[2]{\ensuremath{ \Tnawiasy{#1} \M{A} #2 }}
+\newcommand{\dsum}{\displaystyle\sum}
+
+\newcommand{\Axmb}{ \M{A} \V{x} - \V{b}}
+\newcommand{\Adxmb}{ \M{A} \V{\dot{x}} - \V{b}}
+\newcommand{\dx}{\ensuremath{\dot{\V{x}}}}
+
+%rzutowanie (projekcja)
+\newcommand{\projA}[2]{\ensuremath{ {proj_{#1} (#2)   }}}
+\newcommand{\projAWzor}[2]{\ensuremath{ {\displaystyle\frac{\prodA{#1}{#2}}{ \prodA{#1}{#1}}  #1 }}}
+\newcommand{\projAWzorM}[2]{\ensuremath{#1 ( \prodAA{#1}{#1} )^{-1} \T{#1} \M{A} #2 }}
+\newcommand{\projAWzorMTnawiasy}[2]{\ensuremath{#1 ( \prodAATnawiasy{#1}{#1} )^{-1} \Tnawiasy{#1} \M{A} #2 }}
+
+\newcommand{\Winv}[1]{\ensuremath{ \M{W}_{#1}^{\mathtt{inv}} }}
+
+\newcommand{\rank}[1]{\ensuremath{ rank(#1)}}
+\newcommand{\Zdwa}{\ensuremath{ \mathbb{Z}_2}}
+\newcommand{\Zdwan}{\ensuremath{ {\displaystyle\mathbb{Z}_2^n}}}
+
+\newcommand{\AWSTV}[1]{\ensuremath{\M{A}\M{W}_{#1} \T{\M{S}_{#1}} + \M{V}_{#1} }}
+\newcommand{\VWinvVT}[1]{\ensuremath{\M{V}_{#1} \Winv{#1} \T{\M{V}_{#1}}  }}
+\newcommand{\VTAVWinv}[1]{\ensuremath{\T{\M{V}_{#1}} \M{A} \M{V}_{#1} \Winv{#1}   }}
+\newcommand{\VSST}[1]{\ensuremath{\M{V}_{#1} \M{S}_{#1} \T{\M{S}_{#1}}  }}
+\newcommand{\VS}[2]{\ensuremath{\M{V}_{#1} \M{S}_{#2} }}
+\newcommand{\STVT}[2]{\ensuremath{\T{\M{S}_{#1}} \T{\M{V}_{#2}} }}
+\newcommand{\OWpppW}[2]{\ensuremath{ \Sp{O}( \Sp{W}_{#1} + ... +  \Sp{W}_{#2}) }}
+\newcommand{\OWW}[2]{\ensuremath{ \Sp{O}( \Sp{W}_{#1}  +  \Sp{W}_{#2}) }}
+
+%\newcommand{\myurl}[1]{\textit{#1}}
+\newcommand{\myurl}[1]{\\ \url{#1}}
+
+\newcommand{\rysunek}[3] {
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{#1}
+    \caption{#2}
+    #3
+\end{figure}
+}
+
+% koniec definicji
+
+\begin{document}
+\maketitle
+
+\include{abstract}
+
+\tableofcontents
+%\listoffigures
+%\listoftables
+
+\include{wprowadzenie}
+\include{teoria}
+\include{nadajnik}
+\include{odbiornik}
+\include{mp3d}
+\include{kalibracja}
+\include{podsumowanie}
+\include{biblio}
+%\include{dodatek}
+
+
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% coding: latin-2
+%%% End:
+

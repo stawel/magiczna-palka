@@ -1,0 +1,76 @@
+\chapter{Odbiornik}
+
+Odbiornik ultradźwiękowy składa się z 6 części:
+płytki prototypowej \textit{stm32f4-discovery} zbierającej dane analizowane później na komputerze,
+ trzech odbiorników ultradźwiękowych wraz ze wzmacniaczami, 
+ \textit{shieldu} do \textit{stm32f4-discovery} - przystawki dopasowującej sygnał z odbiorników do poziomów akceptowalnych przez
+\textit{stm32f4-discovery}, oraz ramy na której umieszczone są odbiorniki.
+
+\section{Budowa i zasada działania}
+
+Głównym elementem odbiornika stanowi płytka prototypowa \textit{stm32f4-discovery} \cite{bib:stm32f4Discovery},
+jej zadaniem jest przesłanie dźwięków zebranych z otoczenia do dalszej analizy oraz wysłanie sygnału wyzwalającego 
+do nadajnika.
+\textit{Stm32f4-discovery} oparty jest o procesor STM32F407VGT6 \cite{bib:stm32f407}, który 
+umożliwia komunikację z komputerem za pomocą złącza USB oraz ma wbudowane trzy 12-bitowe przetworniki analogowo-cyfrowe
+mogące samplować z częstotliwością do 2.4MSPS. 
+
+
+Oprogramowanie płytki prototypowej oparte jest na bibliotece \textit{stm32 usb 101} \cite{bib:stm32_usb_101}
+zapewniającej komunikację z komputerem, do której dodana została obsługa przetworników ADC.
+Program poprzez port USB dostaje komunikat, który z czterech nadajników ma nadawać, ta informacja przekazywana jest
+dalej do nadajnika w raz z sygnałem wyzwalającym, następnie uruchamiane są trzy przetworniki ADC, które 
+samplują odbierany dźwięk i poprzez DMA zapisują trzy kanały w pamięci procesora.
+Częstotliwość pracy przetworników ustawiona jest na 1.6MSPS co daje średnio 40 sampli na jedną sinusoidę nadanego 40kHz sygnału.
+Program zapamiętuje 16kS na każdym kanale, co przy prędkości dźwięku 340m/s daje maksymalną mierzoną odległość rzędu 3.5 metrów.
+Po zebraniu w sumie 48kS, całość przesyłana jest do komputera w celu dalszej analizy.
+Cały proces powtarzany jest dla każdego z czterech przetworników piezoelektrycznych, 
+co w sumie daje 12 sygnałów na podstawie których wyznaczona zostaje 
+pozycja w przestrzeni oraz orientacja nadajnika.
+
+Cała elektronika osadzona została na ramie zbudowanej z rur PCV w kształcie trójkąta (rysunek \ref{fig:trojkat}), 
+Odległości pomiędzy odbiornikami są z góry znane, co ułatwia obliczenia.
+
+\rysunek{trojkat}{szkic ramy odbiornika}{\label{fig:trojkat}}
+
+
+
+\clearpage
+\section{Budowa odbiornika ultradźwiękowego}
+
+Fale dźwiękowe przetwarzane są na sygnał elektryczny za pomocą odbiornika ultradźwiękowego (piezoelektrycznego) 
+podłączonego do dwóch wzmacniaczy operacyjnych. Schemat przedstawiony jest na rysunku \ref{fig:odbiornik_ultra}.
+
+\rysunek{receiver}{schemat odbiornika ultradźwiękowego}{\label{fig:odbiornik_ultra}}
+
+Pierwszy ze wzmacniaczy pracuje jako przedwzmacniacz ładunkowy \cite{bib:wzm_ladunkowy}.
+Ładunek wytworzony na przetworniku piezoelektrycznym zostaje w całości przeniesiony na kondensator $C2$ 
+(wzmacniacz stara się utrzymać różnicę potencjałów miedzy dodatnim a ujemnym wejściem na zerowym poziomie),
+co jest równoważne z pojawieniem się napięcia na kondensatorze zgodnie z równaniem $U=\frac{q}{C}$.
+Rezystor $R1$ ustawia napięcia spoczynkowe układu na poziome $\frac{1}{2}$ Vcc jak i rozładowuje kondensator $C2$.
+$R1$ i $C2$ działają również jako filtr górnoprzepustowy.
+
+Drugi wzmacniacz pracuje jako zwykły wzmacniacz napięciowy wzbogacony o filtr górno i dolnoprzepustowy.
+
+Aby zminimalizować zakłócenia całość oparta jest na niskoszumowym wzmacniaczu operacyjnym NE5532 \cite{bib:ne5532}, 
+dodatkowo cała płytka $PCB$ jest ekranowana.
+
+Wzmocniony sygnał poprzez wtyczkę $JP1$ doprowadzony jest do \textit{shieldu} współpracującego z \textit{stm32f4-discovery}.
+
+\clearpage
+
+\section{\textit{shield} do \textit{stm32f4-discovery}}
+
+Sygnał z odbiorników doprowadzany jest do \textit{stm32f4-discovery} za pomocą specjalnej przystawki (\textit{shieldu}).
+Jej zadaniem jest przystosowanie amplitud zebranych sygnałów do wartości akceptowalnych przez STM32F407VGT6,
+dodatkowo przystawka zawiera układ zasilający jak i wyprowadzone są z niej sygnały sterujące do nadajnika.
+Zakres napięć dopuszczalnych dla przetowrnika analogowo-cyfrowego zawierają się w przedziale od 0V do 3.3V,
+dlatego zastosowany został układ TLV2774 \cite{bib:TLV2774}, który zawiera w sobie 4 wzmacniacze operacyjne typu
+rail-to-rail. Wzmacniacze pracują w układzie odwracającym, do którego dodano regulowane napięcie odniesienia.
+Schemat przystawki przedstawiony jest na rysunku \ref{fig:shild}.
+
+
+
+\rysunek{mainboard2}{schemat \textit{shieldu} do \textit{stm32f4-discovery}}{\label{fig:shild}}
+
+
