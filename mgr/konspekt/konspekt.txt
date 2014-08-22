@@ -1,0 +1,26 @@
+Temat Pracy: "Skaner 3D"
+
+Plan pracy magisterskiej:
+1. wstęp
+  - ?
+2. podstawy teoretyczne:
+  - pomiar odległości za pomocą ultradźwięków
+   (wpływ warunków atmosferycznych na pomiary)
+3. nadajnik ultradźwiękowy:
+  - zasada działania
+  - oprogramowanie
+  - schematy
+4. odbiornik ultradźwiękowy:
+  - zasada działania
+  - oprogramowanie
+  - schematy
+5. oprogramowanie: "mp3d" wyznaczające pozycję skanera w przestrzeni
+  - zbierane dane
+  - wnioskowanie położenia
+  - analiza błędów pomiarowych
+6. kalibracja
+7. podsumowanie
+  - zalety i wady
+8. zeskanowane obiekty (zdjęcia)
+
+
