@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.1.3
-lastDocument=main.tex
+lastDocument=wprowadzenie.tex
 masterDocument=
 name=mgr
 pkg_extIsRegExp=false
@@ -133,7 +133,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=0
 mode=LaTeX
-open=true
+open=false
 order=3
 
 [item:biblio.tex]
@@ -143,7 +143,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=10
 mode=LaTeX
-open=true
+open=false
 order=1
 
 [item:kalibracja.tex]
@@ -158,10 +158,10 @@ order=1
 
 [item:main.tex]
 archive=true
-column=0
+column=22
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=65
 mode=LaTeX
 open=true
 order=0
@@ -193,7 +193,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=0
 mode=LaTeX
-open=true
+open=false
 order=4
 
 [item:odbiornik.tex]
@@ -203,7 +203,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=44
 mode=LaTeX
-open=true
+open=false
 order=2
 
 [item:podsumowanie.tex]
@@ -238,13 +238,13 @@ order=-1
 
 [item:wprowadzenie.tex]
 archive=true
-column=0
+column=3
 encoding=UTF-8
 highlight=LaTeX
-line=5
+line=15
 mode=LaTeX
-open=false
-order=-1
+open=true
+order=1
 
 [view-settings,view=0,item:abstract.tex]
 CursorColumn=0
@@ -265,8 +265,8 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:main.tex]
-CursorColumn=0
-CursorLine=0
+CursorColumn=22
+CursorLine=65
 JumpList=
 ViMarks=a,145,0,b,88,0,c,122,0,d,1,0
 
@@ -307,7 +307,7 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:wprowadzenie.tex]
-CursorColumn=0
-CursorLine=5
+CursorColumn=3
+CursorLine=15
 JumpList=
 ViMarks=

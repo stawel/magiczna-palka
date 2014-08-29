@@ -2,11 +2,60 @@
 \chapter*{Wprowadzenie}
 \addcontentsline{toc}{chapter}{Wprowadzenie}
 
-TODO: napisać!
-\newline
+W dzisiejszym świecie obserwujemy coraz większe zapotrzebowanie na urządzenia,
+które potrafi określić swoje położenie jak i orientację w otaczającej je przestrzeni.
+Urządzenia takie mają szerokie zastosowanie w wielu dziedzinach, takich jak
+wirtualna rzeczywistość (Oculus Rift, castAR), wprowadzanie danych czy 
+odtwarzanie trójwymiarowej rzeczywistości na podstawie zdjęć (VisualSFM).
+
+
+W pracy przedstawię prototyp urządzenia, który za pomocą pomiaru odległości od wyznaczonych punktów
+z dużą rozdzielczością dochodzących do 0.5mm jest w stanie określić swoje położenie
+w przestrzeni jak i swoją orientację. 
+Pomiar odległości dokonywany jest za pomocą ultradźwięków o częstotliwości 40Khz.  
+Mimo iż metoda jest znana od wielu lat, to z uwagi na relatywnie dużą długości fali ultradźwiękowej,
+która dla częstotliwości 40Khz wynosi około 8mm jest do takich celów rzadko stosowana.
+W niniejszej pracy udało się to pozorne ograniczenie przezwyciężyć.
+
+Prototyp składa się z \textit{głowicy}, której położenie wraz z orientacją przestrzenną chcemy wyznaczyć
+oraz z \textit{aparatu odbiorczego} w kształcie trójkąta wyznaczającego nam stałe punkty odniesienia.
+Całość podłączona jest do komputera na którym dokonywane są wszystkie obliczenia.
+
+
+
+Przykładowo okulary do wirtualnej rzeczywistości takie jak Oculus Rift [TODO] czy castAR [TODO],
+muszą uwzględnić położenie jaki i orientację głowy by na tej podstawie wyświetlić użytkownikowi 
+odpowiednią treść. 
+Z biegiem lat powstało wiele podejść do tego problemu, do najczęściej stosowanych możemy zaliczyć:
+1. wykorzystanie akcelerometrów, żyroskopów i magnetometrów zastosowane w Oculus Rift development kit,
+wadą tego rozwiązania jest brak punktów odniesienia (występuje tzw. drift) jak i duży nakład obliczeniowy na
+modelowanie zachowania się głowy.
+2. wykorzystanie światła strukturalnego i sensorów (zazwyczaj kamery)
+ do zebrania obrazu obiektu z liniami struktury projektowanej na niego. Taką metodę wykorzystano w 
+ Oculus Rift development kit 2 i castAR, gdzie za źródła światła wykorzystano diody podczerwone umieszczone 
+ na okularach dodatkowo przed użytkownikiem umieszczona została kamerę. Wykorzystuje ją również Kinnect [TODO],
+który na użytkownika projektuje punktową strukturę światła i na podstawie zniekształceń tej struktury wnioskuje 
+ się odległości. Zaletą tego rozwiązania jest stały punkt odniesienia jak i możliwość pomiaru wielu puntów na raz,
+ do wad należy zaliczyć stosunkowo niską rozdzielczość jak i duży strumień danych do obróbki.
+3. wykorzystanie wielu zdjęć znanego stałego obiektu na postawie, których wyznaczamy pozycję kamery względem niego,
+  lub odwrotnie, kamera (lub wiele kamer) jest punktem stałym a wyznaczamy pozycję obiektu.  
+ Taką technikę wykorzystano w VidialSFM, jak i w The Pi 3D scanner project, 
+ rozwiązanie to cechuje się jednak dość niską rozdzielczością.
+4. wykorzystanie ultradźwięków do pomiaru odległości pomiędzy stałymi punktami odniesienia, 
+
+
+
+Należy również wspomnieć, że prototyp nie nadaje się do pomiarów precyzyjnych 
+z uwagi na dość dużą zależność prędkości dźwięku od temperatury otoczenia,
+jednak w pomieszczeniach zamkniętych, w których temperatura otocznia zmienia się nieznacznie
+dokładność pomiaru jest zadowalająca.
+
+
+\newpage
 Uwagi: 
 
-Tu należałoby sformułować problem, jaki Pan sobie postawił w pracy i jak Pan podszedł do jego rozwiązywania (ogólnie). Należy przedstawić Pana wkład intelektualny.
+Tu należałoby sformułować problem, jaki Pan sobie postawił w pracy i jak Pan podszedł do jego rozwiązywania (ogólnie). 
+Należy przedstawić Pana wkład intelektualny.
 
 Gdzieś trzeba też opisać inne znane podobne rozwiązania, bo nie uwierzę, że nie ma żadnych i że jest Pan pionierem w tej dziedzinie.
 \newline
