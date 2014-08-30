@@ -5,8 +5,8 @@
 W dzisiejszym świecie obserwujemy coraz większe zapotrzebowanie na urządzenia,
 które potrafi określić swoje położenie jak i orientację w otaczającej je przestrzeni.
 Urządzenia takie mają szerokie zastosowanie w wielu dziedzinach, takich jak
-wirtualna rzeczywistość (Oculus Rift, castAR), wprowadzanie danych czy 
-odtwarzanie trójwymiarowej rzeczywistości na podstawie zdjęć (VisualSFM).
+wirtualna rzeczywistość (\textit{Oculus Rift, castAR}), wprowadzanie danych czy 
+odtwarzanie trójwymiarowej rzeczywistości na podstawie zdjęć (\textit{VisualSFM}).
 
 
 W pracy przedstawię prototyp urządzenia, który za pomocą pomiaru odległości od wyznaczonych punktów
@@ -31,7 +31,7 @@ Z biegiem lat powstało wiele podejść do tego problemu, do najczęściej stoso
 wadą tego rozwiązania jest brak punktów odniesienia (występuje tzw. drift) jak i duży nakład obliczeniowy na
 modelowanie zachowania się głowy.
 2. wykorzystanie światła strukturalnego i sensorów (zazwyczaj kamery)
- do zebrania obrazu obiektu z liniami struktury projektowanej na niego. Taką metodę wykorzystano w 
+ do zebrania obrazu obiektu z liniami struktury projektowanej na niego. Taką metodę wykorzystano w 
  Oculus Rift development kit 2 i castAR, gdzie za źródła światła wykorzystano diody podczerwone umieszczone 
  na okularach dodatkowo przed użytkownikiem umieszczona została kamerę. Wykorzystuje ją również Kinnect [TODO],
 który na użytkownika projektuje punktową strukturę światła i na podstawie zniekształceń tej struktury wnioskuje 
@@ -41,12 +41,13 @@ który na użytkownika projektuje punktową strukturę światła i na podstawie 
   lub odwrotnie, kamera (lub wiele kamer) jest punktem stałym a wyznaczamy pozycję obiektu.  
  Taką technikę wykorzystano w VidialSFM, jak i w The Pi 3D scanner project, 
  rozwiązanie to cechuje się jednak dość niską rozdzielczością.
-4. wykorzystanie ultradźwięków do pomiaru odległości pomiędzy stałymi punktami odniesienia, 
+ 
 
 
 
 Należy również wspomnieć, że prototyp nie nadaje się do pomiarów precyzyjnych 
-z uwagi na dość dużą zależność prędkości dźwięku od temperatury otoczenia,
+z uwagi na 
+dość dużą zależność prędkości dźwięku od temperatury otoczenia,
 jednak w pomieszczeniach zamkniętych, w których temperatura otocznia zmienia się nieznacznie
 dokładność pomiaru jest zadowalająca.
 

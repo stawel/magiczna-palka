@@ -1,5 +1,34 @@
 \chapter{Podstawy teoretyczne}
-\section{Wyznaczanie pozycji na podstawie odległości}
-TODO:
-\section{Pomiar odległości ultradźwiękami}
-TODO:
+\section{Wyznaczanie położenia na podstawie odległości od stałych punktów}
+
+
+
+\section{Pomiar odległości za pomocą ultradźwięków}
+
+Prezentowany prototyp wykorzystuje metodę pomiaru czasu jaki 
+potrzebuje sygnał ultradźwiękowy aby pokonać drogę od nadajnika do odbiornika,
+rysunek \ref{fig:pomiar_odleglosci} przedstawia poglądowy schemat pomiarowy.
+\rysunekW{pomiar_odleglosci}{pomiar odległości za pomocą ultradźwięków}{\label{fig:pomiar_odleglosci}}{0.4}
+
+Znając prędkość rozchodzenia się fal dźwiękowych w powietrzy oraz czas jaki fala dźwiękowa potrzebowała
+aby pokonać dystans od odbiornika do nadajnika jesteśmy w stanie w prosty sposób wyznaczyć szukaną odległość.
+
+Niestety prędkość dźwięku w powietrzu jest mocno zależy od panujących warunków atmosferycznych \cite{bib:soundSpeed},  
+głównym czynnikiem wpływającym na prędkość dźwięku jest temperatura,
+dla gazu doskonałego prędkość ta wyraża się wzorem:
+\[
+V_{air} = 331.3  \frac{m}{s}  \sqrt{1+\frac{T}{273.15}}
+\]
+gdzie: $T$ jest temperaturą w stopniach Celsjusza ($^\circ$C).
+wzór ten możemy przybliżyć za pomocą rozwinięcia Taylora do:
+\[
+ V_{air} = (331.3  +  0.606T) \frac{m}{s}
+\]
+
+Mimo iż współczynnik temperaturowy jest stosunkowo mały i stanowi jedynie 0.18\% całej prędkości
+to przy pomiarach odległości rzędu metrów i rozdzielczości milimetrowych staje się bardzo istotny. 
+Dlatego w prezentowanym urządzeniu istotną częścią jest kalibracja wstępna, podczas której
+prędkość dźwięku jest na nowo wyznaczana. Efektem ubocznym kalibracji jest pomiar temperatury otoczenia.
+
+
+
