@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.1.3
-lastDocument=wprowadzenie.tex
+lastDocument=mp3d.tex
 masterDocument=
 name=mgr
 pkg_extIsRegExp=false
@@ -47,7 +47,7 @@ Mode=LaTeX
 ReadWrite=true
 
 [document-settings,item:main.tex]
-Bookmarks=1,88,122,145
+Bookmarks=1,154,88,131
 Encoding=UTF-8
 FoldedColumns=
 FoldedLines=
@@ -133,17 +133,17 @@ encoding=UTF-8
 highlight=LaTeX
 line=0
 mode=LaTeX
-open=false
-order=3
+open=true
+order=2
 
 [item:biblio.tex]
 archive=true
-column=38
+column=133
 encoding=UTF-8
 highlight=LaTeX
-line=10
+line=7
 mode=LaTeX
-open=false
+open=true
 order=1
 
 [item:kalibracja.tex]
@@ -158,10 +158,10 @@ order=1
 
 [item:main.tex]
 archive=true
-column=22
+column=18
 encoding=UTF-8
 highlight=LaTeX
-line=65
+line=127
 mode=LaTeX
 open=true
 order=0
@@ -178,13 +178,13 @@ order=-1
 
 [item:mp3d.tex]
 archive=true
-column=0
+column=9
 encoding=UTF-8
 highlight=LaTeX
-line=2
+line=27
 mode=LaTeX
-open=false
-order=-1
+open=true
+order=3
 
 [item:nadajnik.tex]
 archive=true
@@ -198,13 +198,13 @@ order=4
 
 [item:odbiornik.tex]
 archive=true
-column=0
+column=87
 encoding=UTF-8
 highlight=LaTeX
-line=44
+line=45
 mode=LaTeX
 open=false
-order=2
+order=3
 
 [item:podsumowanie.tex]
 archive=true
@@ -228,22 +228,22 @@ order=-1
 
 [item:teoria.tex]
 archive=true
-column=5
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=4
+line=53
 mode=LaTeX
 open=false
-order=-1
+order=1
 
 [item:wprowadzenie.tex]
 archive=true
-column=3
+column=77
 encoding=UTF-8
 highlight=LaTeX
-line=15
+line=33
 mode=LaTeX
-open=true
+open=false
 order=1
 
 [view-settings,view=0,item:abstract.tex]
@@ -253,10 +253,10 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:biblio.tex]
-CursorColumn=38
-CursorLine=10
+CursorColumn=133
+CursorLine=7
 JumpList=
-ViMarks=
+ViMarks=.,7,125,[,7,123,],7,132
 
 [view-settings,view=0,item:kalibracja.tex]
 CursorColumn=10
@@ -265,16 +265,16 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:main.tex]
-CursorColumn=22
-CursorLine=65
+CursorColumn=18
+CursorLine=127
 JumpList=
-ViMarks=a,145,0,b,88,0,c,122,0,d,1,0
+ViMarks=.,116,28,[,116,27,],116,28,a,154,0,b,88,0,c,131,0,d,1,0
 
 [view-settings,view=0,item:mp3d.tex]
-CursorColumn=0
-CursorLine=2
+CursorColumn=9
+CursorLine=27
 JumpList=
-ViMarks=
+ViMarks=.,31,76,[,31,35,],31,76
 
 [view-settings,view=0,item:nadajnik.tex]
 CursorColumn=0
@@ -283,8 +283,8 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:odbiornik.tex]
-CursorColumn=0
-CursorLine=44
+CursorColumn=87
+CursorLine=45
 JumpList=
 ViMarks=a,52,0
 
@@ -301,13 +301,13 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:teoria.tex]
-CursorColumn=5
-CursorLine=4
+CursorColumn=0
+CursorLine=53
 JumpList=
-ViMarks=
+ViMarks=.,47,53,[,47,53,],47,53
 
 [view-settings,view=0,item:wprowadzenie.tex]
-CursorColumn=3
-CursorLine=15
+CursorColumn=77
+CursorLine=33
 JumpList=
-ViMarks=
+ViMarks=.,33,76,[,33,76,],33,76

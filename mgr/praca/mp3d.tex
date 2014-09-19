@@ -1,3 +1,32 @@
-\chapter{aplikacja mp3d}
-TODO:
+\chapter{biblioteka mp3d}
 
+
+W ramach projekty powstała również biblioteka \textit{mp3d}, której zadaniem jest analiza zebranych danych,
+oraz wyznaczenie położenia i orientacji głowicy prototypu.
+Biblioteka została podzielona na pięć modułów:
+\begin{enumerate}
+
+ \item \textit{com.py} - moduł odpowiedzialny za komunikację z głównym odbiornikiem
+ \item \textit{find\_pattern.py} - moduł odpowiedzialny za wyszukanie wzorca w odebranym sygnale
+ \item \textit{xyz.py} - moduł odpowiedzialny za wyznaczenie pozycji i orientacji głowicy, oraz za 
+ weryfikację, czy zebrane dane odpowiadają rzeczywistości
+ \item \textit{info.py} - moduł wyświetlający informację o sile odbieranego sygnału
+ \item \textit{ply.py} - moduł odpowiedzialny za eksportowanie danych do formaty \textit{.ply} 
+    (Polygon File Format) obsługiwanego przez większość programów do obróbki grafiki 3D.
+
+\end{enumerate}
+
+
+\section{moduł \textit{com.py}}
+
+Zadaniem modułu \textit{com.py} jest komunikacja poprzez port USB z głównym odbiornikiem,
+ponieważ w pytonie komunikacja jest synchroniczna, moduł pracuje w oddzielnym wątku, w którym cyklicznie 
+uruchamia jeden z nadajników umieszczonych na głowicy,
+następnie sczytuje zebrane sygnały z trzech mikrofonów umieszczonych na głównym odbiorniku.
+Tą czynność powtarza dla każdego z czterech nadajników, zebrane dwanaście sygnałów 
+po wstępnej filtracji przekazywane są dalej do obróbki. Cały cykl powtarzany jest
+co 200ms.
+
+\section{moduł \textit{find\_pattern.py}}
+
+Moduł \textit{find\_pattern.py} odpowiedzialny jest za wyszukanie wzorca dla 

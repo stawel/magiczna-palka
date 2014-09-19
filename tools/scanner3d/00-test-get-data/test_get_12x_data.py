@@ -22,10 +22,11 @@ distance = 200
 distance_small = 10
 
 fig1 = plt.figure()
+fig1.patch.set_facecolor('white')
 
 plt.xlim(0, mp3d.com.T)
 plt.ylim(-distance-128, 2*distance+128)
-plt.title('test')
+plt.title('12x signals from com.py')
 plt.xlabel('time (ms)')
 
 
