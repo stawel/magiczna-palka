@@ -78,10 +78,12 @@ pp = [0] * size
 pos = [0] * dimensions
 data = [0] * dimensions
 
+
 pos2 = mp3d.find_pattern.read_patterns()
 
-#mp3d.find_pattern.init1([0]*size, dimensions)
-#pos2 = [0]*dimensions
+if pos2 is None:
+    mp3d.find_pattern.init1([0]*size, dimensions)
+    pos2 = [0]*dimensions
 
 if pos2 is not None:
     pos = pos2
