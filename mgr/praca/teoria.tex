@@ -1,10 +1,13 @@
 \chapter{Podstawy teoretyczne}
 \section{Wyznaczanie położenia na podstawie odległości od punktów stałych}
 
-Zadaniem prezentowanego prototypu jest wyznaczenie położenia głowicy w przestrzeni na podstawie
-podległości od znanych punktów stałych, niech $\boldsymbol{x}$ będzie szukanym punktem w przestrzeni,
-$\boldsymbol{y_1,y_2,y_3}$ stałymi punktami o znanym położeniu w przestrzeni, a $r_1,r_2,r_3$ wyznaczonymi odległościami, 
-rysunek \ref{fig:polozenie}. Szukane położenie punktu $\boldsymbol{x}$ możemy wyznaczyć za pomocą układu równań:
+Zadaniem prezentowanego prototypu jest wyznaczenie położenia nadajnika w przestrzeni na podstawie
+podległości od znanych punktów stałych. Niech $\boldsymbol{x}$ będzie szukanym punktem w przestrzeni,
+$\boldsymbol{y_1,y_2,y_3}$ stałymi punktami o znanym położeniu, a $r_1,r_2,r_3$ wyznaczonymi odległościami, 
+rysunek \ref{fig:polozenie}. 
+
+\rysunekW{polozenie}{wyznaczenie położenia na podstawie odległości od punktów stałych}{\label{fig:polozenie}}{0.7}
+Wtedy $\boldsymbol{x}$ możemy wyznaczyć za pomocą układu równań:
 \[
  \begin{cases}
     |\boldsymbol{y_1} - \boldsymbol{x}| = r_1
@@ -12,16 +15,8 @@ rysunek \ref{fig:polozenie}. Szukane położenie punktu $\boldsymbol{x}$ możemy
  \\ |\boldsymbol{y_3} - \boldsymbol{x}| = r_3
  \end{cases}
 \]
-Zauważmy, że znając odległość $\boldsymbol{x}$ od jednego punktu stałego wiemy, że $\boldsymbol{x}$ będzie leżał na
-sferze o promieniu równym danej odległości. Znając dwie odległości możemy ograniczyć poszukiwania do części wspólnej dwóch sfer,
-czyli okręgu. Dla znanych trzech odległości dostajemy cześć wspólną okręgu ze sferą, czyli dwa możliwe punkty.
-Mogłoby się wydawać, że tyle informacji nie jest wystarczających do jednoznacznego określenia położenia
-szukanego punktu, jednak te dwa punktu są na ogół od siebie daleko oddalone i bez większych problemów
-możemy założyć, że jedno z rozwiązań jest naszym szukanym punktem.
 
-\rysunekW{polozenie}{wyznaczenie położenia na podstawie odległości od punktów stałych}{\label{fig:polozenie}}{0.7}
-
-Powyższy układ równań rozwija się do:
+co dla przestrzeni euklidesowej daje:
 \[
  \begin{cases}
      (y_{11}-x_1)^2 + (y_{12}-x_2)^2 + (y_{13}-x_3)^2 = r_1^2
@@ -30,7 +25,14 @@ Powyższy układ równań rozwija się do:
  \end{cases}
 \]
 
-Ponieważ mamy pewną powolność w doborze punktów $\boldsymbol{y_i}$ dla uproszenia możemy przyjąć, że:
+Zauważmy, że znając odległość $\boldsymbol{x}$ od jednego punktu stałego wiemy, że $\boldsymbol{x}$ będzie leżał na
+sferze o promieniu równym danej odległości. Znając dwie odległości możemy ograniczyć poszukiwania do części wspólnej dwóch sfer,
+czyli okręgu. Dla znanych trzech odległości dostajemy część wspólną okręgu ze sferą, czyli dwa możliwe punkty.
+Mimo, iż trzy odległości nie są wystarczające do jednoznacznego wyznaczenia $\boldsymbol{x}$, 
+to otrzymane rozwiązania są na ogół od siebie daleko oddalone i bez większych problemów
+możemy założyć, że jedno z rozwiązań jest naszym szukanym punktem.
+
+Ponieważ mamy pewną dowolność w doborze punktów $\boldsymbol{y_i}$ dla uproszenia możemy przyjąć, że:
 $\boldsymbol{y_1}=(\frac{a}{2},0,0), \boldsymbol{y_2}=(-\frac{a}{2},0,0), \boldsymbol{y_3}=(0,h,0)$, czyli są wierzchołkami
 trójkąta równoramiennego o wysokości $h$ i podstawie $a$, wtedy układ równań upraszcza
 się do postaci:
