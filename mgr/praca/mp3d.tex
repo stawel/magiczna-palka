@@ -23,9 +23,20 @@ Zadaniem modułu \textit{com.py} jest komunikacja poprzez port USB z głównym o
 moduł pracuje w oddzielnym wątku, w którym cyklicznie uruchamiany jest jeden z nadajników umieszczonych na głowicy,
 następnie sczytuje zebrane sygnały z trzech mikrofonów umieszczonych na głównym odbiorniku.
 Ta czynność powtarzana jest dla każdego z czterech nadajników. 
-Zebrane dwanaście sygnałów po wstępnej filtracji przekazywane są dalej do obróbki. Cały cykl powtarzany jest
-co 200ms. Rysunek 1 przedstawia sygnał jaki przekazany zostaje do modułu \textit{find\_pattern.py}.
+Zebrane dwanaście sygnałów po wstępnej filtracji przekazywane są dalej do \textit{find\_pattern.py}. Cały cykl powtarzany jest
+co 200ms. Rysunek \ref{fig:com_output_2m} przedstawia sygnał przekazywany do modułu \textit{find\_pattern.py}.
 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1.15\textwidth, trim= 47mm 0mm 0mm 0mm,clip]{com_output_2m_1}
+    \includegraphics[width=1.15\textwidth, trim= 47mm 0mm 0mm 0mm,clip]{com_output_2m_2}
+    \caption{sygnał odebrany przez moduł \textit{com.py}. 
+    Odległość między nadajnikiem a odbiornikiem wynosi 2 metry.
+    Na górnym wykresie po prawej stronie widoczny jest również sygnał odbity od podłogi.
+    }
+    \label{fig:com_output_2m}
+\end{figure}
 
 
 \section{moduł \textit{find\_pattern.py}}
