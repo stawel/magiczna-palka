@@ -1,9 +1,9 @@
-\chapter{biblioteka mp3d}
+\chapter{przetwarzanie danych zebranych z odbiorników}
 
+Przetwarzaniem danych z odbiorników zajmuje się biblioteka \textit{mp3d}
+oraz program \textit{oscy} wizualizujący dane w postaci obrazu trójwymiarowego.
 
-W ramach projekty powstała również biblioteka \textit{mp3d}, której zadaniem jest analiza zebranych danych,
-oraz wyznaczenie położenia i orientacji głowicy prototypu.
-Biblioteka została podzielona na pięć modułów:
+Biblioteka \textit{mp3d} została podzielona na pięć modułów:
 \begin{enumerate}
 
  \item \textit{com.py} - moduł odpowiedzialny za komunikację z głównym odbiornikiem
@@ -20,13 +20,15 @@ Biblioteka została podzielona na pięć modułów:
 \section{moduł \textit{com.py}}
 
 Zadaniem modułu \textit{com.py} jest komunikacja poprzez port USB z głównym odbiornikiem,
-ponieważ w pytonie komunikacja jest synchroniczna, moduł pracuje w oddzielnym wątku, w którym cyklicznie 
-uruchamia jeden z nadajników umieszczonych na głowicy,
+moduł pracuje w oddzielnym wątku, w którym cyklicznie uruchamiany jest jeden z nadajników umieszczonych na głowicy,
 następnie sczytuje zebrane sygnały z trzech mikrofonów umieszczonych na głównym odbiorniku.
-Tą czynność powtarza dla każdego z czterech nadajników, zebrane dwanaście sygnałów 
-po wstępnej filtracji przekazywane są dalej do obróbki. Cały cykl powtarzany jest
-co 200ms.
+Ta czynność powtarzana jest dla każdego z czterech nadajników. 
+Zebrane dwanaście sygnałów po wstępnej filtracji przekazywane są dalej do obróbki. Cały cykl powtarzany jest
+co 200ms. Rysunek 1 przedstawia sygnał jaki przekazany zostaje do modułu \textit{find\_pattern.py}.
+
+
 
 \section{moduł \textit{find\_pattern.py}}
 
-Moduł \textit{find\_pattern.py} odpowiedzialny jest za wyszukanie wzorca dla 
+Głównym modułem biblioteki \textit{mp3d} jest moduł \textit{find\_pattern.py}.
+Odpowiada on za znalezienie \textit{wzorca} w odebranym sygnale z odbiorników,
