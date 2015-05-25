@@ -53,6 +53,7 @@ def calculate_pos(idx, truncate_errors = True):
     x, y, cut_x_pos, cut_x, cut_y = truncate_based_on_speed(idx, pattern_len);
     t1 = time.time()
     errors, corel = find_pattern.get_pos(cut_y, idx, truncate_errors=truncate_errors)
+#    print 'errors:', errors
     t2 = time.time()
     time_info=TimeInfo(t2 - t0, t1 - t0, t2 - t1, 0, 0)
     return  cut_x, cut_y, errors, corel
