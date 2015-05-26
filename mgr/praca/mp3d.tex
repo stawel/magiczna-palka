@@ -47,14 +47,14 @@ Odpowiada on za znalezienie \textit{wzorca} w odebranym sygnale z odbiorników,
 Niech $w(t)$  dla $t = 0..n-1$ będzie szukanym wzorcem, a $f(x)$ odebranym sygnałem,
 wtedy możemy znaleźć takie $a$, że błąd średniokwadratowy pomiędzy $w(t)$ i $a f(t+x)$ jest minimalny:
 \[
-  e(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  (w(t) - a f(t+x))^2 \}
+  E(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  (w(t) - a f(t+x))^2 \}
 \]
 zauważmy, że:
 \[
-  e(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  (w^2(t) -2a w(t) f(t+x) + a^2 f^2(t+x)) \}
+  E(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  (w^2(t) -2a w(t) f(t+x) + a^2 f^2(t+x)) \}
 \]
 \[
-  e(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  w^2(t) -2a \sum_{t=0}^{n-1}  w(t) f(t+x) + a^2 \sum_{t=0}^{n-1} f^2(t+x) \}
+  E(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  w^2(t) -2a \sum_{t=0}^{n-1}  w(t) f(t+x) + a^2 \sum_{t=0}^{n-1} f^2(t+x) \}
 \]
 funkcja kwadratowa w postaci:
 \[
@@ -67,11 +67,21 @@ osiąga minimum dla:
 z czego ostatecznie dostajemy:
 
 \[
-  e(x) = \sum_{t=0}^{n-1}  w^2(t)  - \frac {(\sum\limits_{t=0}^{n-1}  w(t) f(t+x) )^2 } { \sum\limits_{t=0}^{n-1} f^2(t+x)}
+  E(x) = \sum_{t=0}^{n-1}  w^2(t)  - \frac {(\sum\limits_{t=0}^{n-1}  w(t) f(t+x) )^2 } { \sum\limits_{t=0}^{n-1} f^2(t+x)}
 \]
 
-Zauważmy, że dzięki skalowaniu sygnału $f(x)$ przez parametr $a$ zamiast sygnał wzorcowy $w(x)$
-otrzymany błąd $e(x)$ nie zależy od siły sygnału, co ułatwia porównanie błędów w dwóch różnych miejscach.
+Zauważmy, że dzięki skalowaniu sygnału $f(x)$ zamiast sygnał wzorcowy $w(x)$
+otrzymany błąd $E(x)$ nie zależy od siły odebranego sygnału, co ułatwia porównanie błędów w dwóch różnych miejscach,
+Zależy on jednak od siły sygnału wzorcowego, aby się od niego uniezależnić możemy wyznaczyć
+błąd względny:
+\[
+  e(x) = \frac{E(x)}{\sum\limits_{t=0}^{n-1}  w^2(t)}
+\]
+
+\[
+  e(x) = 1 - \frac {(\sum\limits_{t=0}^{n-1}  w(t) f(t+x) )^2 } { \sum\limits_{t=0}^{n-1} f^2(t+x) \sum\limits_{t=0}^{n-1}  w^2(t)}
+\]
+
 Ponadto wyliczenie $ \sum\limits_{t=0}^{n-1}  w^2(t) $ 
 jak i $\sum\limits_{t=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji, a 
  $\sum\limits_{t=0}^{n-1}  w(t) f(t+x)  $ jest korelacją wzajemną funkcji $w(t)$ i $f(x)$, którą
@@ -85,8 +95,38 @@ jak i $\sum\limits_{t=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji
  kształt głowicy (nadmiarowość danych) jak i prawdopodobieństwa że znaleziony wzorzec jest na danej pozycji.
  
  Kolejną zadaniem modułu \textit{find\_pattern.py} jest uaktualnianie wzorca z biegiem czasu.
- Wraz ze zmianą kąta nachylenia nadajnika względem odbiornika zmienia się znacząco kształt sygnału,
- dlatego jeśli odnajdziemy szukany wzorzec którego moc sygnału jest wystarczająco silna to
+ Wraz ze zmianą kąta nachylenia nadajnika względem odbiornika zmienia się znacząco kształt odbieranego sygnału,
+ dlatego jeśli odnajdziemy szukany wzorzec, którego moc sygnału jest wystarczająco silna to
  podmieniany jest na niego wzorzec.
  
+ Na rysunku \ref{fig:blad_korel} przedstawiony jest wynik przetwarzania sygnału przez moduł \textit{find\_pattern.py}.
  
+ \begin{figure}[h!]
+    \centering
+    \includegraphics[width=1.15\textwidth, trim= 47mm 0mm 0mm 0mm,clip]{blad_korel}
+    \caption{sygnał przetworzony przez moduł \textit{find\_pattern.py}.}
+    \label{fig:blad_korel}
+\end{figure}
+ 
+
+ 
+\section{moduł \textit{xyz.py}}
+
+Zadaniem modułu \textit{xyz.py} jest wyznaczenie pozycji oraz orientacji w przestrzeni głowicy nadajnika.
+Zauważymy, że moduł musi wyznaczyć trzy współrzędne $(x_1,x_2,x_3)$
+oraz trzy kąty nachylenia $(\alpha_1, \alpha_2, \alpha_3)$ czyli w sumie sześć niewiadomych.
+Na wejściu moduł pobiera dwanaście sygnałów $e_i(x)$ dla $i=0..11$ odpowiadających prawdopodobieństwom odległości
+czterech nadajników od trzech odbiorników, mamy więc dwukrotną nadmiarowość danych.
+Ta nadmiarowość wykorzystywana jest do korekcji błędów podczas pomiaru odległości.
+Moduł wybiera $n$ najbardziej prawdopodobnych odległości z $e_i(x)$, czyli takich $x_ij$ dla $j = 0...n-1$
+że $e_i(x_ij)$ jest duże, następnie sprawdza która kombinacja 
+odległości jest możliwa ze względu na poprzedni pomiar (czy głowica nie przemieściła się za szybko)
+oraz ze względu na kształt samej głowicy - jeśli wyznaczony kształt głowicy nie pasuje do jej rzeczywistych
+rozmiarów pomiar jest odrzucany.
+Tak wyznaczone $x_ij$ są przekazywany z powrotem do modułu \textit{find\_pattern.py} w celu odświeżenia wzorca,
+oraz na ich podstawie wyznaczana jest pozycja i orientacja głowicy.
+
+\section{moduł \textit{info.py}}
+
+zadaniem modułu \textit{info.py} jest wyświetlenie informacji związanych z siłą odbieranych sygnałów.
+
