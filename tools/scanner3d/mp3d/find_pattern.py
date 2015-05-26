@@ -123,7 +123,7 @@ def refresh_pattern(sign, idx, save=True):
     add_time_info(TimeInfo(0, time.time()-t0,0,0))
 
 
-def get_error(xl,yl,xx_cor,xy_cor):
+def get_error2(xl, yl, xx_cor, xy_cor):
     t0 = time.time()
     error=float('inf');
     cor=abs(xy_cor)/xx_cor
@@ -135,6 +135,26 @@ def get_error(xl,yl,xx_cor,xy_cor):
     add_time_info(TimeInfo(0, 0, 0, time.time()-t0))
     return error
 
+def get_error(xl,yl,xx_cor,xy_cor):
+    t0 = time.time()
+    error=float('inf');
+    yy_cor = correlate(yl ,yl)[0]
+    if len(xl) == len(yl):
+        error = xx_cor-(xy_cor*xy_cor)/yy_cor
+        error = sqrt(error/ float(len(yl)));
+
+    add_time_info(TimeInfo(0, 0, 0, time.time()-t0))
+    return error
+
+
+def get_error3(xx_cor, xy_cor, yy_cor , n):
+    t0 = time.time()
+
+    error = xx_cor-(xy_cor*xy_cor)/yy_cor
+    error = sqrt(error / float(n));
+
+    add_time_info(TimeInfo(0, 0, 0, time.time()-t0))
+    return error
 
 def get_pos(y,idx, truncate_errors = True, max_errors_len = 10, truncate_factor = 2):
     t0 = time.time()
@@ -146,6 +166,38 @@ def get_pos(y,idx, truncate_errors = True, max_errors_len = 10, truncate_factor 
     for px in duze:
         e = get_error(patterns[idx],cy[px:px+len(patterns[idx])], patterns_cor[idx], corel[px])
         errors.append( (e,px) )
+
+    errors.sort(key=operator.itemgetter(0))
+
+    if truncate_errors:
+        t_errors=[]
+        first_err = errors[0][0];
+        errors = errors[:max_errors_len]
+        for er in errors:
+            if er[0] <= first_err*truncate_factor:
+                t_errors.append(er)
+            else:
+                break
+        errors=t_errors
+
+    sign_max_cor[idx] = amax(corel)
+
+    add_time_info(TimeInfo(0, 0, time.time()-t0, 0))
+    return errors, corel
+
+def get_pos_slow(y,idx, truncate_errors = True, max_errors_len = 10, truncate_factor = 2):
+    t0 = time.time()
+    avr = sum(y) / float(len(y))
+    cy = y - avr #[x-avr for x in  y]
+    corel = correlate(cy ,patterns[idx])
+    cycy = cy * cy
+    n = len(patterns[idx])
+    cycy_cor = correlate(cycy, ones(n))
+    errors = - corel*corel/(cycy_cor * patterns_cor[idx]) + 1.
+    errors = sqrt(errors/float(n))
+
+    errors = array([errors, arange(len(errors))])
+    errors = transpose(errors).tolist()
 
     errors.sort(key=operator.itemgetter(0))
 

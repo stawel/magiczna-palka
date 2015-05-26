@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# encoding=utf8
 from pylab import *
 import serial
 import time
@@ -19,20 +20,30 @@ import operator
 
 fig1 = plt.figure()
 
-plt.xlim(0, 4000)
-plt.ylim(-100, 256)
-plt.title('test')
+fft_size=2048*2*2
+Fsampling_kHz = mp3d.com.Fsampling_kHz
 
-l1, = plt.plot([], [], 'r-')
-l2, = plt.plot([], [], 'g-')
-l3, = plt.plot([], [], 'b-')
-l4, = plt.plot([], [], 'y-')
+#Tsampling_ms = 1.0 / Fsampling_kHz
+
+#ax_data = plt.subplot(2,1,1)
+plt.xlim(7700/Fsampling_kHz, 10000/Fsampling_kHz)
+#plt.ylim(-228, 228)
+plt.ylim(-200, 200)
+plt.xlabel('time (ms)')
+
+plt.title('e(x)')
+
+l3, = plt.plot([], [], 'r-', label = u'e(x) - błąd')
+l1, = plt.plot([], [], 'k-', label = u'f(x) - sygnał wejściowy')
+l4, = plt.plot([], [], 'y-', label = u'w(t) - wzorzec')
+l2, = plt.plot([], [], 'g-', label = u'w(t)*f(x) - korelacja wzajemna')
 
 lp1, = plt.plot([], [], 'r-')
 lp2, = plt.plot([], [], 'g-')
 lp3, = plt.plot([], [], 'b-')
 lp4, = plt.plot([], [], 'y-')
 
+plt.legend()
 
 wyn1 = wyn2 = wyn3 = 0
 wyn_ox = wyn_oy = wyn_oz = 0
@@ -43,24 +54,26 @@ def update_line(num):
     mp3d.xyz.get_posNx(permit_refresh = False, force_refresh = fref, truncate_errors = False, best_match_error_len = 1)
 #    fref=False
 
-    idx = 0
+    idx = 1
     x,y, err1,cor = mp3d.xyz.xyec_info[idx]
     
+    x = x / Fsampling_kHz
+
     err_idx = err1[0][1]
     wyn1 = x[err_idx]
     l1.set_data(x,y)
-    lp1.set_data([wyn1,wyn1],[-100,100])
-    
-    pattern = mp3d.find_pattern.patterns[idx]
-    l3.set_data(x[err_idx:err_idx+len(pattern)], pattern + 100);
+#    lp1.set_data([wyn1,wyn1],[-100,0])
 
-    l2.set_data(x[:len(cor)], cor/10000. - 100)
+    pattern = mp3d.find_pattern.patterns[idx]
+    l4.set_data(x[err_idx:err_idx+len(pattern)], pattern - 50);
+
+    l2.set_data(x[:len(cor)], cor/3000. - 120)
 
     print 'pawel:',len(err1), ' '
     err1.sort(key=operator.itemgetter(1))
     err1T = transpose(err1)
 
-    l4.set_data(err1T[1], err1T[0])
+    l3.set_data(err1T[1]/Fsampling_kHz, err1T[0]*3.000)
 #    lp1.set_data([wyn1,wyn1],[-100,100])
 
 
