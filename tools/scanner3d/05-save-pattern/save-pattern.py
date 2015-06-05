@@ -29,7 +29,7 @@ fig1.patch.set_facecolor('white')
 ax_data = plt.subplot(1,1,1)
 plt.xlim(0, mp3d.com.T)
 plt.ylim(-2*distance-128, 1*distance+128)
-plt.title('test')
+plt.title('kalibracja')
 plt.xlabel('time (ms)')
 
 
