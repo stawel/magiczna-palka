@@ -4,72 +4,73 @@
 
 W dzisiejszym świecie obserwujemy coraz większe zapotrzebowanie na urządzenia,
 które potrafią określić swoje położenie jak i orientację w otaczającej je przestrzeni.
-Urządzenia takie mają szerokie zastosowanie w wielu dziedzinach, takich jak
-wirtualna rzeczywistość, wprowadzanie danych czy odtwarzanie trójwymiarowej rzeczywistości na podstawie zdjęć.
-
-
+Urządzenia takie mają szerokie zastosowanie w wielu dziedzinach m.in. w
+wirtualnej rzeczywistości, rozszerzonej rzeczywistości, 
+ podczas skanowania trójwymiarowego czy kartografii.
 Przykładowo okulary do wirtualnej rzeczywistości takie jak \textit{Oculus Rift} [TODO] czy \textit{castAR} [TODO],
 muszą uwzględnić położenie jaki i orientację głowy by na tej podstawie wyświetlić użytkownikowi 
 odpowiednią treść. 
+
+
 Z biegiem lat powstało wiele rozwiązań tego problemu, do najczęściej stosowanych możemy zaliczyć:
 \begin{enumerate}
  \item 
  wykorzystanie akcelerometrów, żyroskopów i magnetometrów - 
-takie rozwiązanie zastosowano w \textit{Oculus Rift development kit}, zaletą takiego rozwiązania jest stosunkowo
+takie rozwiązanie zastosowano w \textit{Oculus Rift development kit}, zaletą metody jest stosunkowo
 prosta konstrukcja jak i niska cena,
 do wad należy zaliczyć brak stałych punktów odniesienia co skutkuje występowaniem tzw. dryftu.
 \textit{Oculus Rift development kit} radzi sobie z tym problemem modelując w komputerze zachowanie się głowy,
 jednak rozwiązanie to jest dalekie od idealnego o czym może świadczyć fakt, że w kolejnej wersji 
-urządzenia porzucono to podejście.
+urządzenia dodano śledzenie głowy przez zewnętrzną kamerę.
+
+\item \label{itm:second_method}
+ projektowanie światła strukturalnego na otoczenie i zbieranie informacji o strukturze 
+ światła odbitego za pomocą sensorów, zazwyczaj kamer - taką metodę wykorzystano w \textit{Microsoft Kinnect} [TODO],
+ urządzenie projektuje na otoczenie stały wzór punktów, następnie kamerą na podczerwień
+ zbierana jest informacja o zniekształceniu danego wzoru i na tej podstawie odtwarzana jest 
+ trójwymiarowa struktura otoczenia jak i położenie urządzenia w otoczeniu.
+ Podobną metodę wykorzystuje \textit{Oculus Rift development kit 2} [TODO] jak i 
+ \textit{castAR} [TODO], w tym przypadku za źródła światła służą diody podczerwone umieszczone na okularach, które
+ rejestrowane są bezpośrednio przez kamerę umieszczoną przed użytkownikiem.
+ Program na podstawie względnego położenia widocznych punktów światła na obrazie określa położenie i orientację
+ okularów w przestrzeni.
+ Zaletą tego rozwiązania są stałe punkty odniesienia jak i możliwość pomiaru wielu puntów na raz.
+ Do wad należy zaliczyć stosunkowo niską rozdzielczość szczególnie w osi $Z$ jak i duży strumień danych do obróbki.
 
 \item
- wykorzystanie światła strukturalnego i sensorów (zazwyczaj kamer)
- do zbierania obrazów obiektu z liniami struktury projektowanej na ów obiekt. Taką metodę wykorzystano w 
- Oculus Rift development kit 2 i castAR, gdzie za źródła światła wykorzystano diody podczerwone umieszczone 
- na okularach dodatkowo przed użytkownikiem umieszczona została kamerę. Wykorzystuje ją również Kinnect [TODO],
-który na użytkownika projektuje punktową strukturę światła i na podstawie zniekształceń tej struktury wnioskuje 
- się odległości. Zaletą tego rozwiązania jest stały punkt odniesienia jak i możliwość pomiaru wielu puntów na raz,
- do wad należy zaliczyć stosunkowo niską rozdzielczość jak i duży strumień danych do obróbki.
-
-\end{enumerate}
-
-
-3. wykorzystanie wielu zdjęć znanego stałego obiektu na postawie, których wyznaczamy pozycję kamery względem niego,
-  lub odwrotnie, kamera (lub wiele kamer) jest punktem stałym a wyznaczamy pozycję obiektu.  
- Taką technikę wykorzystano w VidialSFM, jak i w The Pi 3D scanner project, 
+ wykorzystanie wielu zdjęć znanych stałych obiektów, na postawie których wyznaczamy pozycję kamery względem nich
+  lub odwrotnie, kamera (lub wiele kamer) jest punktem stałym a wyznaczamy pozycję obiektów -   
+ taką metodę wykorzystano w \textit{VidialSFM} [TODO], jak i w \textit{The Pi 3D scanner project} [TODO], 
  rozwiązanie to cechuje się jednak dość niską rozdzielczością.
  
+\end{enumerate}
+ 
 
- W pracy przedstawię prototyp urządzenia, który za pomocą pomiaru odległości od wyznaczonych punktów
-z dużą rozdzielczością dochodzącą do 0.5mm jest w stanie określić swoje położenie
+ W pracy przedstawiono prototyp oparty na zmodyfikowanej \ref{itm:second_method}
+ metodzie, który zamiast światła wykorzystuje ultradźwięki. Podejście to zapewnia dużo większą
+ dokładność w szczególności w osi $Z$, prostotę budowy jak i dużo niższą cenę.
+ Urządzenie za pomocą pomiaru odległości od wyznaczonych punktów
+z dużą rozdzielczością dochodzącą do \SI{0.5}{mm} jest w stanie określić swoje położenie
 w przestrzeni jak i swoją orientację. 
-Pomiar odległości dokonywany jest za pomocą ultradźwięków,
+Pomiar odległości dokonywany jest za pomocą ultradźwięków o częstotliwości \SI{40}{kHz},
 mimo iż metoda jest znana od wielu lat, to z uwagi na relatywnie dużą długości fali ultradźwiękowej,
-która dla częstotliwości 40kHz wynosi około 8mm jest do precyzyjnych pomiarów rzadko stosowana.
-W niniejszej pracy udało się to pozorne ograniczenie przezwyciężyć.
+która dla częstotliwości \SI{40}{kHz} wynosi około \SI{8}{mm} jest do precyzyjnych pomiarów rzadko stosowana.
+W niniejszej pracy udało się to pozorne ograniczenie przezwyciężyć,
+ostatecznie urządzenie jest w stanie śledzić położenie głowicy z rozdzielczością 
+$\SI{5000}{px} \times \SI{5000}{px} \times \SI{5000}{px}$ na przestrzeni sześcianu o rozmiarach 
+$\SI{2.5}{m} \times \SI{2.5}{m}  \times \SI{2.5}{m} $ przy czasie odświeżania rzędu \SI{350}{ms}.
+Warto podkreślić, że wielkość sześcianu została ograniczona ze względów praktycznych i bez 
+większego problemu można ją zwiększyć zachowując stosunek rozdzielczości na metr,
+natomiast głównym czynnikiem jaki wpływa na czas odświeżania jest czas jaki fala dźwiękowa potrzebuje
+by się rozproszyć, tak by jej odbicia nie wpływały na kolejne pomiary.
 
-Prototyp składa się z \textit{głowicy}, której położenie wraz z orientacją przestrzenną chcemy wyznaczyć
+Prototyp składa się z dwóch części: \textit{głowicy}, której położenie wraz z orientacją przestrzenną chcemy wyznaczyć
 oraz z \textit{aparatu odbiorczego} w kształcie trójkąta wyznaczającego nam stałe punkty odniesienia.
-Całość podłączona jest do komputera na którym dokonywane są wszystkie obliczenia.
+Całość  podłączona jest do komputera za pomocą złącza USB, na którym dokonywane są wszystkie obliczenia,
+końcowym wynikiem jest trójwymiarowy widok, na którym zaznaczona jest pozycja głowicy oraz dwa wektory normalne
+przedstawiające orientacje głowicy.
 
 
 
-Należy również wspomnieć, że prototyp nie nadaje się do pomiarów precyzyjnych 
-z uwagi na 
-dość dużą zależność prędkości dźwięku od temperatury otoczenia,
-jednak w pomieszczeniach zamkniętych, w których temperatura otocznia zmienia się nieznacznie
-dokładność pomiaru jest zadowalająca.
 
-
-\newpage
-Uwagi: 
-
-Tu należałoby sformułować problem, jaki Pan sobie postawił w pracy i jak Pan podszedł do jego rozwiązywania (ogólnie). 
-Należy przedstawić Pana wkład intelektualny.
-
-Gdzieś trzeba też opisać inne znane podobne rozwiązania, bo nie uwierzę, że nie ma żadnych i że jest Pan pionierem w tej dziedzinie.
-\newline
-Uwagi:(brakuje)
-
-Jakiś dodatek z opisem zawartości dołączonej płyty CD, jeśli zamierza Pan takową do pracy dołączyć.
    
