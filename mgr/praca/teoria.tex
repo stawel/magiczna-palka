@@ -1,7 +1,7 @@
 \chapter{Podstawy teoretyczne}
 \section{Wyznaczanie położenia na podstawie odległości od punktów stałych}
 
-Zadaniem prezentowanego prototypu jest wyznaczenie położenia nadajnika w przestrzeni na podstawie
+Zadaniem prezentowanego prototypu jest wyznaczenie położenia nadajnika na podstawie
 podległości od znanych punktów stałych. Niech $\boldsymbol{x}$ będzie szukanym punktem w przestrzeni,
 $\boldsymbol{y_1,y_2,y_3}$ stałymi punktami o znanym położeniu, a $r_1,r_2,r_3$ wyznaczonymi odległościami, 
 rysunek \ref{fig:polozenie}. 
@@ -32,7 +32,7 @@ Mimo, iż trzy odległości nie są wystarczające do jednoznacznego wyznaczenia
 to otrzymane rozwiązania są na ogół od siebie daleko oddalone i bez większych problemów
 możemy założyć, że jedno z rozwiązań jest naszym szukanym punktem.
 
-Ponieważ mamy pewną dowolność w doborze punktów $\boldsymbol{y_i}$ dla uproszenia możemy przyjąć, że:
+Ponieważ mamy pewną dowolność w doborze punktów stałych $\boldsymbol{y_i}$ dla uproszenia możemy przyjąć, że:
 $\boldsymbol{y_1}=(\frac{a}{2},0,0), \boldsymbol{y_2}=(-\frac{a}{2},0,0), \boldsymbol{y_3}=(0,h,0)$, czyli są wierzchołkami
 trójkąta równoramiennego o wysokości $h$ i podstawie $a$, wtedy układ równań upraszcza
 się do postaci:
@@ -69,22 +69,21 @@ aby pokonać dany dystans jesteśmy w stanie wyznaczyć szukaną odległość.
 
 Prędkość dźwięku w powietrzu jest mocno zależy od panujących warunków atmosferycznych \cite{bib:soundSpeed},  
 głównym czynnikiem na nią wpływającym jest temperatura.
-dla gazu doskonałego prędkość wyraża się wzorem:
+Dla gazu doskonałego prędkość wyraża się wzorem:
 \[
 V_{air} = 331.3  \frac{m}{s}  \sqrt{1+\frac{T}{273.15}}
 \]
-gdzie: $T$ jest temperaturą w stopniach Celsjusza ($^\circ$C).
-Wzór ten możemy przybliżyć za pomocą rozwinięcia Taylora dla temperatur bliskich temperaturze pokojowej ($25^\circ$C):
+gdzie: $T$ jest temperaturą w stopniach Celsjusza (\SI{}{\degC}).
+Wzór ten możemy przybliżyć za pomocą rozwinięcia Taylora dla temperatur bliskich temperaturze pokojowej \SI{25}{\degC}:
 \[
- V_{air} = (346.13  +  0.580(T - 25^\circ)) \frac{m}{s}
+ V_{air} = (346.13  +  0.580(T - \SI{25}{\arcdeg})) \frac{m}{s}
 \]
 
-Mimo iż współczynnik temperaturowy jest stosunkowo mały i stanowi jedynie 0.17\% całej prędkości
+Mimo że współczynnik temperaturowy jest stosunkowo mały i stanowi jedynie 0.17\% całej prędkości
 to przy pomiarach odległości rzędu metrów i rozdzielczościach rzędu milimetrów staje się istotny. 
 Dlatego w prezentowanym prototypie istotną częścią stanowi kalibracja wstępna, podczas której
 wyznaczana jest aktualna prędkość dźwięku, ubocznym efektem kalibracji jest pomiar temperatury otoczenia.
-Przez zależność zależność temperaturową urządzenie nadaje się jedynie do zastosowań w pomieszczeniach
-w których nie zmienia się temperatura otoczenia w czasie pomiarów.
+
 
 
 

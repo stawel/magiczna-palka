@@ -10,7 +10,7 @@ przedstawiony jest na rysunku \ref{fig:nadajnik_schemat}.
 
 Całość umieszczona została w ramie w kształcie litery \textbf{H} wykonanej z rurek PCV.
 Rezonatory zostały dodatkowo odizolowane od ramy rzepami co ułatwia ich zdejmowanie jak i skutecznie
-zapobiega przenoszeniu drgań pomiędzy nimi.
+zapobiega przenoszeniu drgań.
 
 \rysunek{nadajnik_H}{szkic ramy nadajnika}{\label{fig:nadajnik_szkic}}
 
@@ -20,11 +20,25 @@ Do sterowania wykorzystywane są 3 przewody, dwa z nich informują który z rezo
 trzeci służy jako wyzwalacz.
 
 Cała logika oprogramowania mieści się w obsłudze przerwania sprzętowego, które reaguje na zmianą stanu logicznego
-na wyzwalaczu. Po uruchomieniu przerwania oprogramowanie wysyła sygnał składający się z dwóch impulsów prostokątnych
-na odpowiedni rezonator. Długość impulsów jest zgodna z częstotliwością rezonansową nadajników, dodatkowo jeden
+na wyzwalaczu,
+po uruchomieniu przerwania oprogramowanie wysyła sygnał na odpowiedni rezonator. 
+Nadany sygnał jest tak dobrany by dało się go w łatwy sposób odróżnić i składa się w dwóch
+części: część wzbudzająca 
+Długość impulsów jest zgodna z częstotliwością rezonansową nadajników, dodatkowo jeden
 impuls jest przesunięty względem drugiego o 180 stopni. Pierwszy z nich ma za zadanie wzbudzić rezonator, a drugi wytłumić, 
-tak by nadany sygnał był jak najkrótszy. Odległość między nadajnikiem a odbiornikami wyznaczany jest przez odbiornik na podstawie
-czasu jaki potrzebował dźwięk by pokonać daną odległość.
+tak by nadany sygnał był jak najkrótszy. 
+Rysunek \ref{fig:output_signal} przedstawia sygnał jakim wysterowany jest przetwornik piezoelektryczny. 
+
+Odległość między nadajnikiem a odbiornikami wyznaczany jest przez odbiornik na podstawie
+czasu jaki potrzebował sygnał dźwiękowy by pokonać daną odległość.
+
+ \begin{figure}[h!]
+    \centering
+    \includegraphics[width=1.15\textwidth, trim= 47mm 0mm 0mm 0mm,clip]{output_signal}
+    \caption{sygnał wysterowania nadajnika piezoelektrycznego}
+    \label{fig:output_signal}
+\end{figure}
+
 
 \section{Dobór rezonatorów piezoelektrycznych}
 Głównym problemem podczas konstrukcji nadajnika okazał się dobór odpowiednich rezonatorów piezoelektrycznych.
