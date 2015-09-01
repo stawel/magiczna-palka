@@ -32,8 +32,8 @@ Mimo, iż trzy odległości nie są wystarczające do jednoznacznego wyznaczenia
 to otrzymane rozwiązania są na ogół od siebie daleko oddalone i bez większych problemów
 możemy założyć, że jedno z rozwiązań jest naszym szukanym punktem.
 
-Ponieważ mamy pewną dowolność w doborze punktów stałych $\boldsymbol{y_i}$ dla uproszenia możemy przyjąć, że:
-$\boldsymbol{y_1}=(\frac{a}{2},0,0), \boldsymbol{y_2}=(-\frac{a}{2},0,0), \boldsymbol{y_3}=(0,h,0)$, czyli są wierzchołkami
+Ponieważ mamy pewną swobodę w doborze punktów stałych $\boldsymbol{y_i}$ dla uproszenia możemy przyjąć:
+$\boldsymbol{y_1}=(\frac{a}{2},0,0), \boldsymbol{y_2}=(-\frac{a}{2},0,0), \boldsymbol{y_3}=(0,h,0)$, czyli $\boldsymbol{y_1}, \boldsymbol{y_2}, \boldsymbol{y_3}$ są wierzchołkami
 trójkąta równoramiennego o wysokości $h$ i podstawie $a$, wtedy układ równań upraszcza
 się do postaci:
 \[
@@ -59,8 +59,8 @@ z czego ostatecznie otrzymujemy:
 
 \section{Pomiar odległości za pomocą ultradźwięków}
 
-Prezentowany prototyp do pomiaru odległości wykorzystuje metodę pomiaru czasu jaki 
-potrzebuje sygnał ultradźwiękowy aby pokonać drogę od nadajnika do odbiornika,
+Prezentowane urządzenie do pomiaru odległości wykorzystuje metodę pomiaru czasu jaki 
+potrzebuje dźwięk aby pokonać drogę od nadajnika do odbiornika,
 rysunek \ref{fig:pomiar_odleglosci}.
 \rysunekW{pomiar_odleglosci}{pomiar odległości za pomocą ultradźwięków}{\label{fig:pomiar_odleglosci}}{0.4}
 
@@ -80,8 +80,8 @@ Wzór ten możemy przybliżyć za pomocą rozwinięcia Taylora dla temperatur bl
 \]
 
 Mimo że współczynnik temperaturowy jest stosunkowo mały i stanowi jedynie 0.17\% całej prędkości
-to przy pomiarach odległości rzędu metrów i rozdzielczościach rzędu milimetrów staje się istotny. 
-Dlatego w prezentowanym prototypie istotną częścią stanowi kalibracja wstępna, podczas której
+to przy pomiarach odległości rzędu metrów i rozdzielczościach rzędu milimetrów staje się istotny, 
+dlatego w prezentowanym prototypie istotną częścią stanowi kalibracja wstępna, podczas której
 wyznaczana jest aktualna prędkość dźwięku, ubocznym efektem kalibracji jest pomiar temperatury otoczenia.
 
 
