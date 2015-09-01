@@ -7,7 +7,7 @@ które potrafią określić swoje położenie jak i orientację w otaczającej j
 Urządzenia takie mają szerokie zastosowanie w wielu dziedzinach m.in. w
 wirtualnej rzeczywistości, rozszerzonej rzeczywistości, 
  podczas skanowania trójwymiarowego czy kartografii.
-Przykładowo okulary do wirtualnej rzeczywistości takie jak \textit{Oculus Rift} [TODO] czy \textit{castAR} [TODO],
+Przykładowo okulary do wirtualnej rzeczywistości takie jak \textit{Oculus Rift} \cite{bib:OculusRift} czy \textit{castAR} \cite{bib:castAR},
 muszą uwzględnić położenie jaki i orientację głowy by na tej podstawie wyświetlić użytkownikowi 
 odpowiednią treść. 
 
@@ -25,12 +25,12 @@ urządzenia dodano śledzenie głowy przez zewnętrzną kamerę.
 
 \item \label{itm:second_method}
  projektowanie światła strukturalnego na otoczenie i zbieranie informacji o strukturze 
- światła odbitego za pomocą sensorów, zazwyczaj kamer - taką metodę wykorzystano w \textit{Microsoft Kinnect} [TODO],
+ światła odbitego za pomocą sensorów, zazwyczaj kamer - taką metodę wykorzystano w \textit{Microsoft Kinnect} \cite{bib:MicrosoftKinect},
  urządzenie projektuje na otoczenie stały wzór punktów, następnie kamerą na podczerwień
  zbierana jest informacja o zniekształceniu danego wzoru i na tej podstawie odtwarzana jest 
  trójwymiarowa struktura otoczenia jak i położenie urządzenia w otoczeniu.
- Podobną metodę wykorzystuje \textit{Oculus Rift development kit 2} [TODO] jak i 
- \textit{castAR} [TODO], w tym przypadku za źródła światła służą diody podczerwone umieszczone na okularach, które
+ Podobną metodę wykorzystuje \textit{Oculus Rift development kit 2} \cite{bib:OculusRiftDK2} jak i 
+ \textit{castAR} \cite{bib:castAR}, w tym przypadku za źródła światła służą diody podczerwone umieszczone na okularach, które
  rejestrowane są bezpośrednio przez kamerę umieszczoną przed użytkownikiem.
  Program na podstawie względnego położenia widocznych punktów światła na obrazie określa położenie i orientację
  okularów w przestrzeni.
@@ -40,7 +40,7 @@ urządzenia dodano śledzenie głowy przez zewnętrzną kamerę.
 \item
  wykorzystanie wielu zdjęć znanych stałych obiektów, na postawie których wyznaczamy pozycję kamery względem nich
   lub odwrotnie, kamera (lub wiele kamer) jest punktem stałym a wyznaczamy pozycję obiektów -   
- taką metodę wykorzystano w \textit{VidialSFM} [TODO], jak i w \textit{The Pi 3D scanner project} [TODO], 
+ taką metodę wykorzystano w \textit{VidialSFM} \cite{bib:VisualSFM}, jak i w \textit{The Pi 3D scanner project} \cite{bib:pi3dscan}, 
  rozwiązanie to cechuje się jednak dość niską rozdzielczością.
  
 \end{enumerate}
