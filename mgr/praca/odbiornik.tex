@@ -1,20 +1,28 @@
 \chapter{Odbiornik}
 
-Odbiornik ultradźwiękowy składa się z 6 części:
-płytki prototypowej \textit{stm32f4-discovery} zbierającej dane analizowane później na komputerze,
- trzech odbiorników ultradźwiękowych wraz ze wzmacniaczami, 
- \textit{shieldu} do \textit{stm32f4-discovery} - przystawki dopasowującej sygnał z odbiorników do poziomów akceptowalnych przez
-\textit{stm32f4-discovery}, oraz ramy na której umieszczone są odbiorniki.
+
+Centralną częścią prezentowanego prototypu jest odbiornik,
+jego zadaniem jest wysyłanie sygnałów sterujących do nadajnika, zbieranie ultradźwięków z otoczenia oraz przesłanie
+ich do dalszej analizy do komputera.
+Odbiornik składa się z sześciu części (rysunek \ref{fig:odbiornik_szkic}):
+
+\begin{itemize}
+ \item trzech modułów ultradźwiękowych przetwarzających ultradźwięki na sygnał elektryczny
+ \item płytki prototypowej \textit{stm32f4-discovery} \cite{bib:stm32f4Discovery}, która odpowiada za komunikację z komputerem
+ \item przystawki do \textit{stm32f4-discovery} przystosowującej sygnały elektryczne z modułów ultradźwiękowych
+  do poziomów akceptowalnych przez \textit{stm32f4-discovery}
+ \item ramy, na której umieszczone są moduły ultradźwiękowe
+\end{itemize}
+
+
+\rysunek{odbiornik_szkic}{szkic odbiornika}{\label{fig:odbiornik_szkic}}
+
 
 \section{Budowa i zasada działania}
 
 Głównym elementem odbiornika stanowi płytka prototypowa \textit{stm32f4-discovery} \cite{bib:stm32f4Discovery},
-jej zadaniem jest przesłanie dźwięków zebranych z otoczenia do dalszej analizy oraz wysłanie sygnału wyzwalającego 
+jej zadaniem jest odbieranie ultradźwięków z otoczenia i przesłanie ich do dalszej analizy do komputera oraz wysyłanie sygnałów wyzwalających
 do nadajnika.
-\textit{Stm32f4-discovery} oparty jest o procesor STM32F407VGT6 \cite{bib:stm32f407}, który 
-umożliwia komunikację z komputerem za pomocą złącza USB oraz ma wbudowane trzy 12-bitowe przetworniki analogowo-cyfrowe
-mogące samplować z częstotliwością do 2.4MSPS. 
-
 
 Oprogramowanie płytki prototypowej oparte jest na bibliotece \textit{stm32 usb 101} \cite{bib:stm32_usb_101}
 zapewniającej komunikację z komputerem, do której dodana została obsługa przetworników ADC.

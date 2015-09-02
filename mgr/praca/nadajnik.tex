@@ -15,22 +15,21 @@ zapobiega przenoszeniu się drgań.
 \rysunek{nadajnik_H}{szkic ramy nadajnika}{\label{fig:nadajnik_szkic}}
 
 
-Płytka połączona jest z odbiornikiem 6m przewodem, którym przesyłane są sygnały sterujące jak i zasilanie.
-Do sterowania wykorzystywane są 3 przewody, dwa z nich informują który z rezonatorów ma w danym momencie nadawać,
-trzeci służy jako wyzwalacz.
+Android Nano połączony jest z odbiornikiem 6m kablem, którym przesyłane są sygnały sterujące jak i zasilanie.
+Do sterowania wykorzystywane są trzy przewody, dwa z nich informują który z rezonatorów ma w danym momencie nadawać,
+trzeci służy jako wyzwalacz. 
 
 Cała logika oprogramowania mieści się w obsłudze przerwania sprzętowego, które reaguje na zmianą stanu logicznego
 na wyzwalaczu,
 po uruchomieniu przerwania oprogramowanie wysyła sygnał na odpowiedni rezonator. 
-Nadany sygnał jest tak dobrany by dało się go w prosty sposób wyodrębnić i składa się w dwóch
+Nadawany sygnał jest tak dobrany by dało się go w prosty sposób wyodrębnić i składa się w dwóch
 części: część wzbudzającej oraz części tłumiącej.
-Długość impulsów jest zgodna z częstotliwością rezonansową nadajników, dodatkowo jeden
-impuls jest przesunięty względem drugiego o 180 stopni. Pierwszy z nich ma za zadanie wzbudzić rezonator, a drugi wytłumić, 
-tak by nadany sygnał był jak najkrótszy. 
+Długość impulsów sygnału jest zgodna z częstotliwością rezonansową nadajników, dodatkowo część tłumiąca
+jest przesunięty względem części wyzwalającej o 180 stopni.  
 Rysunek \ref{fig:output_signal} przedstawia sygnał jakim wysterowany jest przetwornik piezoelektryczny. 
 
 Odległość między nadajnikiem a odbiornikami wyznaczany jest przez odbiornik na podstawie
-czasu jaki potrzebował sygnał dźwiękowy by pokonać daną odległość.
+czasu jaki potrzebował sygnał dźwiękowy by do niego dotrzeć.
 
  \begin{figure}[h!]
     \centering
@@ -39,16 +38,20 @@ czasu jaki potrzebował sygnał dźwiękowy by pokonać daną odległość.
     \label{fig:output_signal}
 \end{figure}
 
+\newpage
 
 \section{Dobór rezonatorów piezoelektrycznych}
+
 Głównym problemem podczas konstrukcji nadajnika okazał się dobór odpowiednich rezonatorów piezoelektrycznych.
 Mimo, że producent zapewnia zakres pracy rezonatorów w zakresie: $40 kHz \pm 1kHz$, taki rozrzut okazał się niewystarczający, 
 dlatego z 30 rezonatorów (15 nadajników i 15 odbiorników) wybrane zostały 4 nadajniki i 3 odbiorniki o najbardziej 
-zbliżonych częstotliwościach pracy. Częstotliwość mierzona była za pomocą odpowiedzi rezonatora na 
-krótki impuls elektryczny, sam pomiar dokonywany był na oscyloskopie cyfrowym. Poniżej wartości jakie udało się zmierzyć,
-gwiazdką zaznaczone zostały wykorzystane rezonatory:
+zbliżonych częstotliwościach pracy. Częstotliwości zostały zmierzone na oscyloskopie cyfrowym, są to odpowiedzi 
+rezonatora na krótki impuls elektryczny.
 
-\begin{center}
+Tabela \ref{table:czestotliwosci} zawiera wyniki pomiarów częstotliwości, gwiazdką oznaczono wykorzystane przetworniki piezoelektryczne.
+
+\begin{table}[t]
+  \centering
   \begin{tabular}{|r|r|r|}
     \hline 
     nr & nadajnik: 40ST-12 & odbiornik: 40SR-12\\
@@ -71,6 +74,8 @@ gwiazdką zaznaczone zostały wykorzystane rezonatory:
     15 &   39.64kHz &  39.11kHz \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{Częstotliwości rezonansowe przetworników piezoelektrycznych}
+  \label{table:czestotliwosci}
+\end{table}
 
 
