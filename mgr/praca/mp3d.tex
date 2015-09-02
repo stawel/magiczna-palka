@@ -1,4 +1,4 @@
-\chapter{przetwarzanie danych zebranych z odbiorników}
+\chapter{Przetwarzanie danych zebranych z odbiorników}
 
 Przetwarzaniem danych z odbiorników zajmuje się biblioteka \textit{mp3d}
 oraz program \textit{oscy} wizualizujący dane w postaci obrazu trójwymiarowego.
@@ -17,7 +17,7 @@ Biblioteka \textit{mp3d} została podzielona na pięć modułów:
 \end{enumerate}
 
 
-\section{moduł \textit{com.py}}
+\section{Moduł \textit{com.py}}
 
 Zadaniem modułu \textit{com.py} jest komunikacja poprzez port USB z głównym odbiornikiem,
 moduł pracuje w oddzielnym wątku, w którym cyklicznie uruchamiany jest jeden z nadajników umieszczonych na głowicy,
@@ -39,7 +39,7 @@ co 200ms. Rysunek \ref{fig:com_output_2m} przedstawia sygnał przekazywany do mo
 \end{figure}
 
 
-\section{moduł \textit{find\_pattern.py}}
+\section{Moduł \textit{find\_pattern.py}}
 
 Głównym modułem biblioteki \textit{mp3d} jest moduł \textit{find\_pattern.py}.
 Odpowiada on za znalezienie \textit{wzorca} w odebranym sygnale z odbiorników,
@@ -110,7 +110,7 @@ jak i $\sum\limits_{t=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji
  
 
  
-\section{moduł \textit{xyz.py}}
+\section{Moduł \textit{xyz.py}}
 
 Zadaniem modułu \textit{xyz.py} jest wyznaczenie pozycji oraz orientacji w przestrzeni głowicy nadajnika.
 Zauważymy, że moduł musi wyznaczyć trzy współrzędne $(x_1,x_2,x_3)$
@@ -126,7 +126,7 @@ rozmiarów pomiar jest odrzucany.
 Tak wyznaczone $x_ij$ są przekazywany z powrotem do modułu \textit{find\_pattern.py} w celu odświeżenia wzorca,
 oraz na ich podstawie wyznaczana jest pozycja i orientacja głowicy.
 
-\section{moduł \textit{info.py}}
+\section{Moduł \textit{info.py}}
 
 zadaniem modułu \textit{info.py} jest wyświetlenie informacji związanych z siłą odbieranych sygnałów.
 
