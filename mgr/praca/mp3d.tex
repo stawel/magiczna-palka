@@ -1,14 +1,17 @@
 \chapter{Przetwarzanie danych zebranych z odbiorników}
 
-Przetwarzaniem danych z odbiorników zajmuje się biblioteka \textit{mp3d}
-oraz program \textit{oscy} wizualizujący dane w postaci obrazu trójwymiarowego.
+Najważniejszą częścią prototypu jest oprogramowanie, które przekształca surowe dane dźwiękowe
+z odbiornika na położenie nadajnika w przestrzeni oraz jego orientację.
+
+Przetwarzaniem danych zajmuje się biblioteka \textit{mp3d}
+oraz program \textit{scan.py} wizualizujący dane w postaci obrazu trójwymiarowego.
 
 Biblioteka \textit{mp3d} została podzielona na pięć modułów:
 \begin{enumerate}
 
- \item \textit{com.py} - moduł odpowiedzialny za komunikację z głównym odbiornikiem
+ \item \textit{com.py} - moduł odpowiedzialny za komunikację odbiornikiem
  \item \textit{find\_pattern.py} - moduł odpowiedzialny za wyszukanie wzorca w odebranym sygnale
- \item \textit{xyz.py} - moduł odpowiedzialny za wyznaczenie pozycji i orientacji głowicy, oraz za 
+ \item \textit{xyz.py} - moduł odpowiedzialny za wyznaczenie pozycji i orientacji nadajnika, oraz za 
  weryfikację, czy zebrane dane odpowiadają rzeczywistości
  \item \textit{info.py} - moduł wyświetlający informację o sile odbieranego sygnału
  \item \textit{ply.py} - moduł odpowiedzialny za eksportowanie danych do formaty \textit{.ply} 
@@ -19,12 +22,12 @@ Biblioteka \textit{mp3d} została podzielona na pięć modułów:
 
 \section{Moduł \textit{com.py}}
 
-Zadaniem modułu \textit{com.py} jest komunikacja poprzez port USB z głównym odbiornikiem,
-moduł pracuje w oddzielnym wątku, w którym cyklicznie uruchamiany jest jeden z nadajników umieszczonych na głowicy,
-następnie sczytuje zebrane sygnały z trzech mikrofonów umieszczonych na głównym odbiorniku.
+Zadaniem modułu \textit{com.py} jest komunikacja poprzez port USB odbiornikiem,
+moduł pracuje w oddzielnym wątku, w którym cyklicznie wysyła żądanie by dany głośnik nadał sygnał, następnie odbiera
+sygnał z trzech mikrofonów.
 Ta czynność powtarzana jest dla każdego z czterech nadajników. 
 Zebrane dwanaście sygnałów po wstępnej filtracji przekazywane są dalej do \textit{find\_pattern.py}. Cały cykl powtarzany jest
-co 200ms. Rysunek \ref{fig:com_output_2m} przedstawia sygnał przekazywany do modułu \textit{find\_pattern.py}.
+co 200ms. Rysunek \ref{fig:com_output_2m} przedstawia sygnał z jednego mikrofonu przekazywany do modułu \textit{find\_pattern.py}.
 
 
 \begin{figure}[h!]
@@ -42,14 +45,17 @@ co 200ms. Rysunek \ref{fig:com_output_2m} przedstawia sygnał przekazywany do mo
 \section{Moduł \textit{find\_pattern.py}}
 
 Głównym modułem biblioteki \textit{mp3d} jest moduł \textit{find\_pattern.py}.
-Odpowiada on za znalezienie \textit{wzorca} w odebranym sygnale z odbiorników,
+Odpowiada on za znalezienie \textit{wzorca} w odebranym sygnale.
+Odbierane sygnały zmieniają się nieznacznie podczas pracy skanera (głównie gdy kąt nachylenia nadajnika względem odbiornika się zmienia)
+dlatego wzorzec początkowo wprowadzony jest podczas kalibracji następnie jest ciągle aktualizowany jeśli odebrany sygnał ma wystarczającą moc.
+Do wyszukania wzorca wewnątrz sygnału wykorzystana jest metoda najmniejszego błędu średniokwadratowego.
 
 Niech $w(t)$  dla $t = 0..n-1$ będzie szukanym wzorcem, a $f(x)$ odebranym sygnałem,
-wtedy możemy znaleźć takie $a$, że błąd średniokwadratowy pomiędzy $w(t)$ i $a f(t+x)$ jest minimalny:
+wtedy możemy znaleźć takie $a$, że błąd średniokwadratowy pomiędzy $w(t)$ i $a f(t+x)$ jest minimalny, mianowicie:
 \[
   E(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  (w(t) - a f(t+x))^2 \}
 \]
-zauważmy, że:
+gdzie $E(x)$ jest bezwzględnym błędem średniokwadratowym, zauważmy że:
 \[
   E(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  (w^2(t) -2a w(t) f(t+x) + a^2 f^2(t+x)) \}
 \]
