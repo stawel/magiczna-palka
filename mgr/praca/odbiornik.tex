@@ -23,18 +23,18 @@ Składa się on z sześciu części (rysunek \ref{fig:odbiornik_szkic}):
 Głównym elementem odbiornika stanowi płytka prototypowa \textit{stm32f4-discovery} \cite{bib:stm32f4Discovery},
 jej zadaniem jest umożliwienie komunikacji pozostałych komponentów z komputerem.
 \textit{Stm32f4-discovery} oparty jest o ARMowy procesor STM32F407VGT6 \cite{bib:stm32f407}, posiada on wbudowane trzy 12 bitowe przetworniki
-analogowo-cyfrowe umożliwiające samplowanie z prędkością dochodzącą do 2.4MSPS, które wykorzystane zostały do próbkowania
+analogowo-cyfrowe umożliwiające samplowanie z prędkością dochodzącą do \SI{2,4}{MSPS}, które wykorzystane zostały do próbkowania
 sygnałów pochodzących z modułów ultradźwiękowych. Procesor umożliwia również komunikację z komputerem poprzez 
-port USB z prędkością 12MB/s.
+port USB z prędkością \SI{12}{MB/s}.
 
 Oprogramowanie płytki prototypowej oparte jest na bibliotece \textit{stm32 usb 101} \cite{bib:stm32_usb_101}
 zapewniającej komunikację z komputerem, do której dodana została obsługa przetworników ADC.
 Program poprzez port USB dostaje komunikat, który z czterech nadajników ma nadawać, ta informacja przekazywana jest
 dalej do nadajnika w raz z sygnałem wyzwalającym, następnie uruchamiane są trzy przetworniki ADC, które 
 samplują odbierany dźwięk i poprzez DMA zapisują trzy kanały w pamięci procesora.
-Częstotliwość pracy przetworników ustawiona jest na 1.6MSPS co daje średnio 40 sampli na jedną sinusoidę nadanego 40kHz sygnału.
-Program zapamiętuje 16kS na każdym kanale, co przy prędkości dźwięku 340m/s daje maksymalną mierzoną odległość rzędu 3.5 metrów.
-Po zebraniu w sumie 48kS, całość przesyłana jest do komputera w celu dalszej analizy.
+Częstotliwość pracy przetworników ustawiona jest na \SI{1,6}{MSPS} co daje średnio 40 sampli na jedną sinusoidę nadanego \SI{40}{kHz} sygnału.
+Program zapamiętuje \SI{16}{kS} na każdym kanale, co przy prędkości dźwięku \SI{340}{m/s} daje maksymalną mierzoną odległość rzędu 3,5 metrów.
+Po zebraniu w sumie \SI{48}{kS}, całość przesyłana jest do komputera w celu dalszej analizy.
 Cały proces powtarzany jest dla każdego z czterech przetworników piezoelektrycznych nadajnika, 
 co w sumie daje 12 sygnałów, na podstawie których wyznaczona zostaje 
 pozycja w przestrzeni oraz orientacja nadajnika.
@@ -81,7 +81,7 @@ Wzmocniony sygnał poprzez wtyczkę $JP1$ doprowadzony jest do przystawki wspó�
 Sygnał z modułów ultradźwiękowych doprowadzany jest do \textit{stm32f4-discovery} za pomocą specjalnej przystawki.
 Jej zadaniem jest przystosowanie amplitud zebranych sygnałów do wartości akceptowalnych przez STM32F407VGT6,
 dodatkowo przystawka zawiera układ zasilający jak i wyprowadzone są z niej sygnały sterujące nadajnikiem.
-Zakres napięć dopuszczalnych dla przetwornika analogowo-cyfrowego zawierają się w przedziale od 0V do 3.3V,
+Zakres napięć dopuszczalnych dla przetwornika analogowo-cyfrowego zawierają się w przedziale od \SI{0}{V} do \SI{3,3}{V},
 dlatego zastosowany został układ TLV2774 \cite{bib:TLV2774}, który zawiera w sobie 4 wzmacniacze operacyjne typu
 rail-to-rail. Wzmacniacze pracują w układzie odwracającym z ustawianym wzmocnieniem, do których dodano regulowane napięcie odniesienia.
 Schemat przystawki przedstawiony jest na rysunku \ref{fig:przystawka}.
