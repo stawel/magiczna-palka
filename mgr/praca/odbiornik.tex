@@ -15,7 +15,7 @@ Składa się on z sześciu części (rysunek \ref{fig:odbiornik_szkic}):
 \end{itemize}
 
 
-\rysunek{odbiornik_szkic}{szkic odbiornika}{\label{fig:odbiornik_szkic}}
+\rysunek{odbiornik_szkic}{Szkic odbiornika}{\label{fig:odbiornik_szkic}}
 
 
 \section{Budowa i zasada działania}
@@ -23,16 +23,16 @@ Składa się on z sześciu części (rysunek \ref{fig:odbiornik_szkic}):
 Głównym elementem odbiornika stanowi płytka prototypowa \textit{stm32f4-discovery} \cite{bib:stm32f4Discovery},
 jej zadaniem jest umożliwienie komunikacji pozostałych komponentów z komputerem.
 \textit{Stm32f4-discovery} oparty jest o ARMowy procesor STM32F407VGT6 \cite{bib:stm32f407}, posiada on wbudowane trzy 12 bitowe przetworniki
-analogowo-cyfrowe umożliwiające samplowanie z prędkością dochodzącą do \SI{2,4}{MSPS}, które wykorzystane zostały do próbkowania
+analogowo-cyfrowe umożliwiające próbkowanie z prędkością dochodzącą do \SI{2,4}{MSPS}, które wykorzystane zostały do próbkowania
 sygnałów pochodzących z modułów ultradźwiękowych. Procesor umożliwia również komunikację z komputerem poprzez 
 port USB z prędkością \SI{12}{MB/s}.
 
 Oprogramowanie płytki prototypowej oparte jest na bibliotece \textit{stm32 usb 101} \cite{bib:stm32_usb_101}
-zapewniającej komunikację z komputerem, do której dodana została obsługa przetworników ADC.
+zapewniającej komunikację z komputerem, do której dodana została obsługa przetworników \textit{ADC}.
 Program poprzez port USB dostaje komunikat, który z czterech nadajników ma nadawać, ta informacja przekazywana jest
-dalej do nadajnika w raz z sygnałem wyzwalającym, następnie uruchamiane są trzy przetworniki ADC, które 
+dalej do nadajnika w raz z sygnałem wyzwalającym, następnie uruchamiane są trzy przetworniki \textit{ADC}, które 
 samplują odbierany dźwięk i poprzez DMA zapisują trzy kanały w pamięci procesora.
-Częstotliwość pracy przetworników ustawiona jest na \SI{1,6}{MSPS} co daje średnio 40 sampli na jedną sinusoidę nadanego \SI{40}{kHz} sygnału.
+Częstotliwość pracy przetworników ustawiona jest na \SI{1,6}{MSPS} co daje średnio 40 próbek na jeden okres \SI{40}{kHz} sygnału.
 Program zapamiętuje \SI{16}{kS} na każdym kanale, co przy prędkości dźwięku \SI{340}{m/s} daje maksymalną mierzoną odległość rzędu 3,5 metrów.
 Po zebraniu w sumie \SI{48}{kS}, całość przesyłana jest do komputera w celu dalszej analizy.
 Cały proces powtarzany jest dla każdego z czterech przetworników piezoelektrycznych nadajnika, 
@@ -42,7 +42,7 @@ pozycja w przestrzeni oraz orientacja nadajnika.
 Cała elektronika osadzona została na ramie zbudowanej z rur PCV w kształcie trójkąta (rysunek \ref{fig:trojkat}), 
 Odległości pomiędzy odbiornikami są z góry znane, co ułatwia obliczenia.
 
-\rysunek{trojkat}{szkic ramy odbiornika}{\label{fig:trojkat}}
+\rysunek{trojkat}{Szkic ramy odbiornika}{\label{fig:trojkat}}
 
 
 
@@ -57,22 +57,22 @@ który przetwarza sygnał akustyczny na odpowiadający mu sygnał elektryczny, s
 przesyłany jest do przystawki \textit{Stm32f4-discovery}.
 Rysunek \ref{fig:odbiornik_ultra} przedstawia schemat modułu ultradźwiękowego.
 
-\rysunek{receiver}{schemat modułu ultradźwiękowego}{\label{fig:odbiornik_ultra}}
+\rysunek{receiver}{Schemat modułu ultradźwiękowego}{\label{fig:odbiornik_ultra}}
 
 Sygnał wzmacniany jest za pomocą dwóch wzmacniaczy operacyjnych.
 Pierwszy z nich pracuje jako przedwzmacniacz ładunkowy \cite{bib:wzm_ladunkowy}.
-Ładunek wytworzony na przetworniku piezoelektrycznym zostaje w całości przeniesiony na kondensator $C2$ 
+Ładunek wytworzony na przetworniku piezoelektrycznym zostaje w całości przeniesiony na kondensator C2 
 (wzmacniacz stara się utrzymać różnicę potencjałów miedzy dodatnim a ujemnym wejściem na zerowym poziomie),
 co jest równoważne z pojawieniem się napięcia na kondensatorze zgodnie z równaniem $U=\frac{q}{C}$.
-Rezystor $R1$ ustawia napięcia spoczynkowe układu na poziome $\frac{1}{2}$ Vcc jak i rozładowuje kondensator $C2$.
-$R1$ i $C2$ działają również jako filtr górnoprzepustowy.
+Rezystor R1 ustawia napięcia spoczynkowe układu na poziome $\frac{1}{2}$ Vcc jak i rozładowuje kondensator C2.
+R1 i C2 działają również jako filtr górnoprzepustowy.
 
 Drugi wzmacniacz pracuje jako zwykły wzmacniacz napięciowy wzbogacony o filtr górno i dolnoprzepustowy.
 
 Aby zminimalizować zakłócenia całość oparta jest na niskoszumowym wzmacniaczu operacyjnym NE5532 \cite{bib:ne5532}, 
-dodatkowo cała płytka $PCB$ jest ekranowana.
+dodatkowo cała płytka drukowana jest ekranowana.
 
-Wzmocniony sygnał poprzez wtyczkę $JP1$ doprowadzony jest do przystawki współpracującej z \textit{stm32f4-discovery}.
+Wzmocniony sygnał poprzez wtyczkę JP1 doprowadzony jest do przystawki współpracującej z \textit{stm32f4-discovery}.
 
 \clearpage
 
@@ -91,7 +91,7 @@ Schemat przystawki przedstawiony jest na rysunku \ref{fig:przystawka}.
  \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth, trim= 5mm 0mm 0mm 0mm,clip]{mainboard2}
-    \caption{schemat przystawki do \textit{stm32f4-discovery}}
+    \caption{Schemat przystawki do \textit{stm32f4-discovery}}
     \label{fig:przystawka}
 \end{figure}
 
