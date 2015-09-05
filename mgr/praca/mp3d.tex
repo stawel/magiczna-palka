@@ -12,7 +12,7 @@ Biblioteka \textit{mp3d} została podzielona na pięć modułów:
  \item \textit{com.py} - moduł odpowiedzialny za komunikację odbiornikiem
  \item \textit{find\_pattern.py} - moduł odpowiedzialny za wyszukanie wzorca w odebranym sygnale
  \item \textit{xyz.py} - moduł odpowiedzialny za wyznaczenie pozycji i orientacji nadajnika, oraz za 
- weryfikację, czy zebrane dane odpowiadają rzeczywistości
+ weryfikację, czy zebrane dane odpowiadają modelowanej rzeczywistości
  \item \textit{info.py} - moduł wyświetlający informację o sile odbieranego sygnału
  \item \textit{ply.py} - moduł odpowiedzialny za eksportowanie danych do formaty \textit{.ply} 
     (Polygon File Format) obsługiwanego przez większość programów do obróbki grafiki 3D.
@@ -22,10 +22,10 @@ Biblioteka \textit{mp3d} została podzielona na pięć modułów:
 
 \section{Moduł \textit{com.py}}
 
-Zadaniem modułu \textit{com.py} jest komunikacja poprzez port USB odbiornikiem,
-moduł pracuje w oddzielnym wątku, w którym cyklicznie wysyła żądanie by dany głośnik nadał sygnał, następnie odbiera
+Zadaniem modułu \textit{com.py} jest komunikacja z odbiornikiem poprzez port USB,
+moduł pracuje w oddzielnym wątku, w którym cyklicznie wysyła żądanie by dany głośnik na nadajniku nadał sygnał, następnie odbiera
 sygnał z trzech mikrofonów.
-Ta czynność powtarzana jest dla każdego z czterech nadajników. 
+Ta czynność powtarzana jest dla każdego z czterech nadajników.
 Zebrane dwanaście sygnałów po wstępnej filtracji przekazywane są dalej do \textit{find\_pattern.py}. Cały cykl powtarzany jest
 co 200ms. Rysunek \ref{fig:com_output_2m} przedstawia sygnał z jednego mikrofonu przekazywany do modułu \textit{find\_pattern.py}.
 
@@ -44,11 +44,10 @@ co 200ms. Rysunek \ref{fig:com_output_2m} przedstawia sygnał z jednego mikrofon
 
 \section{Moduł \textit{find\_pattern.py}}
 
-Głównym modułem biblioteki \textit{mp3d} jest moduł \textit{find\_pattern.py}.
-Odpowiada on za znalezienie \textit{wzorca} w odebranym sygnale.
-Odbierane sygnały zmieniają się nieznacznie podczas pracy skanera (głównie gdy kąt nachylenia nadajnika względem odbiornika się zmienia)
-dlatego wzorzec początkowo wprowadzony jest podczas kalibracji następnie jest ciągle aktualizowany jeśli odebrany sygnał ma wystarczającą moc.
-Do wyszukania wzorca wewnątrz sygnału wykorzystana jest metoda najmniejszego błędu średniokwadratowego.
+Moduł \textit{find\_pattern.py} odpowiada za znalezienie \textit{wzorca} w odebranym sygnale.
+Wzorzec początkowo wprowadzany jest podczas kalibracji, następnie jest ciągle aktualizowany 
+(podmieniany z sygnałem pasującym do wzorca).
+Do wyszukania \textit{wzorca} wewnątrz sygnału wykorzystana jest metoda najmniejszego błędu średniokwadratowego.
 
 Niech $w(t)$  dla $t = 0..n-1$ będzie szukanym wzorcem, a $f(x)$ odebranym sygnałem,
 wtedy możemy znaleźć takie $a$, że błąd średniokwadratowy pomiędzy $w(t)$ i $a f(t+x)$ jest minimalny, mianowicie:
@@ -79,7 +78,7 @@ z czego ostatecznie dostajemy:
 Zauważmy, że dzięki skalowaniu sygnału $f(x)$ zamiast sygnał wzorcowy $w(x)$
 otrzymany błąd $E(x)$ nie zależy od siły odebranego sygnału, co ułatwia porównanie błędów w dwóch różnych miejscach,
 Zależy on jednak od siły sygnału wzorcowego, aby się od niego uniezależnić możemy wyznaczyć
-błąd względny:
+błąd względny $e(x)$:
 \[
   e(x) = \frac{E(x)}{\sum\limits_{t=0}^{n-1}  w^2(t)}
 \]
@@ -100,11 +99,16 @@ jak i $\sum\limits_{t=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji
  wyznaczy pozycję głowicy w przestrzeni jak i jego orientację uwzględniając przy tym 
  kształt głowicy (nadmiarowość danych) jak i prawdopodobieństwa że znaleziony wzorzec jest na danej pozycji.
  
- Kolejną zadaniem modułu \textit{find\_pattern.py} jest uaktualnianie wzorca z biegiem czasu.
- Wraz ze zmianą kąta nachylenia nadajnika względem odbiornika zmienia się znacząco kształt odbieranego sygnału,
- dlatego jeśli odnajdziemy szukany wzorzec, którego moc sygnału jest wystarczająco silna to
- podmieniany jest na niego wzorzec.
- 
+ Kolejnym zadaniem modułu \textit{find\_pattern.py} jest uaktualnianie \textit{wzorca}.
+ Wraz ze zmianą kąta nachylenia nadajnika względem odbiornika zmienia się nieznacznie kształt odbieranego sygnału,
+ dlatego jeśli odnajdziemy szukany \textit{wzorzec} oraz spełnione są następujące warunki:
+ \begin{itemize}
+  \item moc sygnału pasującego do \textit{wzorca} jest wystarczająco silna
+  \item błąd względny pomiędzy sygnałem a wzorcem jest mała
+  \item moduł \textit{xyz.py} uzna, że otrzymane pozycje pasują do modelowanej rzeczywistości
+ \end{itemize}
+to zostanie od uaktualniony.
+  
  Na rysunku \ref{fig:blad_korel} przedstawiony jest wynik przetwarzania sygnału przez moduł \textit{find\_pattern.py}.
  
  \begin{figure}[h!]
@@ -120,16 +124,16 @@ jak i $\sum\limits_{t=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji
 
 Zadaniem modułu \textit{xyz.py} jest wyznaczenie pozycji oraz orientacji w przestrzeni głowicy nadajnika.
 Zauważymy, że moduł musi wyznaczyć trzy współrzędne $(x_1,x_2,x_3)$
-oraz trzy kąty nachylenia $(\alpha_1, \alpha_2, \alpha_3)$ czyli w sumie sześć niewiadomych.
-Na wejściu moduł pobiera dwanaście sygnałów $e_i(x)$ dla $i=0..11$ odpowiadających prawdopodobieństwom odległości
+oraz trzy kąty nachylenia $(\alpha_1, \alpha_2, \alpha_3)$ czyli w sumie sześć niewiadomych,
+na wejściu moduł pobiera dwanaście sygnałów $e_i(x)$ dla $i=0..11$ odpowiadających prawdopodobieństwom odległości
 czterech nadajników od trzech odbiorników, mamy więc dwukrotną nadmiarowość danych.
 Ta nadmiarowość wykorzystywana jest do korekcji błędów podczas pomiaru odległości.
-Moduł wybiera $n$ najbardziej prawdopodobnych odległości z $e_i(x)$, czyli takich $x_ij$ dla $j = 0...n-1$
-że $e_i(x_ij)$ jest duże, następnie sprawdza która kombinacja 
+Moduł wybiera $n$ najbardziej prawdopodobnych odległości z $e_i(x)$, czyli takich $x_{ij}$ dla $j = 0...n-1$
+że $e_i(x_{ij})$ jest duże, następnie sprawdza która kombinacja 
 odległości jest możliwa ze względu na poprzedni pomiar (czy głowica nie przemieściła się za szybko)
 oraz ze względu na kształt samej głowicy - jeśli wyznaczony kształt głowicy nie pasuje do jej rzeczywistych
 rozmiarów pomiar jest odrzucany.
-Tak wyznaczone $x_ij$ są przekazywany z powrotem do modułu \textit{find\_pattern.py} w celu odświeżenia wzorca,
+Tak wyznaczone $x_{ij}$ są przekazywany z powrotem do modułu \textit{find\_pattern.py} w celu odświeżenia wzorca,
 oraz na ich podstawie wyznaczana jest pozycja i orientacja głowicy.
 
 \section{Moduł \textit{info.py}}
@@ -142,11 +146,14 @@ Przed każdym uruchomieniem urządzenia wymagana jest kalibracja.
 Kalibracja sprowadza się do ustawienia głowicy w odległości 2 metrów od odbiornika
 uruchomienia urządzenia oraz zaznaczenia 12 wzorców potrzebnych do odnalezienia 
 odebranego sygnału.
-Program na podstawie odległości i czasu dodarcia sygnału wylicza prędkość dźwięku 
-w danym środowisku. Co ciekawe, wypadkową wyliczonej prędkości jest temperatura otoczenia.
 
-Rysunek \ref{fig:blad_korel} przedstawia widok 12 sygnałów wraz z zaznaczonymi wzorcami.
+Rysunek \ref{fig:kalibracja_12x} przedstawia widok 12 sygnałów wraz z zaznaczonymi wzorcami.
 
 
-
+ \begin{figure}[h!]
+    \centering
+    \includegraphics[width=1.12\textwidth, trim= 46mm 0mm 0mm 0mm,clip]{kalibracja_12x}
+    \caption{kalibracja, widok 12 sygnałów z zaznaczonymi wzorcami}
+    \label{fig:kalibracja_12x}
+\end{figure}
 
