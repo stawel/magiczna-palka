@@ -35,6 +35,7 @@ def update_sliders(num, x,s1,s2,s3,s4):
 def add_sliders(plt):
     global afun
     fig, ax = plt.subplots()
+    fig.canvas.set_window_title('power info');
     width = 0.3
     shift = 0.2
     sliders1 = ax.bar(x_axis+0*shift,y_set*100,width*3,color = 'g' )

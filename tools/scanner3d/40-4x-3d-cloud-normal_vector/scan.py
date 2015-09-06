@@ -27,6 +27,7 @@ mp3d.find_pattern.init_from_file()
 
 
 fig2 = plt.figure()
+fig2.canvas.set_window_title('2D view');
 
 limit = 500
 
@@ -109,6 +110,8 @@ def update_dot(num):
 #    mp3d.info.update_sliders()
 
 fig3 = plt.figure()
+fig3.canvas.set_window_title('3D view');
+
 ax = p3.Axes3D(fig3)
 vectors3d = [ax.plot(np.array([0,1,2]),np.array([0,1,2]),np.array([0,1,2]),color)[0] for color in ['r','g','b']]
 dot3d, = plt.plot([0.5],[0.5],'g.')
