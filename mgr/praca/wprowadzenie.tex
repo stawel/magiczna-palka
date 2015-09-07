@@ -28,47 +28,46 @@ urządzenia dodano śledzenie głowy przez zewnętrzną kamerę.
  światła odbitego za pomocą sensorów, zazwyczaj kamer - taką metodę wykorzystano w \textit{Microsoft Kinnect} \cite{bib:MicrosoftKinect},
  urządzenie projektuje na otoczenie stały wzór punktów, następnie kamerą na podczerwień
  zbierana jest informacja o zniekształceniu danego wzoru i na tej podstawie odtwarzana jest 
- trójwymiarowa struktura otoczenia jak i położenie urządzenia w otoczeniu.
+ trójwymiarowa struktura otoczenia jak i położenie urządzenia w tym otoczeniu.
  Podobną metodę wykorzystuje \textit{Oculus Rift development kit 2} \cite{bib:OculusRiftDK2} jak i 
- \textit{castAR} \cite{bib:castAR}, w tym przypadku za źródła światła służą diody podczerwone umieszczone na okularach, które
- rejestrowane są bezpośrednio przez kamerę umieszczoną przed użytkownikiem.
- Program na podstawie względnego położenia widocznych punktów światła na obrazie określa położenie i orientację
+ \textit{castAR} \cite{bib:castAR}, tutaj za źródła światła służą diody podczerwone umieszczone na okularach,
+ światło przez nie emitowane jest rejestrowane poprzez kamerę umieszczoną przed użytkownikiem.
+ Program na podstawie względnego położenia widocznych punktów określa położenie i orientację
  okularów w przestrzeni.
- Zaletą tego rozwiązania są stałe punkty odniesienia jak i możliwość pomiaru wielu puntów na raz.
- Do wad należy zaliczyć stosunkowo niską rozdzielczość szczególnie w osi $Z$ jak i duży strumień danych do obróbki.
+ Zaletą tego rozwiązania są stałe punkty odniesienia (kamera) jak i możliwość pomiaru wielu puntów na raz.
+ Do wad należy zaliczyć stosunkowo niską rozdzielczość szczególnie w osi Z jak i duży strumień danych do obróbki.
 
 \item
- wykorzystanie wielu zdjęć znanych stałych obiektów, na postawie których wyznaczamy pozycję kamery względem nich
-  lub odwrotnie, kamera (lub wiele kamer) jest punktem stałym a wyznaczamy pozycję obiektów -   
+ wykorzystanie wielu zdjęć zawierających stałe (nie zmieniające się w czasie) obiekty, na postawie których wyznaczana jest pozycja kamery względem nich
+  lub odwrotnie, kamera (lub wiele kamer) jest punktem stałym, a wyznaczana jest pozycję obiektów -   
  taką metodę wykorzystano w \textit{VidialSFM} \cite{bib:VisualSFM}, jak i w \textit{The Pi 3D scanner project} \cite{bib:pi3dscan}, 
  rozwiązanie to cechuje się jednak dość niską rozdzielczością.
  
 \end{enumerate}
  
 
- W pracy przedstawiono prototyp oparty na zmodyfikowanej \ref{itm:second_method}
- metodzie, który zamiast światła wykorzystuje ultradźwięki. Podejście to zapewnia dużo większą
- dokładność w szczególności w osi $Z$, prostotę budowy jak i dużo niższą cenę.
- Urządzenie za pomocą pomiaru odległości od wyznaczonych punktów
-z dużą rozdzielczością dochodzącą do \SI{0,5}{mm} jest w stanie określić swoje położenie
-w przestrzeni jak i swoją orientację. 
+ W pracy przedstawiono prototyp oparty na zmodyfikowanej metodzie drugiej, który zamiast światła wykorzystuje ultradźwięki. 
+ Podejście to zapewnia dużo większą dokładność szczególnie w osi Z, prostotę budowy jak i dużo niższą cenę.
+ Urządzenie składa się z dwóch części: odbiornika, na którym umieszczone są trzy mikrofony, i nadajnika,
+ na którym znajdują się cztery głośniki. Pomiędzy nimi dokonywany jest pomiar odległości z rozdzielczością
+ dochodzącą do \SI{0,5}{mm} dzięki czemu prototyp jest w stanie określić położenie nadajnika
+w przestrzeni jak i jego orientację. 
 Pomiar odległości dokonywany jest za pomocą ultradźwięków o częstotliwości \SI{40}{kHz},
-mimo iż metoda jest znana od wielu lat, to z uwagi na relatywnie dużą długości fali ultradźwiękowej,
+mimo iż metoda jest znana od wielu lat, to z uwagi na relatywnie dużą długość fali ultradźwiękowej,
 która dla częstotliwości \SI{40}{kHz} wynosi około \SI{8}{mm} jest do precyzyjnych pomiarów rzadko stosowana.
-W niniejszej pracy udało się to pozorne ograniczenie przezwyciężyć,
-ostatecznie urządzenie jest w stanie śledzić położenie głowicy z rozdzielczością 
-$\SI{5000}{px} \times \SI{5000}{px} \times \SI{5000}{px}$ na przestrzeni sześcianu o rozmiarach 
-$\SI{2,5}{m} \times \SI{2,5}{m}  \times \SI{2,5}{m} $ przy czasie odświeżania rzędu \SI{350}{ms}.
+W niniejszej pracy udało się to pozorne ograniczenie przezwyciężyć.
+Ostatecznie urządzenie jest w stanie śledzić położenie nadajnika z rozdzielczością 
+\SI{5000}{px} $\times$ \SI{5000}{px} $\times$ \SI{5000}{px} na przestrzeni sześcianu o rozmiarach 
+\SI{2,5}{m} $\times$ \SI{2,5}{m}  $\times$ \SI{2,5}{m} przy czasie odświeżania rzędu \SI{350}{ms}.
 Warto podkreślić, że wielkość sześcianu została ograniczona ze względów praktycznych i bez 
 większego problemu można ją zwiększyć zachowując stosunek rozdzielczości na metr.
-Głównym czynnikiem jaki wpływa na czas odświeżania jest czas jaki fala dźwiękowa potrzebuje
-by się rozproszyć, tak by jej odbicia nie wpływały na kolejne pomiary.
+Jeśli chodzi o stosunkowo długi czas odświeżania to
+ głównym czynnikiem jaki na niego wpływa jest czas potrzebny by fala dźwiękowa się rozproszyć,
+ tak by jej odbicia od powierzchni ścian nie wpływały na kolejne pomiary.
 
-Przedstawiany prototyp składa się z dwóch części: \textit{głowicy}, której położenie wraz z orientacją przestrzenną chcemy wyznaczyć
-oraz z \textit{aparatu odbiorczego} w kształcie trójkąta wyznaczającego stałe punkty odniesienia.
-Całość  podłączona jest do komputera za pomocą złącza USB, na którym dokonywane są wszystkie obliczenia,
-końcowym wynikiem jest trójwymiarowy widok, na którym zaznaczona jest pozycja głowicy oraz dwa wektory normalne
-przedstawiające orientacje głowicy.
+ Należy również wspomnieć o pracy \textit{Ultrasonic 3D Wireless Computer Mouse} \cite{bib:mouse}, w której przedstawiono 
+ prototyp myszki 3D działającej na podobnej zasadzie, niemniej ów praca koncentruje się głównie 
+ na określaniu położenia myszki w przestrzeni, bez wyznaczania jej orientacji.
 
 
 
