@@ -1,9 +1,19 @@
 \chapter{Nadajnik ultradźwiękowy}
+
+Prezentowany prototyp składa się z dwóch części: nadajnika i odbiornika pomiędzy którymi
+dokonywany wany jest pomiar odległości. W niniejszym rozdziale przedstawiony został nadajnik, 
+jego budowa i zasada działania.
+
+
 \section{Budowa i zasada działania}
 
-Nadajnik zbudowany został w oparciu o \textit{Arduino Nano} \cite{bib:arduinoNano} do którego podłączono 
-bezpośrednio cztery nadajniki ultradźwiękowe (rezonatory piezoelektryczne) typu 40ST-12 \cite{bib:40ST12}, schemat 
-przedstawiony jest na rysunku \ref{fig:nadajnik_schemat}.
+Nadajnik zbudowany został w oparciu o płytkę prototypową \textit{Arduino Nano} \cite{bib:arduinoNano},
+jest ona wyposażona w procesor z rodziny AVR typu ATmega328 \cite{bib:atmega328} taktowany \SI{16}{MHz} rezonatorem kwarcowym.
+Płytka wyposażona została  dodatkowo w \SI{5}{V} stabilizator napięcia oraz w układ FT232RL umożliwiający 
+jej programowanie poprzez port USB ze środowiska Arduino \cite{bib:Arduino}. 
+Do \textit{Arduino Nano} połączono 
+bezpośrednio cztery nadajniki ultradźwiękowe (głośniki, rezonatory piezoelektryczne) typu 40ST-12 \cite{bib:40ST12}, schemat 
+połączeń przedstawiono na rysunku \ref{fig:nadajnik_schemat}.
 
 \rysunek{transmitter}{Schemat nadajnika ultradźwiękowego}{\label{fig:nadajnik_schemat}}
 
@@ -15,23 +25,21 @@ zapobiega przenoszeniu się drgań.
 \rysunek{nadajnik_H}{Szkic ramy nadajnika}{\label{fig:nadajnik_szkic}}
 
 
-Android Nano połączony jest z odbiornikiem 6m kablem, którym przesyłane są sygnały sterujące jak i zasilanie.
-Do sterowania wykorzystywane są trzy przewody, dwa z nich informują który z rezonatorów ma w danym momencie nadawać,
+\textit{Android Nano} połączony jest z odbiornikiem 6m kablem, którym przesyłane są sygnały sterujące jak i zasilanie.
+Do sterowania wykorzystywane są trzy przewody, dwa z nich informują który z głośników ma w danym momencie nadawać,
 trzeci służy jako wyzwalacz. 
-
-Cała logika oprogramowania mieści się w obsłudze przerwania sprzętowego, które reaguje na zmianą stanu logicznego
-na wyzwalaczu,
-po uruchomieniu przerwania oprogramowanie wysyła sygnał na odpowiedni rezonator. 
+Na potrzeby nadajnika powstało oprogramowanie dla procesora ATmega328 napisane w C++, które generuje nadawany sygnał.
+Cała logika oprogramowania mieści się w obsłudze przerwania sprzętowego, reaguje ono na zmianą stanu logicznego
+na wyzwalaczu.
+Po uruchomieniu przerwania oprogramowanie wysyła sygnał na odpowiedni rezonator. 
 Nadawany sygnał jest tak dobrany by dało się go w prosty sposób wyodrębnić i składa się w dwóch
 części: część wzbudzającej oraz części tłumiącej.
-Długość impulsów sygnału jest zgodna z częstotliwością rezonansową nadajników, dodatkowo część tłumiąca
+Okres impulsów sygnału jest dobrana tak by była zgodna z częstotliwością rezonansową nadajników, dodatkowo część tłumiąca
 jest przesunięty względem części wyzwalającej o 180 stopni.  
 Rysunek \ref{fig:output_signal} przedstawia sygnał jakim wysterowany jest przetwornik piezoelektryczny. 
 
-Odległość między nadajnikiem a odbiornikami wyznaczany jest przez odbiornik na podstawie
-czasu jaki potrzebował sygnał dźwiękowy by do niego dotrzeć.
 
- \begin{figure}[h!]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=1.15\textwidth, trim= 47mm 0mm 0mm 0mm,clip]{output_signal}
     \caption{Sygnał wysterowania nadajnika piezoelektrycznego}
@@ -43,7 +51,7 @@ czasu jaki potrzebował sygnał dźwiękowy by do niego dotrzeć.
 \section{Dobór rezonatorów piezoelektrycznych}
 
 Głównym problemem podczas konstrukcji nadajnika okazał się dobór odpowiednich rezonatorów piezoelektrycznych.
-Mimo, że producent zapewnia zakres pracy rezonatorów w zakresie: \SI{40}{kHz} $\pm$ \SI{1}{kHz}, taki rozrzut okazał się niewystarczający, 
+Mimo, że producent wykorzystanych rezonatorów piezoelektrycznych zapewnia ich pracę zakresie: \SI{40}{kHz} $\pm$ \SI{1}{kHz}, taki rozrzut okazał się niewystarczający, 
 dlatego z 30 rezonatorów (15 nadajników i 15 odbiorników) wybrane zostały 4 nadajniki i 3 odbiorniki o najbardziej 
 zbliżonych częstotliwościach pracy. Częstotliwości zostały zmierzone na oscyloskopie cyfrowym, są to odpowiedzi 
 rezonatora na krótki impuls elektryczny.
