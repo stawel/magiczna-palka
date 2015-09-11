@@ -32,7 +32,7 @@ urządzenia dodano śledzenie głowy przez zewnętrzną kamerę.
  Podobną metodę wykorzystuje \textit{Oculus Rift development kit 2} \cite{bib:OculusRiftDK2} jak i 
  \textit{castAR} \cite{bib:castAR}, tutaj za źródła światła służą diody podczerwone umieszczone na okularach,
  światło przez nie emitowane jest rejestrowane poprzez kamerę umieszczoną przed użytkownikiem.
- Program na podstawie względnego położenia widocznych punktów określa położenie i orientację
+ Komputer na podstawie względnego położenia widocznych punktów określa położenie i orientację
  okularów w przestrzeni.
  Zaletą tego rozwiązania są stałe punkty odniesienia (kamera) jak i możliwość pomiaru wielu puntów na raz.
  Do wad należy zaliczyć stosunkowo niską rozdzielczość szczególnie w osi Z jak i duży strumień danych do obróbki.
@@ -41,12 +41,12 @@ urządzenia dodano śledzenie głowy przez zewnętrzną kamerę.
  wykorzystanie wielu zdjęć zawierających stałe (nie zmieniające się w czasie) obiekty, na postawie których wyznaczana jest pozycja kamery względem nich
   lub odwrotnie, kamera (lub wiele kamer) jest punktem stałym, a wyznaczana jest pozycję obiektów -   
  taką metodę wykorzystano w \textit{VidialSFM} \cite{bib:VisualSFM}, jak i w \textit{The Pi 3D scanner project} \cite{bib:pi3dscan}, 
- rozwiązanie to cechuje się jednak dość niską rozdzielczością.
+ rozwiązanie to cechuje się również dość niską rozdzielczością.
  
 \end{enumerate}
  
 
- W pracy przedstawiono prototyp oparty na zmodyfikowanej metodzie drugiej, który zamiast światła wykorzystuje ultradźwięki. 
+ W niniejszej pracy przedstawiono prototyp oparty na zmodyfikowanej metodzie drugiej, który zamiast światła wykorzystuje ultradźwięki. 
  Podejście to zapewnia dużo większą dokładność szczególnie w osi Z, prostotę budowy jak i dużo niższą cenę.
  Urządzenie składa się z dwóch części: odbiornika, na którym umieszczone są trzy mikrofony, i nadajnika,
  na którym znajdują się cztery głośniki. Pomiędzy nimi dokonywany jest pomiar odległości z rozdzielczością
@@ -62,14 +62,15 @@ Ostatecznie urządzenie jest w stanie śledzić położenie nadajnika z rozdziel
 Warto podkreślić, że wielkość sześcianu została ograniczona ze względów praktycznych i bez 
 większego problemu można ją zwiększyć zachowując stosunek rozdzielczości na metr.
 Jeśli chodzi o stosunkowo długi czas odświeżania to
- głównym czynnikiem jaki na niego wpływa jest czas potrzebny by fala dźwiękowa się rozproszyć,
+ głównym czynnikiem na niego wpływającym jest czas jaki potrzebuje fala dźwiękowa by się rozproszyć,
  tak by jej odbicia od powierzchni ścian nie wpływały na kolejne pomiary.
 
-Należy również wspomnieć o pracy \textit{Ultrasonic 3D Wireless Computer Mouse} \cite{bib:mouse}, w której przedstawiono 
-prototyp myszki 3D działającej na podobnej zasadzie, niemniej ów praca koncentruje się głównie
-na określaniu położenia myszki w przestrzeni, bez wyznaczania jej orientacji oraz wykorzystana metoda 
-mierzenia odległości jest dużo bardziej podatna na błędy od metody prezentowanej w niniejszej pracy.
-Ciekawym rozwiązaniem była również rękawica dla graczy o nazwie \textit{Power Glove} \cite{bib:powerGlove} \cite{bib:powerGlove2} dla
+Warto również wspomnieć o innych pracach, które w podobny sposób podchodzą do problemu pozycjonowania, przykładowo 
+w pracy \textit{Ultrasonic 3D Wireless Computer Mouse} \cite{bib:mouse} przedstawiono prototyp myszki 3D, której
+pozycja w przestrzeni wyznaczana jest za pomocą ultradźwięków, niemniej wykorzystany przez autorów algorytm wyznaczania 
+odległości jest dużo bardziej podatny na błędy. Dodatkowo praca koncentruje się jedynie
+na określaniu położenia myszki w przestrzeni, bez wyznaczania jej orientacji.
+Kolejnym ciekawym rozwiązaniem była rękawica dla graczy o nazwie \textit{Power Glove} \cite{bib:powerGlove} \cite{bib:powerGlove2} dla
 \textit{Nintendo Entertainment System} wydana w roku 1989, ona również wykorzystywała ultradźwięki do wyznaczania pozycji
 rękawicy w przestrzeni, jednak precyzja urządzenia była wyjątkowo słaba przez co rękawica nie odniosła znaczącego sukcesu komercyjnego.
 
