@@ -1,40 +1,42 @@
 \chapter{Nadajnik ultradźwiękowy}
 
 Prezentowany prototyp składa się z dwóch części: nadajnika i odbiornika pomiędzy którymi
-dokonywany wany jest pomiar odległości. W niniejszym rozdziale przedstawiony został nadajnik, 
-jego budowa i zasada działania.
-
+dokonywany jest pomiar odległości. W niniejszym rozdziale opisana została budowa nadajnika. 
 
 \section{Budowa i zasada działania}
 
 Nadajnik zbudowany został w oparciu o płytkę prototypową \textit{Arduino Nano} \cite{bib:arduinoNano},
-jest ona wyposażona w procesor z rodziny AVR typu ATmega328 \cite{bib:atmega328} taktowany \SI{16}{MHz} rezonatorem kwarcowym.
-Płytka wyposażona została  dodatkowo w \SI{5}{V} stabilizator napięcia oraz w układ FT232RL umożliwiający 
-jej programowanie poprzez port USB ze środowiska Arduino \cite{bib:Arduino}. 
+która składa się z procesora ATmega328 \cite{bib:atmega328} taktowanego \SI{16}{MHz} rezonatorem kwarcowym,
+\SI{5}{V} stabilizatora napięcia oraz układ FT232RL umożliwiający 
+jej programowanie poprzez port USB ze środowiska \textit{Arduino} \cite{bib:Arduino}. 
 Do \textit{Arduino Nano} połączono 
-bezpośrednio cztery nadajniki ultradźwiękowe (głośniki, rezonatory piezoelektryczne) typu 40ST-12 \cite{bib:40ST12}, schemat 
-połączeń przedstawiono na rysunku \ref{fig:nadajnik_schemat}.
+bezpośrednio cztery nadajniki ultradźwiękowe (głośniki, rezonatory piezoelektryczne) typu 40ST-12 \cite{bib:40ST12}.
+Schemat połączeń przedstawiono na rysunku \ref{fig:nadajnik_schemat}.
 
-\rysunek{transmitter}{Schemat nadajnika ultradźwiękowego}{\label{fig:nadajnik_schemat}}
-
+ \begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.6\textwidth, trim= 0mm 0mm 0mm 0mm,clip]{transmitter}
+    \caption{Schemat nadajnika.}
+    \label{fig:nadajnik_schemat}
+\end{figure}
 
 Całość umieszczona została w ramie w kształcie litery H wykonanej z rurek PCV.
-Rezonatory zostały dodatkowo odizolowane od ramy rzepami co ułatwia ich zdejmowanie jak i skutecznie
-zapobiega przenoszeniu się drgań.
+Rezonatory zostały dodatkowo odizolowane od ramy rzepami co ułatwia ich demontaż jak i skutecznie
+zapobiega przenoszeniu się drgań. 
 
 \rysunek{nadajnik_H}{Szkic ramy nadajnika}{\label{fig:nadajnik_szkic}}
 
 
-\textit{Android Nano} połączony jest z odbiornikiem 6m kablem, którym przesyłane są sygnały sterujące jak i zasilanie.
+\textit{Android Nano} połączony jest z odbiornikiem \SI{6}{m} kablem, którym przesyłane są sygnały sterujące jak i zasilanie.
 Do sterowania wykorzystywane są trzy przewody, dwa z nich informują który z głośników ma w danym momencie nadawać,
 trzeci służy jako wyzwalacz. 
-Na potrzeby nadajnika powstało oprogramowanie dla procesora ATmega328 napisane w C++, które generuje nadawany sygnał.
-Cała logika oprogramowania mieści się w obsłudze przerwania sprzętowego, reaguje ono na zmianą stanu logicznego
+Na potrzeby nadajnika powstało oprogramowanie dla procesora ATmega328 napisane w C generujące nadawany sygnał.
+Cała logika programu mieści się w obsłudze przerwania sprzętowego, które reaguje na zmianą stanu logicznego
 na wyzwalaczu.
-Po uruchomieniu przerwania oprogramowanie wysyła sygnał na odpowiedni rezonator. 
+Po uruchomieniu przerwania oprogramowanie wysyła z góry zdefiniowany sygnał na odpowiedni rezonator. 
 Nadawany sygnał jest tak dobrany by dało się go w prosty sposób wyodrębnić i składa się w dwóch
 części: część wzbudzającej oraz części tłumiącej.
-Okres impulsów sygnału jest dobrana tak by była zgodna z częstotliwością rezonansową nadajników, dodatkowo część tłumiąca
+Okres impulsów sygnału jest równy częstotliwością rezonansową przetworników, dodatkowo część tłumiąca
 jest przesunięty względem części wyzwalającej o 180 stopni.  
 Rysunek \ref{fig:output_signal} przedstawia sygnał jakim wysterowany jest przetwornik piezoelektryczny. 
 
@@ -42,7 +44,7 @@ Rysunek \ref{fig:output_signal} przedstawia sygnał jakim wysterowany jest przet
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1.15\textwidth, trim= 47mm 0mm 0mm 0mm,clip]{output_signal}
-    \caption{Sygnał wysterowania nadajnika piezoelektrycznego}
+    \caption{Sygnał wysterowania przetwornika piezoelektrycznego}
     \label{fig:output_signal}
 \end{figure}
 
@@ -51,9 +53,9 @@ Rysunek \ref{fig:output_signal} przedstawia sygnał jakim wysterowany jest przet
 \section{Dobór rezonatorów piezoelektrycznych}
 
 Głównym problemem podczas konstrukcji nadajnika okazał się dobór odpowiednich rezonatorów piezoelektrycznych.
-Mimo, że producent wykorzystanych rezonatorów piezoelektrycznych zapewnia ich pracę zakresie: \SI{40}{kHz} $\pm$ \SI{1}{kHz}, taki rozrzut okazał się niewystarczający, 
+Mimo, że producent wykorzystanych rezonatorów piezoelektrycznych zapewnia ich pracę zakresie: \SI{40}{kHz} $\pm$ \SI{1}{kHz}, to taki rozrzut okazał się niewystarczający, 
 dlatego z 30 rezonatorów (15 nadajników i 15 odbiorników) wybrane zostały 4 nadajniki i 3 odbiorniki o najbardziej 
-zbliżonych częstotliwościach pracy. Częstotliwości zostały zmierzone na oscyloskopie cyfrowym, są to odpowiedzi 
+zbliżonych częstotliwościach rezonansowych. Częstotliwości zostały zmierzone na oscyloskopie cyfrowym, są to odpowiedzi 
 rezonatora na krótki impuls elektryczny.
 
 Tabela \ref{table:czestotliwosci} zawiera wyniki pomiarów częstotliwości, gwiazdką oznaczono wykorzystane przetworniki piezoelektryczne.

@@ -56,11 +56,13 @@ z czego ostatecznie otrzymujemy:
 \section{Wyznaczanie orientacji w przestrzeni}
 
 
-Kolejną rzeczą jaka nas interesuje jest orientacja w przestrzeni nadajnika,
-orientacja zdefiniowana jest jako kąty Eulera \cite{bib:katyEulera}: przechylenia, 
-pochylenia oraz odchylenia wokół osi związanych z obiektem.
+Kolejną rzeczą jaka nas interesuje jest orientacja w przestrzeni nadajnika.
+Standardowo orientację zdefiniuje się jako (trzy) kąty Eulera \cite{bib:katyEulera}: przechylenia, 
+pochylenia oraz odchylenia wokół osi związanych z obiektem, jednak na nasze potrzeby wygodniej 
+posługiwać się dwoma prostopadłymi wektorami, które jednoznacznie wyznaczają ów kąty. 
 Prezentowany prototyp wyznacza położenie czterech punktów $\boldsymbol{x_1, x_2, x_3, x_4}$ znajdujących się
-na nadajniku, a następnie na ich podstawie wyznacza poszukiwane trzy kąty, rysunek \ref{fig:orientacja}:
+na nadajniku, a następnie na ich podstawie wyznacza poszukiwane dwa prostopadłe wektory które jednoznacznie
+definiują jego orientację, rysunek \ref{fig:orientacja}:
 
  \begin{figure}[H]
     \centering
@@ -78,7 +80,7 @@ Zauważmy, że wyznaczenie czterech punktów daje nam pewną nadmiarowość
 danych, mianowicie do wyznaczenia pozycji nadajnika potrzebujemy trzech współrzędnych,
 a dla orientacji potrzebujemy trzech kątów, w sumie daje to jedynie sześć niewiadomych.
 W naszym przypadku wyznaczamy dwanaście niewiadomych co daje dwukrotną nadmiarowość danych.
-Jest to efekt pożądany, ów nadmiarowość prototyp wykorzystuje do korekcji błędów pomiarowych.
+Jest to efekt pożądany, ów nadmiarowość wykorzystana zostanie do korekcji błędów pomiarowych.
 
 
 \section{Pomiar odległości za pomocą ultradźwięków}
@@ -104,7 +106,7 @@ Wzór ten możemy przybliżyć za pomocą rozwinięcia Taylora dla temperatur bl
 \]
 
 Mimo że współczynnik temperaturowy jest stosunkowo mały i stanowi jedynie \SI{0,17}{\%} całej prędkości
-to przy pomiarach odległości rzędu metrów i rozdzielczościach rzędu milimetrów staje się istotny, 
+to przy pomiarach odległości rzędu metrów i rozdzielczościach rzędu milimetrów staje się on istotny, 
 dlatego w prezentowanym prototypie istotną częścią stanowi kalibracja wstępna, podczas której
 wyznaczana jest aktualna prędkość dźwięku.
 
