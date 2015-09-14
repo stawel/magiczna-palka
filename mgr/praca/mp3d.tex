@@ -1,33 +1,34 @@
 \chapter{Przetwarzanie danych zebranych z odbiorników}
 
-Najważniejszą częścią prototypu jest oprogramowanie, które przekształca surowe dane dźwiękowe
+W ramach pracy powstało oprogramowanie uruchamiane na komputerze, którego zadaniem jest
+przekształcenie surowych danych ultradźwiękowych 
 z odbiornika na położenie nadajnika w przestrzeni oraz jego orientację.
+Oprogramowanie podzielone zostało na trzy części: biblioteka \textit{mp3d} zajmująca się
+sterowaniem odbiornika, odbieraniem sygnałów ultradźwiękowych i ich analizą, program \textit{scan.py}
+wizualizujący dane w postaci obrazu trójwymiarowego oraz program \textit{save-pattern.py},
+który służy do wstępnej kalibracji urządzenia.
 
-Przetwarzaniem danych zajmuje się biblioteka \textit{mp3d}
-oraz program \textit{scan.py} wizualizujący dane w postaci obrazu trójwymiarowego.
 
-Biblioteka \textit{mp3d} została podzielona na pięć modułów:
+Najistotniejszą częścią oprogramowania stanowi biblioteka \textit{mp3d}, została ona podzielona na pięć modułów:
 \begin{enumerate}
-
- \item \textit{com.py} - moduł odpowiedzialny za komunikację odbiornikiem
- \item \textit{find\_pattern.py} - moduł odpowiedzialny za wyszukanie wzorca w odebranym sygnale
+ \item \textit{com.py} - moduł odpowiedzialny za komunikację z odbiornikiem
+ \item \textit{find\_pattern.py} - moduł odpowiedzialny wyznaczanie odległości poprzez wyszukanie wzorca w odebranym sygnale
  \item \textit{xyz.py} - moduł odpowiedzialny za wyznaczenie pozycji i orientacji nadajnika, oraz za 
  weryfikację, czy zebrane dane odpowiadają modelowanej rzeczywistości
  \item \textit{info.py} - moduł wyświetlający informację o sile odbieranego sygnału
  \item \textit{ply.py} - moduł odpowiedzialny za eksportowanie danych do formaty \textit{.ply} 
     (Polygon File Format) obsługiwanego przez większość programów do obróbki grafiki 3D.
-
 \end{enumerate}
 
 
-\section{Moduł \textit{com.py}}
+\section{Komunikacja z odbiornikiem, moduł \textit{com.py}}
 
-Zadaniem modułu \textit{com.py} jest komunikacja z odbiornikiem poprzez port USB,
-moduł pracuje w oddzielnym wątku, w którym cyklicznie wysyła żądanie by dany głośnik na nadajniku nadał sygnał, następnie odbiera
-sygnał z trzech mikrofonów.
+Za komunikację z odbiornikiem odpowiedzialny jest moduł \textit{com.py},
+pracuje on w oddzielnym wątku, w którym cyklicznie wysyłane są żądania by dany głośnik na nadajniku nadał sygnał,
+następnie odbierane są sygnały z trzech mikrofonów.
 Ta czynność powtarzana jest dla każdego z czterech nadajników.
 Zebrane dwanaście sygnałów po wstępnej filtracji przekazywane są dalej do \textit{find\_pattern.py}. Cały cykl powtarzany jest
-co \SI{350}{ms}. Rysunek \ref{fig:com_output_2m} przedstawia sygnał z jednego mikrofonu przekazywany do modułu \textit{find\_pattern.py}.
+co \SI{350}{ms}. Rysunek \ref{fig:com_output_2m} przedstawia odebrany sygnał z jednego mikrofonu przekazywany do modułu \textit{find\_pattern.py}.
 
 
 \begin{figure}[h!]
@@ -42,26 +43,30 @@ co \SI{350}{ms}. Rysunek \ref{fig:com_output_2m} przedstawia sygnał z jednego m
 \end{figure}
 
 
-\section{Moduł \textit{find\_pattern.py}}
+\section{Wyznaczanie odległości, moduł \textit{find\_pattern.py}}
 
-Moduł \textit{find\_pattern.py} odpowiada za znalezienie \textit{wzorca} w odebranym sygnale.
+Moduł \textit{find\_pattern.py} odpowiada za wyznaczenie odległości pomiędzy czterema głośnikami i trzema mikrofonami.
+w tym celu w każdym z 12 odebranych sygnałów (rysunek \ref{fig:com_output_2m}) wyszukiwane jest
+położenie \textit{wzorca} odpowiadającego czołu nadanego sygnału.
 Wzorzec początkowo wprowadzany jest podczas kalibracji, następnie jest ciągle aktualizowany 
 (podmieniany z sygnałem pasującym do wzorca).
-Do wyszukania \textit{wzorca} wewnątrz sygnału wykorzystana jest metoda najmniejszego błędu średniokwadratowego.
 
-Niech $w(t)$  dla $t = 0..n-1$ będzie szukanym wzorcem, a $f(x)$ odebranym sygnałem,
-wtedy możemy znaleźć takie $a$, że błąd średniokwadratowy pomiędzy $w(t)$ i $a f(t+x)$ jest minimalny, mianowicie:
+Do wyszukania \textit{wzorca} wewnątrz sygnału wykorzystana jest metoda najmniejszego błędu średniokwadratowego, mianowicie:
+
+niech $w(t)$  dla $t = 0..n-1$ będzie szukanym \textit{wzorcem}, a $f(x)$ odebranym sygnałem,
+wtedy możemy znaleźć takie $a$, że błąd średniokwadratowy $E(x)$ pomiędzy $w(t)$ i $a f(t+x)$ jest minimalny,
+możemy to zapisać w postaci:
 \[
   E(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  (w(t) - a f(t+x))^2 \}
 \]
-gdzie $E(x)$ jest bezwzględnym błędem średniokwadratowym, zauważmy że:
+zauważmy że:
 \[
   E(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  (w^2(t) -2a w(t) f(t+x) + a^2 f^2(t+x)) \}
 \]
 \[
   E(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  w^2(t) -2a \sum_{t=0}^{n-1}  w(t) f(t+x) + a^2 \sum_{t=0}^{n-1} f^2(t+x) \}
 \]
-funkcja kwadratowa w postaci:
+aby wyliczyć $E(x)$ należy zminimalizować wyrażenie w nawiasach klamrowych. Funkcja kwadratowa w postaci:
 \[
   y(a) = \sum_{t=0}^{n-1}  w^2(t) -2a \sum_{t=0}^{n-1}  w(t) f(t+x) + a^2 \sum_{t=0}^{n-1} f^2(t+x)
 \]
@@ -75,41 +80,41 @@ z czego ostatecznie dostajemy:
   E(x) = \sum_{t=0}^{n-1}  w^2(t)  - \frac {(\sum\limits_{t=0}^{n-1}  w(t) f(t+x) )^2 } { \sum\limits_{t=0}^{n-1} f^2(t+x)}
 \]
 
-Zauważmy, że dzięki skalowaniu sygnału $f(x)$ zamiast sygnał wzorcowy $w(x)$
-otrzymany błąd $E(x)$ nie zależy od siły odebranego sygnału, co ułatwia porównanie błędów w dwóch różnych miejscach,
+Zauważmy, że dzięki skalowaniu sygnału $f(x)$ zamiast \textit{wzorcowa} $w(x)$
+otrzymany błąd $E(x)$ nie zależy od siły odebranego sygnału co ułatwia porównanie błędów w dwóch różnych miejscach,
 Zależy on jednak od siły sygnału wzorcowego, aby się od niego uniezależnić możemy wyznaczyć
 błąd względny $e(x)$:
 \[
   e(x) = \frac{E(x)}{\sum\limits_{t=0}^{n-1}  w^2(t)}
 \]
-
+po podstawieniu $E(x)$ dostajemy:
 \[
   e(x) = 1 - \frac {(\sum\limits_{t=0}^{n-1}  w(t) f(t+x) )^2 } { \sum\limits_{t=0}^{n-1} f^2(t+x) \sum\limits_{t=0}^{n-1}  w^2(t)}
 \]
 
-Ponadto wyliczenie $ \sum\limits_{t=0}^{n-1}  w^2(t) $ 
+Złożoność obliczeniowa wyrażenia: wyliczenie $ \sum\limits_{t=0}^{n-1}  w^2(t) $ 
 jak i $\sum\limits_{t=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji, a 
- $\sum\limits_{t=0}^{n-1}  w(t) f(t+x)  $ jest korelacją wzajemną funkcji $w(t)$ i $f(x)$, którą
+ $\sum\limits_{t=0}^{n-1}  w(t) f(t+x) $ jest korelacją wzajemną funkcji $w(t)$ i $f(x)$, którą
  można wyliczyć w czasie $n \log(n)$ korzystając z szybkiej transformacji Fouriera \cite{bib:FFT_correlation}.
  
- Funkcję $e(x)$  można ją interpretować jako:
+ Funkcję $e(x)$  można interpretować jako:
  im mniejszy błąd $e(x)$ tym większe prawdopodobieństwo, że szukany wzorzec $w$ znajduje się na pozycji $x$ w 
  odebranym sygnale $f$. 
  Wynikiem modułu \textit{find\_pattern.py} jest cała funkcja, $e(x)$ na podstawie której moduł \textit{xyz.py}
  wyznaczy pozycję głowicy w przestrzeni jak i jego orientację uwzględniając przy tym 
- kształt głowicy (nadmiarowość danych) jak i prawdopodobieństwa że znaleziony wzorzec jest na danej pozycji.
+ kształt głowicy (nadmiarowość danych) jak i prawdopodobieństwo że znaleziony wzorzec jest na danej pozycji.
  
  Kolejnym zadaniem modułu \textit{find\_pattern.py} jest uaktualnianie \textit{wzorca}.
- Wraz ze zmianą kąta nachylenia nadajnika względem odbiornika zmienia się nieznacznie kształt odbieranego sygnału,
- dlatego jeśli odnajdziemy szukany \textit{wzorzec} oraz spełnione są następujące warunki:
+ Wraz ze zmianą kąta nachylenia nadajnika względem odbiornika zmienia się kształt odbieranego sygnału,
+ dlatego jeśli badany sygnał zwiera szukany \textit{wzorzec} oraz spełnione są następujące warunki:
  \begin{itemize}
-  \item moc sygnału pasującego do \textit{wzorca} jest wystarczająco silna
-  \item błąd względny pomiędzy sygnałem a wzorcem jest mała
-  \item moduł \textit{xyz.py} uzna, że otrzymane pozycje pasują do modelowanej rzeczywistości
+  \item moc sygnału pasującego do \textit{wzorca} jest wystarczająco duża
+  \item błąd względny pomiędzy sygnałem a wzorcem jest mały
+  \item moduł \textit{xyz.py} "uzna", że otrzymane pozycje pasują do modelowanej rzeczywistości
  \end{itemize}
-to zostanie od uaktualniony.
+to moduł uaktualni \textit{wzorzec}.
   
- Na rysunku \ref{fig:blad_korel} przedstawiony jest wynik przetwarzania sygnału przez moduł \textit{find\_pattern.py}.
+ Na rysunku \ref{fig:blad_korel} przedstawiono wynik przetwarzania sygnału poprzez moduł \textit{find\_pattern.py}.
  
  \begin{figure}[h!]
     \centering
@@ -120,7 +125,7 @@ to zostanie od uaktualniony.
  
 
  
-\section{Moduł \textit{xyz.py}}
+\section{Wyznaczanie pozycji oraz orientacji przestrzennej, moduł \textit{xyz.py}}
 
 Zadaniem modułu \textit{xyz.py} jest wyznaczenie pozycji oraz orientacji w przestrzeni głowicy nadajnika.
 Zauważymy, że moduł musi wyznaczyć trzy współrzędne $(x_1,x_2,x_3)$
