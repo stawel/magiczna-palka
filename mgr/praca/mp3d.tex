@@ -3,7 +3,7 @@
 W ramach pracy powstało oprogramowanie uruchamiane na komputerze, którego zadaniem jest
 przekształcenie surowych danych ultradźwiękowych 
 z odbiornika na położenie nadajnika w przestrzeni oraz jego orientację.
-Oprogramowanie podzielone zostało na trzy części: biblioteka \textit{mp3d} zajmująca się
+Oprogramowanie podzielone zostało na trzy części: bibliotekę \textit{mp3d} zajmującą się
 sterowaniem odbiornika, odbieraniem sygnałów ultradźwiękowych i ich analizą, program \textit{scan.py}
 wizualizujący dane w postaci obrazu trójwymiarowego oraz program \textit{save-pattern.py},
 który służy do wstępnej kalibracji urządzenia.
@@ -24,9 +24,9 @@ Najistotniejszą częścią oprogramowania stanowi biblioteka \textit{mp3d}, zos
 \section{Komunikacja z odbiornikiem, moduł \textit{com.py}}
 
 Za komunikację z odbiornikiem odpowiedzialny jest moduł \textit{com.py},
-pracuje on w oddzielnym wątku, w którym cyklicznie wysyłane są żądania by dany głośnik na nadajniku nadał sygnał,
+pracuje on w oddzielnym wątku, w którym cyklicznie wysyłane są żądania by dany głośnik nadał sygnał,
 następnie odbierane są sygnały z trzech mikrofonów.
-Ta czynność powtarzana jest dla każdego z czterech nadajników.
+Ta czynność powtarzana jest dla każdego z czterech głośników nadajnika.
 Zebrane dwanaście sygnałów po wstępnej filtracji przekazywane są dalej do \textit{find\_pattern.py}. Cały cykl powtarzany jest
 co \SI{350}{ms}. Rysunek \ref{fig:com_output_2m} przedstawia odebrany sygnał z jednego mikrofonu przekazywany do modułu \textit{find\_pattern.py}.
 
@@ -45,13 +45,13 @@ co \SI{350}{ms}. Rysunek \ref{fig:com_output_2m} przedstawia odebrany sygnał z 
 
 \section{Wyznaczanie odległości, moduł \textit{find\_pattern.py}}
 
-Moduł \textit{find\_pattern.py} odpowiada za wyznaczenie odległości pomiędzy czterema głośnikami i trzema mikrofonami.
-w tym celu w każdym z 12 odebranych sygnałów (rysunek \ref{fig:com_output_2m}) wyszukiwane jest
-położenie \textit{wzorca} odpowiadającego czołu nadanego sygnału.
-Wzorzec początkowo wprowadzany jest podczas kalibracji, następnie jest ciągle aktualizowany 
-(podmieniany z sygnałem pasującym do wzorca).
+Moduł \textit{find\_pattern.py} odpowiada za obliczenie odległości pomiędzy czterema głośnikami i trzema mikrofonami.
+Odległość wyznaczana jest poprzez wyszukanie położenia specjalnego \textit{wzorca} odpowiadającego czołu nadanego sygnału 
+w każdym z 12 odebranych sygnałów (rysunek \ref{fig:com_output_2m}).
+\textit{Wzorzec} początkowo wprowadzany jest podczas kalibracji, następnie jest ciągle aktualizowany 
+(podmieniany z sygnałem pasującym do \textit{wzorca}).
 
-Do wyszukania \textit{wzorca} wewnątrz sygnału wykorzystana jest metoda najmniejszego błędu średniokwadratowego, mianowicie:
+Do wyszukania \textit{wzorca} wewnątrz sygnału wykorzystana jest metoda najmniejszego błędu średniokwadratowego:
 
 niech $w(t)$  dla $t = 0..n-1$ będzie szukanym \textit{wzorcem}, a $f(x)$ odebranym sygnałem,
 wtedy możemy znaleźć takie $a$, że błąd średniokwadratowy $E(x)$ pomiędzy $w(t)$ i $a f(t+x)$ jest minimalny,
@@ -59,23 +59,22 @@ możemy to zapisać w postaci:
 \[
   E(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  (w(t) - a f(t+x))^2 \}
 \]
-zauważmy że:
+po podniesieniu wyrażenia w nawiasie do kwadratu otrzymujemy:
 \[
   E(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  (w^2(t) -2a w(t) f(t+x) + a^2 f^2(t+x)) \}
 \]
 \[
   E(x) = \min_{a \in R} \{ \sum_{t=0}^{n-1}  w^2(t) -2a \sum_{t=0}^{n-1}  w(t) f(t+x) + a^2 \sum_{t=0}^{n-1} f^2(t+x) \}
 \]
-aby wyliczyć $E(x)$ należy zminimalizować wyrażenie w nawiasach klamrowych. Funkcja kwadratowa w postaci:
+aby wyliczyć $E(x)$ należy zminimalizować wyrażenie:
 \[
   y(a) = \sum_{t=0}^{n-1}  w^2(t) -2a \sum_{t=0}^{n-1}  w(t) f(t+x) + a^2 \sum_{t=0}^{n-1} f^2(t+x)
 \]
-osiąga minimum dla:
+ korzystając z faktu, że $y(a)$ jest funkcją kwadratową, możemy wyliczyć $a$ minimalizujące $y(a)$:
 \[
  a = \frac{ \sum\limits_{t=0}^{n-1}  w(t) f(t+x) }{ \sum\limits_{t=0}^{n-1} f^2(t+x) }
 \]
-z czego ostatecznie dostajemy:
-
+ostatecznie dostajemy wzór na $E(x)$:
 \[
   E(x) = \sum_{t=0}^{n-1}  w^2(t)  - \frac {(\sum\limits_{t=0}^{n-1}  w(t) f(t+x) )^2 } { \sum\limits_{t=0}^{n-1} f^2(t+x)}
 \]
@@ -91,22 +90,34 @@ po podstawieniu $E(x)$ dostajemy:
 \[
   e(x) = 1 - \frac {(\sum\limits_{t=0}^{n-1}  w(t) f(t+x) )^2 } { \sum\limits_{t=0}^{n-1} f^2(t+x) \sum\limits_{t=0}^{n-1}  w^2(t)}
 \]
-
-Złożoność obliczeniowa wyrażenia: wyliczenie $ \sum\limits_{t=0}^{n-1}  w^2(t) $ 
-jak i $\sum\limits_{t=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji, a 
- $\sum\limits_{t=0}^{n-1}  w(t) f(t+x) $ jest korelacją wzajemną funkcji $w(t)$ i $f(x)$, którą
- można wyliczyć w czasie $n \log(n)$ korzystając z szybkiej transformacji Fouriera \cite{bib:FFT_correlation}.
  
  Funkcję $e(x)$  można interpretować jako:
  im mniejszy błąd $e(x)$ tym większe prawdopodobieństwo, że szukany wzorzec $w$ znajduje się na pozycji $x$ w 
  odebranym sygnale $f$. 
- Wynikiem modułu \textit{find\_pattern.py} jest cała funkcja, $e(x)$ na podstawie której moduł \textit{xyz.py}
+
+ Wynikiem obliczeń modułu \textit{find\_pattern.py} jest cała funkcja $e(x)$, na podstawie której moduł \textit{xyz.py}
  wyznaczy pozycję głowicy w przestrzeni jak i jego orientację uwzględniając przy tym 
  kształt głowicy (nadmiarowość danych) jak i prawdopodobieństwo że znaleziony wzorzec jest na danej pozycji.
+ Na rysunku \ref{fig:blad_korel} przedstawiono wynik przetwarzania sygnału poprzez moduł \textit{find\_pattern.py}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1.15\textwidth, trim= 47mm 0mm 0mm 0mm,clip]{blad_korel}
+    \caption{Sygnał przetworzony przez moduł \textit{find\_pattern.py}.}
+    \label{fig:blad_korel}
+\end{figure}
+ 
+ 
+ Analiza złożoności obliczeniowej: wyliczenie $ \sum\limits_{t=0}^{n-1}  w^2(t) $ 
+jak i $\sum\limits_{t=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji, a 
+ $\sum\limits_{t=0}^{n-1}  w(t) f(t+x) $ jest korelacją wzajemną funkcji $w(t)$ i $f(x)$, którą
+ można wyliczyć w czasie $m \log(m)$ korzystając z szybkiej transformacji Fouriera \cite{bib:FFT_correlation},
+ gdzie $m = \max \{|w|, |f| \}$, czyli wyliczenie całej funkcji $e(x)$ wymaga jedynie $m \log(m)$ operacji.
+
  
  Kolejnym zadaniem modułu \textit{find\_pattern.py} jest uaktualnianie \textit{wzorca}.
  Wraz ze zmianą kąta nachylenia nadajnika względem odbiornika zmienia się kształt odbieranego sygnału,
- dlatego jeśli badany sygnał zwiera szukany \textit{wzorzec} oraz spełnione są następujące warunki:
+ dlatego jeśli badany sygnał zawiera szukany \textit{wzorzec} oraz spełnione są następujące warunki:
  \begin{itemize}
   \item moc sygnału pasującego do \textit{wzorca} jest wystarczająco duża
   \item błąd względny pomiędzy sygnałem a wzorcem jest mały
@@ -114,43 +125,46 @@ jak i $\sum\limits_{t=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji
  \end{itemize}
 to moduł uaktualni \textit{wzorzec}.
   
- Na rysunku \ref{fig:blad_korel} przedstawiono wynik przetwarzania sygnału poprzez moduł \textit{find\_pattern.py}.
- 
- \begin{figure}[h!]
-    \centering
-    \includegraphics[width=1.15\textwidth, trim= 47mm 0mm 0mm 0mm,clip]{blad_korel}
-    \caption{Sygnał przetworzony przez moduł \textit{find\_pattern.py}.}
-    \label{fig:blad_korel}
-\end{figure}
- 
-
  
 \section{Wyznaczanie pozycji oraz orientacji przestrzennej, moduł \textit{xyz.py}}
 
-Zadaniem modułu \textit{xyz.py} jest wyznaczenie pozycji oraz orientacji w przestrzeni głowicy nadajnika.
-Zauważymy, że moduł musi wyznaczyć trzy współrzędne $(x_1,x_2,x_3)$
-oraz trzy kąty nachylenia $(\alpha_1, \alpha_2, \alpha_3)$ czyli w sumie sześć niewiadomych,
-na wejściu moduł pobiera dwanaście sygnałów $e_i(x)$ dla $i=0..11$ odpowiadających prawdopodobieństwom odległości
-czterech nadajników od trzech odbiorników, mamy więc dwukrotną nadmiarowość danych.
-Ta nadmiarowość wykorzystywana jest do korekcji błędów podczas pomiaru odległości.
-Moduł wybiera $n$ najbardziej prawdopodobnych odległości z $e_i(x)$, czyli takich $x_{ij}$ dla $j = 0...n-1$
-że $e_i(x_{ij})$ jest duże, następnie sprawdza która kombinacja 
-odległości jest możliwa ze względu na poprzedni pomiar (czy głowica nie przemieściła się za szybko)
-oraz ze względu na kształt samej głowicy - jeśli wyznaczony kształt głowicy nie pasuje do jej rzeczywistych
-rozmiarów pomiar jest odrzucany.
-Tak wyznaczone $x_{ij}$ są przekazywany z powrotem do modułu \textit{find\_pattern.py} w celu odświeżenia wzorca,
-oraz na ich podstawie wyznaczana jest pozycja i orientacja głowicy.
+Ostatnim etapem obliczeń jest wyznaczenie współrzędnych kartezjańskich czterech głośników znajdujących się na nadajniku,
+na podstawie których obliczana jest pozycja jaki i orientacja całego nadajnika.
+Tym etapem zajmuje się moduł \textit{xyz.py}. Moduł zawiera również prosty model rzeczywistości,
+którego celem jest wyłapanie niepoprawnych danych o położeniu.
+Niepoprawne dane powstają gdy część głośników traci widoczność z mikrofonami np. gdy zostaną przysłonięte.
+W ramach modelowanej rzeczywistości wyliczane są:
+\begin{itemize}
+  \item prędkość z jaką porusza się każdy z głośników
+  \item kształt nadajnika - położenie głośników względem siebie w przestrzeni
+\end{itemize}
+Jeśli któreś z wyliczeń odbiega od z góry ustalonej normy to dany pomiar uznawany jest za nieprawidłowy.
 
-\section{Moduł \textit{info.py}}
 
-zadaniem modułu \textit{info.py} jest wyświetlenie informacji związanych z siłą odbieranych sygnałów.
+Współrzędne głośników wyznaczane są na podstawie dwunastu funkcji $e_{ij}(x)$ dla $i=1..3$ i $j=1..4$, które zawierające informację o odległości
+pomiędzy głośnikiem $i$ oraz mikrofonem $j$.
+Dla każdej funkcji $e_{ij}(x)$ wyszukiwane są pozycje minimów lokalnych tych funkcji, z których następnie wybierane jest $k$ pozycji $x_1, ..., x_k$
+o najmniejszych wartościach, gdzie $k$ jest stałą wewnętrzną modułu \textit{xyz.py}.
+Pozycje $x_l$ dla $l=1...k$ są odległościami, dla których błąd średniokwadratowy $e_{ij}(x_l)$ pomiędzy szukanym sygnałem (\textit{wzorcem}), a odebranym sygnałem na pozycji $x_i$
+jest lokalnym minimum jak i jest mały w sensie globalnym,
+pozycje $x_l$ można również  interpretować jako najbardziej prawdopodobne odległości pomiędzy głośnikiem, a mikrofonem.
+
+Do wyliczenia pozycji głośników w przestrzeni wykorzystana są wszystkie możliwe kombinacje wyznaczonych odległości,
+zauważmy że tych kombinacji jest $12^k$. Każda z możliwych kombinacji 
+sprawdzana jest czy jest akceptowalna dla modelowanej rzeczywistości, z tych które są akceptowalne wybierana jest 
+kombinacja o najmniejszym sumarycznym błędzie średniokwadratowym, czyli najbardziej prawdopodobna.
+
+Ostatecznie wynikiem  moduły \textit{xyz.py} są odległości $x^{ij}$  ($i=1..3$ i $j=1..4$), na podstawie których
+wyznaczana jest pozycja i orientacja nadajnika wyświetlana są GUI.
+Wartości $x^{ij}$ przekazywane są również z powrotem do moduły \textit{find\_pattern.py} w celu aktualizacji \textit{wzorców}.
+
 
 \section{Kalibracja}
 
 Przed każdym uruchomieniem urządzenia wymagana jest kalibracja.
-Kalibracja sprowadza się do ustawienia głowicy w odległości 2 metrów od odbiornika
-uruchomienia urządzenia oraz zaznaczenia 12 wzorców potrzebnych do odnalezienia 
-odebranego sygnału.
+Kalibracja sprowadza się do ustawienia głowicy w odległości 2 metrów od odbiornika,
+uruchomienia urządzenia oraz zaznaczenia 12 miejsc w odbieranym sygnale, które posłużą jako \textit{wzorzec}
+podczas wyznaczania odległości.
 
 Rysunek \ref{fig:kalibracja_12x} przedstawia widok 12 sygnałów wraz z zaznaczonymi wzorcami.
 

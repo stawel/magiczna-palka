@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.1.3
-lastDocument=odbiornik.tex
+lastDocument=mp3d.tex
 masterDocument=
 name=mgr
 pkg_extIsRegExp=false
@@ -144,16 +144,16 @@ highlight=LaTeX
 line=41
 mode=LaTeX
 open=true
-order=7
+order=1
 
 [item:kalibracja.tex]
 archive=true
-column=10
+column=0
 encoding=UTF-8
 highlight=LaTeX
 line=0
 mode=LaTeX
-open=true
+open=false
 order=3
 
 [item:main.tex]
@@ -178,23 +178,23 @@ order=-1
 
 [item:mp3d.tex]
 archive=true
-column=46
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=29
+line=159
 mode=LaTeX
 open=true
-order=1
+order=3
 
 [item:nadajnik.tex]
 archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=51
+line=8
 mode=LaTeX
 open=true
-order=6
+order=2
 
 [item:odbiornik.tex]
 archive=true
@@ -208,12 +208,12 @@ order=4
 
 [item:podsumowanie.tex]
 archive=true
-column=22
+column=0
 encoding=UTF-8
 highlight=LaTeX
 line=0
 mode=LaTeX
-open=true
+open=false
 order=5
 
 [item:pracamgr.cls]
@@ -228,13 +228,13 @@ order=-1
 
 [item:teoria.tex]
 archive=true
-column=10
+column=17
 encoding=UTF-8
 highlight=LaTeX
-line=73
+line=70
 mode=LaTeX
 open=true
-order=2
+order=5
 
 [item:wprowadzenie.tex]
 archive=true
@@ -271,14 +271,14 @@ JumpList=
 ViMarks=.,12,15,[,12,15,],12,15,a,155,0,b,89,0,c,132,0,d,1,0
 
 [view-settings,view=0,item:mp3d.tex]
-CursorColumn=46
-CursorLine=29
+CursorColumn=0
+CursorLine=159
 JumpList=
-ViMarks=.,29,8,[,29,9,],29,8
+ViMarks=.,157,57,[,157,57,],157,57
 
 [view-settings,view=0,item:nadajnik.tex]
 CursorColumn=0
-CursorLine=51
+CursorLine=8
 JumpList=
 ViMarks=.,47,36,[,47,36,],47,36
 
@@ -301,8 +301,8 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:teoria.tex]
-CursorColumn=10
-CursorLine=73
+CursorColumn=17
+CursorLine=70
 JumpList=
 ViMarks=.,73,0,[,73,0,],73,0
 
