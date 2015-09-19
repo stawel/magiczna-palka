@@ -1,8 +1,8 @@
 \chapter{Podsumowanie}
 
-W niniejszej pracy udało się zademonstrować urządzenie potrafiące określić swoje
-położenie i orientację wykorzystują do tego celu ultradźwięki,
-mimo iż wykorzystano ultradźwięki o \SI{8}{mm} długości fali bez większego problemu
+W niniejszej pracy zademonstrowano urządzenie potrafiące określić swoje
+położenie i orientację wykorzystują do tego celu ultradźwięki.
+Mimo że wykorzystane fale mają długość równą \SI{8}{mm}  bez większego problemu
 udało się mierzyć położenie z rozdzielczością rzędu \SI{0,5}{mm} co dla 
 pozycjonowania przestrzennego jest dużym osiągnięciem.
 Mimo wielu zalet prezentowane rozwiązanie posiada również szereg wad, w niniejszym rozdziale
@@ -10,44 +10,43 @@ przedstawione zostaną za i przeciw zastosowanego rozwiązania.
 
 Zalety:
 \begin{itemize}
- \item Wysoka rozdzielczość pomiaru odległości. Zastosowanie dużo wyższych częstotliwości 
- próbkowania od częstotliwości nadawanego sygnału, jak i zastosowanie wyszukiwania wzorca pozwoliło
- wielokrotnie zwiększyć rozdzielczość pomiaru odległości w stosunku to długości wykorzystanej fali dźwiękowej.
+ \item Wysoka rozdzielczość pomiaru. Zastosowanie dużo wyższych częstotliwości 
+ próbkowania od częstotliwości nadawanego sygnału, jak i zastosowane wyszukiwanie wzorca pozwoliło
+ wielokrotnie zwiększyć rozdzielczość pomiaru w stosunku to długości wykorzystanej fali dźwiękowej.
  
- \item Praktycznie nieograniczona przestrzeń, na której możemy dokonywać pomiar. Mimo, że prezentowanym prototypie
- ograniczono przestrzeń roboczą pomiarów do kwadratu \SI{2,5}{m} $\times$ \SI{2,5}{m} $\times$ \SI{2,5}{m},
+ \item Praktycznie nieograniczona przestrzeń pracy. Mimo, że prezentowanym prototypie
+ ograniczono przestrzeń roboczą do kwadratu \SI{2,5}{m} $\times$ \SI{2,5}{m} $\times$ \SI{2,5}{m},
  to jest to jedynie ograniczenie praktyczne i bez większych problemów można ją dowolnie zwiększyć. Trzeba jednak 
- pamiętać, że siła sygnały dźwiękowego maleje kwadratowo z odległością więc przy większych odległościach
- będzie potrzebny nadajnik większej mocy. Większa powierzchnia pomiarowa wpływa również na czas odświeżania
- pomiaru.
+ pamiętać, że siła sygnały dźwiękowego maleje kwadratowo z odległością więc przy dużo większych odległościach
+ niezbędny będzie nadajnik większej mocy. Większa powierzchnia pomiarowa wpływa również na czas odświeżania.
 
  \item Niski koszt budowy. 
 \end{itemize}
 
 Wady:
 \begin{itemize}
- \item Duża czułość na zmianę temperatury. Jest to najpoważniejsza wada prezentowanego rozwiązania.
- Zauważmy, że zmiana temperatury otoczenia o \SI{1}{\degC} powoduje zmianę prędkości dźwięku o \SI{0,17}{\%} 
- co przy rozdzielczości \SI{5000}{px} w skrajnych przypadkach daje przesunięcie rzędu \SI{7.5}{px},
+ \item Duża czułość na zmiany temperatury. Jest to najpoważniejsza wada prezentowanego rozwiązania.
+ Zauważmy, że zmiana temperatury otoczenia rzędu \SI{1}{\degC} powoduje zmianę prędkości dźwięku o \SI{0,17}{\%} 
+ co przy rozdzielczości \SI{5000}{px} w skrajnych przypadkach daje przesunięcie \SI{7.5}{px},
  co prawda w warunkach laboratoryjnych nie stanowi to większego problemu jednak w praktycznych zastosowaniach
- jest to poważny problem.
+ jest poważnym ograniczeniem.
  
- \item Długi czas odświeżania. Prezentowany prototyp dokonuje kolejne pomiary co \SI{350}{ms}, czyli około 3 pomiarów 
+ \item Długi czas odświeżania. Prezentowany prototyp dokonuje pomiary co \SI{350}{ms}, co daje około 3 pomiarów 
  na sekundę. Zauważmy, że mierząc cztery niezależne sygnały (z czterech głośników) każdy sygnał mierzony jest co \SI{87}{ms},
- co dla dźwięku poruszającego się z prędkością \SI{346}{m/s} pozwala mu na przebycie dystansu 29.7 metrów.
+ co dla dźwięku poruszającego się z prędkością \SI{346}{m/s} pozwala na przebycie dystansu 29.7 metrów.
  Tak duży dystans w stosunku do powierzchni roboczej jest konieczny by zapobiec nakładaniu się sygnałów pochodzących z poprzednich
- pomiarów z nowymi (sygnał odbija się od ścian pomieszczeń i wpływa na kolejne pomiary, czas rzędu \SI{87}{ms} pozwala mu
- się całkowicie rozproszyć).
- Oczywiście można temu zaradzić nadając za każdym razem inny sygnał, następnie poszukiwany wzorzec należy wyfiltrować z odebranego
- dźwięku, to podejście nie jest jednak możliwe gdy za odbiorniki i nadajniki wykorzystujemy rezonatory piezoelektryczne
- (możliwości ich wysterowania są dość mocno ograniczone).
+ pomiarów z nowymi (sygnał odbija się od ścian i wpływa na kolejne pomiary, czas rzędu \SI{87}{ms} pozwala 
+ na całkowite rozproszenie sygnału).
+ Można temu zaradzić nadając za każdym razem inny sygnał, następnie poszukiwany wzorzec należy odfiltrować z odebranego
+ sygnału, to podejście nie jest jednak możliwe gdy za odbiorniki i nadajniki wykorzystujemy rezonatory piezoelektryczne
+ (możliwości ich wysterowania są mocno ograniczone).
  
- \item Stosunkowo mały kąt "widzenia". Zastosowane nadajniki piezoelektryczne są nadajnikami kierunkowymi, co 
- znacząco wpływa na maksymalny kąt pod jakim możemy ustawić nadajnik względem odbiornika. W prezentowanym 
- prototypie kąt ten nie powinien przekraczać \SI{45}{\deg}. Zastosowanie większej liczby nadajników lub inny ich rodzaj
- może znacząco zwiększyć kąt "widzenia" nadajnika przez odbiornik.
+ \item Stosunkowo mały kąt widzenia. Zastosowane nadajniki piezoelektryczne są nadajnikami kierunkowymi, co 
+ znacząco wpływa na maksymalny kąt pod jakim można ustawić nadajnik względem odbiornika. W prezentowanym 
+ prototypie kąt ten nie powinien przekraczać \SI{45}{\degree}. Zastosowanie większej liczby nadajników lub inny ich rodzaj
+ może znacząco zwiększyć ten kąt.
 
- \item Ograniczone możliwości wysterowania rezonatorów piezoelektrycznych. 
+ \item [TODO] Ograniczone możliwości wysterowania rezonatorów piezoelektrycznych. 
  Zastosowane rezonatory nie nadają się do generowania krótkich impulsów, które znacząco uprościłyby mierzenie odległości.
  Dużo lepszym rozwiązaniem powinny być standardowe mikrofony i głośniki ultradźwiękowe, niestety są dużo droższe 
  i trudno dostępne.

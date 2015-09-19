@@ -12,8 +12,8 @@ który służy do wstępnej kalibracji urządzenia.
 Najistotniejszą częścią oprogramowania stanowi biblioteka \textit{mp3d}, została ona podzielona na pięć modułów:
 \begin{enumerate}
  \item \textit{com.py} - moduł odpowiedzialny za komunikację z odbiornikiem
- \item \textit{find\_pattern.py} - moduł odpowiedzialny wyznaczanie odległości poprzez wyszukanie wzorca w odebranym sygnale
- \item \textit{xyz.py} - moduł odpowiedzialny za wyznaczenie pozycji i orientacji nadajnika, oraz za 
+ \item \textit{find\_pattern.py} - moduł odpowiedzialny za wyznaczanie odległości poprzez wyszukanie wzorca w odebranym sygnale
+ \item \textit{xyz.py} - moduł odpowiedzialny za wyznaczenie pozycji i orientacji nadajnika oraz za 
  weryfikację, czy zebrane dane odpowiadają modelowanej rzeczywistości
  \item \textit{info.py} - moduł wyświetlający informację o sile odbieranego sygnału
  \item \textit{ply.py} - moduł odpowiedzialny za eksportowanie danych do formaty \textit{.ply} 
@@ -28,7 +28,7 @@ pracuje on w oddzielnym wątku, w którym cyklicznie wysyłane są żądania by 
 następnie odbierane są sygnały z trzech mikrofonów.
 Ta czynność powtarzana jest dla każdego z czterech głośników nadajnika.
 Zebrane dwanaście sygnałów po wstępnej filtracji przekazywane są dalej do \textit{find\_pattern.py}. Cały cykl powtarzany jest
-co \SI{350}{ms}. Rysunek \ref{fig:com_output_2m} przedstawia odebrany sygnał z jednego mikrofonu przekazywany do modułu \textit{find\_pattern.py}.
+co \SI{350}{ms}. Na rysunku \ref{fig:com_output_2m} przedstawiono odebrany sygnał z jednego mikrofonu.
 
 
 \begin{figure}[h!]
@@ -46,7 +46,7 @@ co \SI{350}{ms}. Rysunek \ref{fig:com_output_2m} przedstawia odebrany sygnał z 
 \section{Wyznaczanie odległości, moduł \textit{find\_pattern.py}}
 
 Moduł \textit{find\_pattern.py} odpowiada za obliczenie odległości pomiędzy czterema głośnikami i trzema mikrofonami.
-Odległość wyznaczana jest poprzez wyszukanie położenia specjalnego \textit{wzorca} odpowiadającego czołu nadanego sygnału 
+Odległość wyznaczana jest poprzez wyszukanie położenia \textit{wzorca} odpowiadającego czołu nadanego sygnału 
 w każdym z 12 odebranych sygnałów (rysunek \ref{fig:com_output_2m}).
 \textit{Wzorzec} początkowo wprowadzany jest podczas kalibracji, następnie jest ciągle aktualizowany 
 (podmieniany z sygnałem pasującym do \textit{wzorca}).
@@ -81,7 +81,7 @@ ostatecznie dostajemy wzór na $E(x)$:
 
 Zauważmy, że dzięki skalowaniu sygnału $f(x)$ zamiast \textit{wzorcowa} $w(x)$
 otrzymany błąd $E(x)$ nie zależy od siły odebranego sygnału co ułatwia porównanie błędów w dwóch różnych miejscach,
-Zależy on jednak od siły sygnału wzorcowego, aby się od niego uniezależnić możemy wyznaczyć
+zależy on jednak od siły sygnału wzorcowego, aby się od niego uniezależnić możemy wyznaczyć
 błąd względny $e(x)$:
 \[
   e(x) = \frac{E(x)}{\sum\limits_{t=0}^{n-1}  w^2(t)}
@@ -120,7 +120,7 @@ jak i $\sum\limits_{t=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji
  dlatego jeśli badany sygnał zawiera szukany \textit{wzorzec} oraz spełnione są następujące warunki:
  \begin{itemize}
   \item moc sygnału pasującego do \textit{wzorca} jest wystarczająco duża
-  \item błąd względny pomiędzy sygnałem a wzorcem jest mały
+  \item błąd względny pomiędzy sygnałem a \textit{wzorcem} jest mały
   \item moduł \textit{xyz.py} "uzna", że otrzymane pozycje pasują do modelowanej rzeczywistości
  \end{itemize}
 to moduł uaktualni \textit{wzorzec}.
@@ -141,30 +141,35 @@ W ramach modelowanej rzeczywistości wyliczane są:
 Jeśli któreś z wyliczeń odbiega od z góry ustalonej normy to dany pomiar uznawany jest za nieprawidłowy.
 
 
-Współrzędne głośników wyznaczane są na podstawie dwunastu funkcji $e_{ij}(x)$ dla $i=1..3$ i $j=1..4$, które zawierające informację o odległości
-pomiędzy głośnikiem $i$ oraz mikrofonem $j$.
-Dla każdej funkcji $e_{ij}(x)$ wyszukiwane są pozycje minimów lokalnych tych funkcji, z których następnie wybierane jest $k$ pozycji $x_1, ..., x_k$
-o najmniejszych wartościach, gdzie $k$ jest stałą wewnętrzną modułu \textit{xyz.py}.
-Pozycje $x_l$ dla $l=1...k$ są odległościami, dla których błąd średniokwadratowy $e_{ij}(x_l)$ pomiędzy szukanym sygnałem (\textit{wzorcem}), a odebranym sygnałem na pozycji $x_i$
+Współrzędne głośników wyznaczane są na podstawie dwunastu funkcji $e_{ij}(x)$ dla $i=1, ..., 4$ i $j=1, ..., 3$,
+które zawierające informację o odległości pomiędzy głośnikiem $i$ oraz mikrofonem $j$.
+Dla każdej funkcji $e_{ij}(x)$ wyszukiwane są pozycje minimów lokalnych tych funkcji, 
+z których następnie wybierane jest $t$ pozycji $x^{ij}_1, ..., x^{ij}_t$
+o najmniejszych wartościach, gdzie $t$ jest stałą wewnętrzną modułu \textit{xyz.py}.
+Pozycje te są odległościami, dla których błąd średniokwadratowy
+$e_{ij}(x^{ij}_k)$ dla $k=1, ..., t$ pomiędzy szukanym sygnałem (\textit{wzorcem}), a odebranym sygnałem na pozycji $x^{ij}_k$
 jest lokalnym minimum jak i jest mały w sensie globalnym,
-pozycje $x_l$ można również  interpretować jako najbardziej prawdopodobne odległości pomiędzy głośnikiem, a mikrofonem.
+pozycje $x^{ij}_k$ można również  interpretować jako najbardziej prawdopodobne odległości pomiędzy głośnikiem, a mikrofonem.
 
-Do wyliczenia pozycji głośników w przestrzeni wykorzystana są wszystkie możliwe kombinacje wyznaczonych odległości,
-zauważmy że tych kombinacji jest $12^k$. Każda z możliwych kombinacji 
+Do wyliczenia położenia głośników w przestrzeni wykorzystywane są wszystkie możliwe kombinacje wyznaczonych odległości,
+zauważmy że jest ich $12^t$. Każda z możliwych kombinacji 
 sprawdzana jest czy jest akceptowalna dla modelowanej rzeczywistości, z tych które są akceptowalne wybierana jest 
 kombinacja o najmniejszym sumarycznym błędzie średniokwadratowym, czyli najbardziej prawdopodobna.
 
-Ostatecznie wynikiem  moduły \textit{xyz.py} są odległości $x^{ij}$  ($i=1..3$ i $j=1..4$), na podstawie których
-wyznaczana jest pozycja i orientacja nadajnika wyświetlana są GUI.
+Ostatecznym wynikiem  moduły \textit{xyz.py} są wartości $x^{ij}$, czyli najbardziej prawdopodobne odległości
+pomiędzy  $i$-tym głośnikiem (gdzie $i=1,...,4$), a $j$-tym mikrofonem, na podstawie których 
+wyznaczana jest pozycja oraz orientacja nadajnika.
+
 Wartości $x^{ij}$ przekazywane są również z powrotem do moduły \textit{find\_pattern.py} w celu aktualizacji \textit{wzorców}.
 
 
 \section{Kalibracja}
 
-Przed każdym uruchomieniem urządzenia wymagana jest kalibracja.
-Kalibracja sprowadza się do ustawienia głowicy w odległości 2 metrów od odbiornika,
-uruchomienia urządzenia oraz zaznaczenia 12 miejsc w odbieranym sygnale, które posłużą jako \textit{wzorzec}
-podczas wyznaczania odległości.
+Przed każdym uruchomieniem urządzenia wymagana jest kalibracja,
+która sprowadza się do ustawienia nadajnika w odległości 2 metrów od odbiornika,
+uruchomienia programu \textit{save-pattern.py} oraz zaznaczenia w nim 12 obszarów w odebranym sygnale czoło odebranego sygału.
+Obszary te wykorzystane zostaną jako \textit{wzorce} podczas mierzenia odległości.
+Program wyliczy również aktualną prędkość dźwięku uwzględniając odległość nadajnika od odbiornika.
 
 Rysunek \ref{fig:kalibracja_12x} przedstawia widok 12 sygnałów wraz z zaznaczonymi wzorcami.
 
@@ -172,21 +177,35 @@ Rysunek \ref{fig:kalibracja_12x} przedstawia widok 12 sygnałów wraz z zaznaczo
  \begin{figure}[h!]
     \centering
     \includegraphics[width=1.12\textwidth, trim= 46mm 0mm 0mm 0mm,clip]{kalibracja_12x}
-    \caption{Kalibracja, widok 12 sygnałów z zaznaczonymi wzorcami}
+    \caption{Kalibracja, widok 12 sygnałów z zaznaczonymi \textit{wzorcami}}
     \label{fig:kalibracja_12x}
 \end{figure}
 
+\newpage
+
 \section{Obsługa programu \textit{scan.py}}
 
-Do obsługi prototypu służy program \textit{scan.py}, po jego uruchomieniu 
+Do obsługi prototypu służy program \textit{scan.py}. Po jego uruchomieniu 
 na monitorze wyświetlają się trzy okna: 
 \begin{itemize}
  \item widok 3D, na którym zaznaczona jest 
 pozycja nadajnika, cztery punkty reprezentujące głośniki nadajnika oraz trzy wektory normalne reprezentujące 
-jego orientację, rysunek \ref{fig:widok3d}
- \item widok 2D, na którym widać nałożone na siebie dwa rzuty prostopadłe nadajnika na płaśczyzny XY i XZ, rysunek \ref{fig:widok2d}
- \item widok informujący o sile odbieranego sygnału oraz o błędzie pomiędzy \textit{wzorcem} a sygnałem, rysunek \ref{fig:power}
+jego orientację jak i położenie, rysunek \ref{fig:widok3d}
+ \item widok 2D, na którym przedstawiono nałożone na siebie dwa rzuty prostopadłe nadajnika na płaśczyzny XY i XZ, rysunek \ref{fig:widok2d}
+ \item widok mocy sygnału, który informujący o sile odbieranego sygnału oraz o błędzie pomiędzy \textit{wzorcem} a odebranym sygnałem, rysunek \ref{fig:power}
 \end{itemize}
+
+[TODO]
+Głównym oknem program jest widok 3D, na którym przedstawiono położenie nadajnika w przestrzeni,
+wszelkie zmiany położenia nadajnika automatycznie odświeżają wszystkie widoki. Podczas uruchamiania programu
+aktualne położenie nadajnika przyjmowane jest jako początek układu współrzędnych.
+Jeśli któryś z głośników straci widoczność z mikrofonami obraz przestaje się odświeżać, a informacja dlaczego tak
+się dzieje widoczna jest na widoku mocy sygnału.
+
+Dla celów demonstracyjnych istnieje możliwość rysowania (stawiania punktów) w przestrzeni. Aby zapamiętać punkty
+należy wcisnąć klawisz "p", aby zapisać wynik rysowania należy wcisnąć klawisz "s", do wyczyszczenia obrazu służy klawisz "c".
+Rysunek [TODO] przedstawia przykładowy rysunek w przestrzeni.
+
 
 \rysunek{3d}{Widok 3D}{\label{fig:widok3d}}
 \rysunek{2d}{Widok 2D}{\label{fig:widok2d}}
