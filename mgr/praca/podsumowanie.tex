@@ -1,11 +1,10 @@
 \chapter{Podsumowanie}
 
 W niniejszej pracy zademonstrowano urządzenie potrafiące określić swoje
-położenie jak i orientację wykorzystują do tego celu ultradźwięki.
-Mimo że wykorzystano fale dźwiękowe o długość \SI{8}{mm} pomiar położenia osiąga rozdzielczości rzędu \SI{0,5}{mm} co dla 
-pozycjonowania przestrzennego jest dużym osiągnięciem.
-Prezentowane rozwiązanie cechuje się pewnymi zaletami jednak posiada również szereg wad,
-które 
+położenie jak i orientację w przestrzeni wykorzystują do tego celu ultradźwięki.
+Mimo że wykorzystano fale dźwiękowe o długość \SI{8}{mm}, pomiar położenia osiąga rozdzielczości rzędu \SI{0,5}{mm} 
+co znacząco wyróżnia się na tle innych rozwiązań.
+W tym rozdziale przedstawiono zalety jaki i wady prezentowanego rozwiązania.
 
 Zalety:
 \begin{itemize}
@@ -13,12 +12,12 @@ Zalety:
  próbkowania od częstotliwości nadawanego sygnału, jak i zastosowane wyszukiwanie wzorca pozwoliło
  wielokrotnie zwiększyć rozdzielczość pomiaru w stosunku to długości wykorzystanej fali dźwiękowej.
  
- \item Praktycznie nieograniczona przestrzeń robocza. Mimo, że prezentowanym prototypie
+ \item Praktycznie nieograniczona przestrzeń robocza. Mimo, że w prezentowanym prototypie
  ograniczono przestrzeń roboczą do kwadratu \SI{2,5}{m} $\times$ \SI{2,5}{m} $\times$ \SI{2,5}{m},
  to jest to jedynie ograniczenie praktyczne i bez większych problemów można ją dowolnie zwiększyć. Trzeba jednak 
- pamiętać, że siła sygnały dźwiękowego maleje kwadratowo z odległością więc przy dużo większych odległościach
- niezbędne będą nadajniki większej mocy. Większa powierzchnia pomiarowa wpływa również na dłuższy czas odświeżania.
-
+ pamiętać, że siła sygnału dźwiękowego maleje kwadratowo wraz z odległością więc przy dużo większych odległościach
+ niezbędne będą nadajniki większej mocy. 
+ 
  \item Niski koszt budowy. 
 \end{itemize}
 
@@ -32,7 +31,7 @@ Wady:
  
  \item Długi czas odświeżania. Prezentowany prototyp dokonuje pomiary co \SI{350}{ms}, czyli około 3 pomiarów 
  na sekundę. Zauważmy, że mierząc cztery niezależne sygnały (z czterech głośników) kolejny sygnał mierzony jest co \SI{87}{ms},
- co dla dźwięku poruszającego się z prędkością \SI{346}{m/s} pozwala na przebycie dystansu 29.7 metrów.
+  dźwięk poruszający się z prędkością \SI{346}{m/s} w tym czasie przebędzie odległość 29.7 metrów.
  Tak duży dystans w stosunku do powierzchni roboczej jest konieczny by zapobiec nakładaniu się sygnałów pochodzących z poprzednich
  pomiarów z nowymi (nadany sygnał odbija się od ścian i wpływa na kolejne pomiary, czas rzędu \SI{87}{ms} pozwala 
  na jego całkowite rozproszenie).
@@ -47,12 +46,17 @@ Wady:
  \item Ograniczone możliwości wysterowania rezonatorów piezoelektrycznych. 
  Zastosowane rezonatory nie nadają się do generowania krótkich impulsów, co znacząco uprościłyby mierzenie odległości.
  
- \item Pomiar pozycji i orientacji nadajnika w ruchu. W prezentowanym urządzeniu jeden pomiar pozycji wraz z orientacją wymaga 
- nadania czterech sygnałów w różnych odstępach czasowym. Jeśli podczas tego pomiaru nadajnik porusza się to 
- poszczególne 
+ \item Problem z pomiarem pozycji i orientacji nadajnika w ruchu. W prezentowanym urządzeniu 
+ jeden pomiar pozycji i orientacji wymaga pomiaru położenia czterech głośników w różnych odstępach czasowym.
+ Jeśli podczas takiego pomiaru nadajnik porusza się z większą prędkością to otrzymane położenia
+ przesunięte są względem siebie zgodnie z kierunkiem ruchu nadajnika. Takie przesunięcie negatywnie wpływa na 
+ pomiar orientacji. 
 \end{itemize}
 
-Jak widać, wykorzystanie dźwięków to określania pozycji i orientacji ma zdecydowanie więcej wad niż zalet,
-szczególnym problemem okazała się wrażliwość prototypu na zmiany temperatury, jest on na tyle wrażliwy, że 
-sama temperatura ciała operatora urządzenia jak i jego oddech wpływa na pomiar odległości, oczywiście tym przypadku błędy pomiarowe
-nie są duże, rzędu ~\SI{1}{mm} ale są zauważalne.
+
+Jak widać, wykorzystanie dźwięków to określania pozycji i orientacji prócz niewątpliwych zalet ma również
+wiele wad. Najistotniejszą wadą wydaje się być duża wrażliwość na warunki atmosferyczne a szczególnie zmianę temperatury.
+Jest to zapewne główny powód dlaczego ów rozwiązanie nie jest szeroko stosowane w produktach komercyjnych.
+
+
+
