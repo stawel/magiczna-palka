@@ -3,28 +3,29 @@
 \addcontentsline{toc}{chapter}{Wprowadzenie}
 
 W dzisiejszym świecie obserwujemy coraz większe zapotrzebowanie na urządzenia,
-które potrafią określić swoje położenie jak i orientację w otaczającej je przestrzeni.
-Urządzenia takie mają szerokie zastosowanie w wielu dziedzinach m.in. w
+które potrafią określić swoje położenie i orientację w otaczającej je przestrzeni.
+Urządzenia takie mają szerokie zastosowanie w wielu dziedzinach, m.in. w
 wirtualnej rzeczywistości, rozszerzonej rzeczywistości, 
- podczas skanowania trójwymiarowego czy kartografii.
-Przykładowo okulary do wirtualnej rzeczywistości takie jak \textit{Oculus Rift} \cite{bib:OculusRift} czy \textit{castAR} \cite{bib:castAR},
-muszą uwzględnić położenie jaki i orientację głowy by na tej podstawie wyświetlić użytkownikowi 
+ podczas skanowania trójwymiarowego obiektów czy kartografii.
+Przykładowo okulary do wirtualnej rzeczywistości takie jak \textit{Oculus Rift} \cite{bib:OculusRift} 
+czy \textit{castAR} \cite{bib:castAR}
+muszą uwzględnić położenie i orientację głowy, aby na tej podstawie wyświetlić użytkownikowi 
 odpowiednią treść. 
 
 
-Z biegiem lat powstało wiele rozwiązań tego problemu, do najczęściej stosowanych możemy zaliczyć:
+Z biegiem lat powstało wiele rozwiązań tego problemu. Do najczęściej stosowanych możemy zaliczyć:
 \begin{enumerate}
  \item 
- wykorzystanie akcelerometrów, żyroskopów i magnetometrów - 
-takie rozwiązanie zastosowano w \textit{Oculus Rift development kit}, zaletą metody jest stosunkowo
-prosta konstrukcja jak i niska cena,
-do wad należy zaliczyć brak stałych punktów odniesienia co skutkuje występowaniem tzw. dryftu.
-\textit{Oculus Rift development kit} radzi sobie z tym problemem modelując w komputerze zachowanie się głowy,
-jednak rozwiązanie to jest dalekie od idealnego o czym może świadczyć fakt, że w kolejnej wersji 
+ Wykorzystanie akcelerometrów, żyroskopów i magnetometrów -- 
+takie rozwiązanie zastosowano w \textit{Oculus Rift development kit}. Zalety tej metody to stosunkowo
+prosta konstrukcja i niska cena.
+Do wad należy zaliczyć brak stałych punktów odniesienia, co skutkuje występowaniem tzw. dryftu.
+\textit{Oculus Rift development kit} radzi sobie z tym problemem, modelując w komputerze możliwe zmiany pozycji głowy.
+Jednak rozwiązanie to jest dalekie od idealnego o czym może świadczyć fakt, że w kolejnej wersji 
 urządzenia dodano śledzenie głowy przez zewnętrzną kamerę.
 
 \item \label{itm:second_method}
- projektowanie światła strukturalnego na otoczenie i zbieranie informacji o strukturze 
+ Projektowanie światła strukturalnego na otoczenie i zbieranie informacji o strukturze 
  światła odbitego za pomocą sensorów, zazwyczaj kamer - taką metodę wykorzystano w \textit{Microsoft Kinnect} \cite{bib:MicrosoftKinect},
  urządzenie projektuje na otoczenie stały wzór punktów, następnie kamerą na podczerwień
  zbierana jest informacja o zniekształceniu danego wzoru i na tej podstawie odtwarzana jest 
@@ -38,7 +39,7 @@ urządzenia dodano śledzenie głowy przez zewnętrzną kamerę.
  Do wad należy zaliczyć stosunkowo niską rozdzielczość szczególnie w osi Z jak i duży strumień danych do obróbki.
 
 \item
- wykorzystanie wielu zdjęć zawierających stałe (nie zmieniające się w czasie) obiekty, na postawie których wyznaczana jest pozycja kamery względem nich
+ Wykorzystanie wielu zdjęć zawierających stałe (nie zmieniające się w czasie) obiekty, na postawie których wyznaczana jest pozycja kamery względem nich
   lub odwrotnie, kamera (lub wiele kamer) jest punktem stałym, a wyznaczana jest pozycja fotografowanych obiektów -   
  taką metodę wykorzystano w \textit{VidialSFM} \cite{bib:VisualSFM}, jak i w \textit{The Pi 3D scanner project} \cite{bib:pi3dscan}, 
  rozwiązanie to cechuje się również dość niską rozdzielczością.
