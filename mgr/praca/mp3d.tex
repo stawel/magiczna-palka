@@ -42,7 +42,7 @@ co \SI{350}{ms}. Na rysunku \ref{fig:com_output_2m} przedstawiono odebrany sygna
     \label{fig:com_output_2m}
 \end{figure}
 
-
+\newpage
 \section{Wyznaczanie odległości, moduł \textit{find\_pattern.py}}
 
 Moduł \textit{find\_pattern.py} odpowiada za obliczenie odległości pomiędzy czterema głośnikami i trzema mikrofonami.
@@ -79,7 +79,7 @@ ostatecznie dostajemy wzór na $E(x)$:
   E(x) = \sum_{t=0}^{n-1}  w^2(t)  - \frac {(\sum\limits_{t=0}^{n-1}  w(t) f(t+x) )^2 } { \sum\limits_{t=0}^{n-1} f^2(t+x)}
 \]
 
-Zauważmy, że dzięki skalowaniu sygnału $f(x)$ zamiast \textit{wzorcowa} $w(x)$
+Zauważmy, że dzięki skalowaniu sygnału $f(x)$ skalarem $a$ zamiast \textit{wzorcowa} $w(x)$
 otrzymany błąd $E(x)$ nie zależy od siły odebranego sygnału co ułatwia porównanie błędów w dwóch różnych miejscach,
 zależy on jednak od siły sygnału wzorcowego, aby się od niego uniezależnić możemy wyznaczyć
 błąd względny $e(x)$:
@@ -167,7 +167,7 @@ Wartości $x^{ij}$ przekazywane są również z powrotem do moduły \textit{find
 
 Przed każdym uruchomieniem urządzenia wymagana jest kalibracja,
 która sprowadza się do ustawienia nadajnika w odległości 2 metrów od odbiornika,
-uruchomienia programu \textit{save-pattern.py} oraz zaznaczenia w nim 12 obszarów w odebranym sygnale czoło odebranego sygału.
+uruchomienia programu \textit{save-pattern.py} oraz zaznaczenia  12 obszarów  będącym czołem odebranego sygału.
 Obszary te wykorzystane zostaną jako \textit{wzorce} podczas mierzenia odległości.
 Program wyliczy również aktualną prędkość dźwięku uwzględniając odległość nadajnika od odbiornika.
 
@@ -188,22 +188,21 @@ Rysunek \ref{fig:kalibracja_12x} przedstawia widok 12 sygnałów wraz z zaznaczo
 Do obsługi prototypu służy program \textit{scan.py}. Po jego uruchomieniu 
 na monitorze wyświetlają się trzy okna: 
 \begin{itemize}
- \item widok 3D, na którym zaznaczona jest 
-pozycja nadajnika, cztery punkty reprezentujące głośniki nadajnika oraz trzy wektory normalne reprezentujące 
+ \item widok 3D prezentujący położenie nadajnika w przestrzeni. W oknie widoczne są  
+ cztery punkty reprezentujące głośniki nadajnika oraz trzy wektory normalne reprezentujące 
 jego orientację jak i położenie, rysunek \ref{fig:widok3d}
  \item widok 2D, na którym przedstawiono nałożone na siebie dwa rzuty prostopadłe nadajnika na płaśczyzny XY i XZ, rysunek \ref{fig:widok2d}
  \item widok mocy sygnału, który informujący o sile odbieranego sygnału oraz o błędzie pomiędzy \textit{wzorcem} a odebranym sygnałem, rysunek \ref{fig:power}
 \end{itemize}
 
-[TODO]
-Głównym oknem program jest widok 3D, na którym przedstawiono położenie nadajnika w przestrzeni,
-wszelkie zmiany położenia nadajnika automatycznie odświeżają wszystkie widoki. Podczas uruchamiania programu
-aktualne położenie nadajnika przyjmowane jest jako początek układu współrzędnych.
+Wszelkie zmiany położenia nadajnika automatycznie odświeżają wszystkie widoki. 
+Podczas uruchamiania programu aktualne położenie nadajnika przyjmowane 
+jest jako początek układu współrzędnych.
 Jeśli któryś z głośników straci widoczność z mikrofonami obraz przestaje się odświeżać, a informacja dlaczego tak
 się dzieje widoczna jest na widoku mocy sygnału.
 
-Dla celów demonstracyjnych istnieje możliwość rysowania (stawiania punktów) w przestrzeni. Aby zapamiętać punkty
-należy wcisnąć klawisz "p", aby zapisać wynik rysowania należy wcisnąć klawisz "s", do wyczyszczenia obrazu służy klawisz "c".
+Dla celów demonstracyjnych istnieje możliwość rysowania (stawiania punktów) w przestrzeni.
+Aby zapamiętać punkty należy wcisnąć klawisz "p", aby zapisać wynik rysowania należy wcisnąć klawisz "s", do wyczyszczenia obrazu służy klawisz "c".
 Rysunek [TODO] przedstawia przykładowy rysunek w przestrzeni.
 
 

@@ -37,7 +37,7 @@ samplują odbierany dźwięk i poprzez DMA zapisują trzy kanały w pamięci pro
 Częstotliwość pracy przetworników ustawiona została na \SI{1,6}{MSPS} co daje średnio 40 próbek na jeden okres \SI{40}{kHz} sygnału.
 Program zapamiętuje \SI{16}{kS} na każdy kanał, co przy prędkości dźwięku \SI{340}{m/s} daje maksymalną mierzoną odległość rzędu 2,5 metrów.
 Po zebraniu w sumie \SI{48}{kS}, całość przesyłana jest do komputera w celu dalszej analizy.
-Cały proces powtarzany jest dla każdego z czterech głośników nadajnika, 
+Proces powtarzany jest dla każdego z czterech głośników nadajnika, 
 co w sumie daje 12 sygnałów, na podstawie których wyznaczona zostaje 
 pozycja w przestrzeni oraz orientacja nadajnika.
 
@@ -74,7 +74,7 @@ filtr górno (kondensatory C3, C7) i dolnoprzepustowy
 
 Aby zminimalizować zakłócenia całość oparta jest na niskoszumowych wzmacniaczach operacyjnych
 mieszczących się w jednym układzie scalonym NE5532 \cite{bib:ne5532}, 
-dodatkowo cała płytka drukowana jest ekranowana.
+dodatkowo płytka drukowana jest ekranowana.
 
 Wzmocniony sygnał poprzez wtyczkę JP1 doprowadzony jest do przystawki współpracującej z \textit{stm32f4-discovery}.
 

@@ -57,7 +57,7 @@ z czego ostatecznie otrzymujemy:
 
 
 Kolejną rzeczą jaka nas interesuje jest orientacja w przestrzeni nadajnika.
-Standardowo orientację zdefiniuje się jako (trzy) kąty Eulera \cite{bib:katyEulera}: przechylenia, 
+Standardowo orientację zdefiniuje się jako kąty Eulera \cite{bib:katyEulera}: przechylenia, 
 pochylenia oraz odchylenia wokół osi związanych z obiektem, jednak na nasze potrzeby wygodniej 
 posługiwać się dwoma prostopadłymi wektorami, które jednoznacznie wyznaczają ów kąty. 
 Prezentowany prototyp wyznacza położenie czterech punktów $\boldsymbol{x_1, x_2, x_3, x_4}$ znajdujących się
@@ -74,11 +74,11 @@ nadajnika, a wektory: $\boldsymbol{\overrightarrow{a}} = (\boldsymbol{x_2} + \bo
 $\boldsymbol{\overrightarrow{b}} = (\boldsymbol{x_1} + \boldsymbol{x_2})/2 - \boldsymbol{o}$ wyznaczają jednoznacznie
 orientację przestrzenną nadajnika.
 
-Zauważmy, że wyznaczenie czterech punktów daje nam pewną nadmiarowość
-danych, mianowicie do wyznaczenia pozycji nadajnika potrzebujemy trzech współrzędnych,
-a dla orientacji potrzebujemy trzech kątów, w sumie daje to jedynie sześć niewiadomych.
-W naszym przypadku wyznaczamy dwanaście niewiadomych co daje dwukrotną nadmiarowość danych.
-Jest to efekt pożądany, ów nadmiarowość wykorzystana zostanie do korekcji błędów pomiarowych.
+Zauważmy, że wyznaczenie położenia czterech punktów w przestrzeni daje nam pewną nadmiarowość
+danych. Do wyznaczenia pozycji nadajnika potrzebujemy jedynie trzech współrzędnych,
+a dla orientacji potrzebujemy jedynie trzech kątów, w sumie daje to sześć niewiadomych.
+W prezentowanym podejściu wyznaczanych jest dwanaście niewiadomych co daje dwukrotną nadmiarowość danych.
+Jest to efekt pożądany, ów nadmiarowość wykorzystywana jest do korekcji błędów pomiarowych.
 
 
 \section{Pomiar odległości za pomocą ultradźwięków}
@@ -97,7 +97,7 @@ Dla gazu doskonałego prędkość wyraża się wzorem:
 \[
 V_{air} = 331,3  \frac{m}{s}  \sqrt{1+\frac{T}{273,15}}
 \]
-gdzie: $T$ jest temperaturą w stopniach Celsjusza (\SI{}{\degC}).
+gdzie $T$ jest temperaturą w stopniach Celsjusza (\SI{}{\degC}).
 Wzór ten możemy przybliżyć za pomocą rozwinięcia Taylora dla temperatur bliskich temperaturze pokojowej \SI{25}{\degC}:
 \[
  V_{air} = (346,13  +  0,580(T - \SI{25}{\arcdeg})) \frac{m}{s}
