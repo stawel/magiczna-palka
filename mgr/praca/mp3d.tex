@@ -184,24 +184,24 @@ Do obsługi prototypu służy program \textit{scan.py}. Po jego uruchomieniu
 na monitorze wyświetlają się trzy okna: 
 \begin{itemize}
  \item widok 3D prezentujący położenie nadajnika w przestrzeni. W oknie widoczne są  
- cztery punkty reprezentujące głośniki nadajnika oraz trzy wektory normalne reprezentujące 
-jego orientację jak i położenie, rysunek \ref{fig:widok3d}
- \item widok 2D, na którym przedstawiono nałożone na siebie dwa rzuty prostopadłe nadajnika na płaśczyzny XY i XZ, rysunek \ref{fig:widok2d}
- \item widok mocy sygnału, który informujący o sile odbieranego sygnału oraz o błędzie pomiędzy \textit{wzorcem} a odebranym sygnałem, rysunek \ref{fig:power}
+ cztery punkty reprezentujące głośniki nadajnika oraz trzy prostopadłe względem siebie wektory określające 
+jego orientację i położenie (rysunek \ref{fig:widok3d}),
+ \item widok 2D, również przestawiające położenie nadajnika w przestrzeni. 
+ Są to nałożone na siebie rzuty na płaszczyzny XY i XZ
+ (rysunek \ref{fig:widok2d}),
+ \item diagram informujący o mocy całego odebranego sygnału, mocy \textit{wzorca}, mocy sygnału pasującego do \textit{wzorca} 
+ oraz błędzie pomiędzy \textit{wzorcem} a odebranym sygnałem (rysunek \ref{fig:power}).
 \end{itemize}
 
 Wszelkie zmiany położenia nadajnika automatycznie odświeżają wszystkie widoki. 
 Podczas uruchamiania programu aktualne położenie nadajnika przyjmowane 
 jest jako początek układu współrzędnych.
-Jeśli któryś z głośników straci widoczność z mikrofonami obraz przestaje się odświeżać, a informacja dlaczego tak
-się dzieje widoczna jest na widoku mocy sygnału.
-
-Dla celów demonstracyjnych istnieje możliwość rysowania (stawiania punktów) w przestrzeni.
-Aby zapamiętać punkty należy wcisnąć klawisz "p", aby zapisać wynik rysowania należy wcisnąć klawisz "s", do wyczyszczenia obrazu służy klawisz "c".
-Rysunek [TODO] przedstawia przykładowy rysunek w przestrzeni.
+Jeśli któryś z głośników straci widoczność z mikrofonami, obraz przestaje się odświeżać, a informacja, dlaczego tak
+się dzieje, widoczna jest w oknie przedstawiającym moc sygnału.
 
 
-\rysunek{3d}{Widok 3D}{\label{fig:widok3d}}
-\rysunek{2d}{Widok 2D}{\label{fig:widok2d}}
-\rysunek{power}{Widok informujący o mocy sygnału oraz błędzie pomiędzy \textit{wzorcem} a sygnałem}{\label{fig:power}}
+\rysunek{3d}{Widok 3D.}{\label{fig:widok3d}}
+\rysunek{2d}{Widok 2D.}{\label{fig:widok2d}}
+\rysunek{power}{Diagram informujący o mocy całego odebranego sygnału, mocy \textit{wzorca}, mocy sygnału pasującego do \textit{wzorca} 
+ oraz błędzie pomiędzy \textit{wzorcem} a odebranym sygnałem.}{\label{fig:power}}
 
