@@ -2,7 +2,7 @@
 \chapter*{Wprowadzenie}
 \addcontentsline{toc}{chapter}{Wprowadzenie}
 
-W dzisiejszym świecie obserwujemy coraz większe zapotrzebowanie na urządzenia,
+W dzisiejszym świecie wyraźnie wzrasta zapotrzebowanie na urządzenia,
 które potrafią określić swoje położenie i orientację w otaczającej je przestrzeni.
 Urządzenia takie mają szerokie zastosowanie w wielu dziedzinach, m.in. w
 wirtualnej rzeczywistości, rozszerzonej rzeczywistości, 
@@ -21,59 +21,65 @@ takie rozwiązanie zastosowano w \textit{Oculus Rift development kit}. Zalety te
 prosta konstrukcja i niska cena.
 Do wad należy zaliczyć brak stałych punktów odniesienia, co skutkuje występowaniem tzw. dryftu.
 \textit{Oculus Rift development kit} radzi sobie z tym problemem, modelując w komputerze możliwe zmiany pozycji głowy.
-Jednak rozwiązanie to jest dalekie od idealnego o czym może świadczyć fakt, że w kolejnej wersji 
-urządzenia dodano śledzenie głowy przez zewnętrzną kamerę.
+Jednak rozwiązanie to jest dalekie od idealnego, o czym może świadczyć fakt, że w kolejnej wersji 
+urządzenia dodano zewnętrzną kamerę śledzącą pozycję głowy.
 
 \item \label{itm:second_method}
  Projektowanie światła strukturalnego na otoczenie i zbieranie informacji o strukturze 
- światła odbitego za pomocą sensorów, zazwyczaj kamer - taką metodę wykorzystano w \textit{Microsoft Kinnect} \cite{bib:MicrosoftKinect},
- urządzenie projektuje na otoczenie stały wzór punktów, następnie kamerą na podczerwień
- zbierana jest informacja o zniekształceniu danego wzoru i na tej podstawie odtwarzana jest 
- trójwymiarowa struktura otoczenia jak i położenie urządzenia w tym otoczeniu.
- Podobną metodę wykorzystuje \textit{Oculus Rift development kit 2} \cite{bib:OculusRiftDK2} jak i 
- \textit{castAR} \cite{bib:castAR}, tutaj za źródła światła służą diody podczerwone umieszczone na okularach,
- światło przez nie emitowane jest rejestrowane poprzez kamerę umieszczoną przed użytkownikiem.
+ światła odbitego za pomocą sensorów, zazwyczaj kamer -- 
+ taką metodę wykorzystano w \textit{Microsoft Kinnect} \cite{bib:MicrosoftKinect}.
+ Urządzenie projektuje na otoczenie stały wzór punktów, następnie kamerą na podczerwień
+ zbiera informację o zniekształceniu danego wzoru i na tej podstawie odtwarza  
+ trójwymiarową strukturę otoczenia i położenie urządzenia w tym otoczeniu.
+ Podobną metodę wykorzystuje \textit{Oculus Rift development kit 2} \cite{bib:OculusRiftDK2} oraz 
+ \textit{castAR} \cite{bib:castAR} -- tutaj za źródła światła służą diody podczerwone umieszczone na okularach.
+ Emitowane przez nie światło jest rejestrowane przez kamerę umieszczoną przed użytkownikiem.
  Komputer na podstawie względnego położenia widocznych punktów określa położenie i orientację
  okularów w przestrzeni.
- Zaletą tego rozwiązania są stałe punkty odniesienia (kamera) jak i możliwość pomiaru wielu puntów na raz.
- Do wad należy zaliczyć stosunkowo niską rozdzielczość szczególnie w osi Z jak i duży strumień danych do obróbki.
+ Zaletą tego rozwiązania są stałe punkty odniesienia (kamera), a także możliwość pomiaru wielu puntów naraz.
+ Wady stanowią stosunkowo niska rozdzielczość, szczególnie w osi Z, jak i duży strumień danych do obróbki.
 
 \item
- Wykorzystanie wielu zdjęć zawierających stałe (nie zmieniające się w czasie) obiekty, na postawie których wyznaczana jest pozycja kamery względem nich
-  lub odwrotnie, kamera (lub wiele kamer) jest punktem stałym, a wyznaczana jest pozycja fotografowanych obiektów -   
- taką metodę wykorzystano w \textit{VidialSFM} \cite{bib:VisualSFM}, jak i w \textit{The Pi 3D scanner project} \cite{bib:pi3dscan}, 
- rozwiązanie to cechuje się również dość niską rozdzielczością.
+ Wykorzystanie wielu zdjęć, na postawie których 
+ wyznaczana jest pozycja kamery względem znajdujących się na nich  stałych (niezmieniających się w czasie) obiektów. 
+ Możliwa jest też odwrotna sytuacja, gdy  
+  kamera (lub wiele kamer) jest punktem stałym i względem niej wyznaczana jest pozycja fotografowanych obiektów --   
+ taką metodę wykorzystano w \textit{VidialSFM} \cite{bib:VisualSFM} oraz w \textit{The Pi 3D scanner project} \cite{bib:pi3dscan}. 
+ Wadą tego rozwiązanie jest dość niska rozdzielczość.
  
 \end{enumerate}
  
 
  W niniejszej pracy przedstawiono prototyp oparty na zmodyfikowanej metodzie drugiej, który zamiast światła wykorzystuje ultradźwięki. 
- Podejście to zapewnia dużo większą dokładność szczególnie w osi Z, prostotę budowy jak i dużo niższą cenę.
+ Podejście to zapewnia dużo większą dokładność, szczególnie w osi Z, prostotę budowy, a także niższą cenę.
  Urządzenie składa się z dwóch części: odbiornika, na którym umieszczone są trzy mikrofony, i nadajnika,
  na którym znajdują się cztery głośniki. Pomiędzy nimi dokonywany jest pomiar odległości z rozdzielczością
- dochodzącą do \SI{0,5}{mm} dzięki czemu prototyp jest w stanie określić położenie nadajnika
-w przestrzeni jak i jego orientację. 
-Pomiar odległości dokonywany jest za pomocą ultradźwięków o częstotliwości \SI{40}{kHz},
-mimo iż metoda jest znana od wielu lat, to z uwagi na relatywnie dużą długość fali ultradźwiękowej,
-która dla częstotliwości \SI{40}{kHz} wynosi około \SI{8}{mm} jest do precyzyjnych pomiarów rzadko stosowana.
-W niniejszej pracy udało się to pozorne ograniczenie przezwyciężyć.
+ dochodzącą do \SI{0,5}{mm}, dzięki czemu prototyp jest w stanie określić położenie nadajnika
+w przestrzeni i jego orientację. 
+Pomiar odległości dokonuje się za pomocą ultradźwięków o częstotliwości \SI{40}{kHz}.
+Mimo iż ta metoda jest znana od wielu lat, to jest  rzadko stosowana do precyzyjnych pomiarów
+z uwagi na relatywnie dużą długość fali ultradźwiękowej,
+która dla częstotliwości \SI{40}{kHz} wynosi około \SI{8}{mm}.
+
+Autorowi niniejszej pracy udało się to pozorne ograniczenie przezwyciężyć.
 Ostatecznie urządzenie jest w stanie śledzić położenie nadajnika z rozdzielczością 
-\SI{5000}{px} $\times$ \SI{5000}{px} $\times$ \SI{5000}{px} na przestrzeni sześcianu o rozmiarach 
-\SI{2,5}{m} $\times$ \SI{2,5}{m}  $\times$ \SI{2,5}{m} przy czasie odświeżania rzędu \SI{350}{ms}.
-Warto podkreślić, że wielkość sześcianu została ograniczona ze względów praktycznych i bez 
-większego problemu można ją zwiększyć zachowując stosunek rozdzielczości na metr.
-Jeśli chodzi o stosunkowo długi czas odświeżania to
- głównym czynnikiem na niego wpływającym jest czas jaki potrzebuje fala dźwiękowa by się rozproszyć,
+\SI{5000}{px} $\times$ \SI{5000}{px} $\times$ \SI{5000}{px} w przestrzeni ograniczonej sześcianem o rozmiarach 
+\SI{2,5}{m} $\times$ \SI{2,5}{m}  $\times$ \SI{2,5}{m}, przy czasie odświeżania rzędu \SI{350}{ms}.
+Warto podkreślić, że przyjęte parametry sześcianu wynikają ze względów praktycznych i bez 
+problemu można je zwiększyć, zachowując stosunek rozdzielczości na metr.
+Stosunkowo długi czas odświeżania zależy głównie od czasu,  
+ jaki potrzebuje fala dźwiękowa, by się rozproszyć,
  tak by jej odbicia od powierzchni ścian nie wpływały na kolejne pomiary.
 
-Należy również wspomnieć o innych pracach, które w podobny sposób podchodzą do problemu pozycjonowania, przykładowo 
+Należy również wspomnieć o innych pracach, które w podobny sposób podchodzą do problemu pozycjonowania. Przykładowo 
 w pracy \textit{Ultrasonic 3D Wireless Computer Mouse} \cite{bib:mouse} przedstawiono prototyp myszki 3D, której
-pozycja w przestrzeni wyznaczana jest za pomocą ultradźwięków, niemniej wykorzystany przez autorów algorytm wyznaczania 
-odległości jest dużo bardziej podatny na błędy. Dodatkowo praca koncentruje się jedynie
+pozycja w przestrzeni określana jest za pomocą ultradźwięków, niemniej wykorzystany przez autorów algorytm wyznaczania 
+odległości jest dużo bardziej podatny na błędy. Dodatkowo praca ta koncentruje się jedynie
 na określaniu położenia myszki w przestrzeni, bez wyznaczania jej orientacji.
-Kolejnym ciekawym rozwiązaniem jest rękawica dla graczy 
-\textit{Power Glove} \cite{bib:powerGlove} \cite{bib:powerGlove2} dla
-\textit{Nintendo Entertainment System} wydana w roku 1989, ona również wykorzystuje ultradźwięki do wyznaczania pozycji
-rękawicy w przestrzeni, jednak precyzja urządzenia jest wyjątkowo niska przez co rękawica nie odniosła znaczącego sukcesu komercyjnego.
+Kolejne ciekawe rozwiązanie stanowi rękawica dla graczy 
+\textit{Power Glove} \cite{bib:powerGlove} dla
+\textit{Nintendo Entertainment System}, która pojawiła się w sprzedaży w  1989 roku \cite{bib:powerGlove2}. 
+Ona również wykorzystuje ultradźwięki do wyznaczania pozycji
+w przestrzeni, jednak nie odniosła  znaczącego sukcesu komercyjnego ze względu na wyjątkowo niską precyzję urządzenia.
 
 
