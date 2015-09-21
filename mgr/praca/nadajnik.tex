@@ -1,17 +1,17 @@
 \chapter{Nadajnik ultradźwiękowy}
 
-Prezentowany prototyp składa się z dwóch części: nadajnika i odbiornika pomiędzy którymi
-dokonywany jest pomiar odległości. W niniejszym rozdziale opisana została budowa nadajnika. 
+Prezentowany prototyp składa się z dwóch części: nadajnika i odbiornika, pomiędzy którymi
+dokonywany jest pomiar odległości. Niniejszy rozdział opisuje budowę i funkcjonowanie nadajnika. 
 
 \section{Budowa i zasada działania}
 
-Nadajnik zbudowany został w oparciu o płytkę prototypową \textit{Arduino Nano} \cite{bib:arduinoNano},
+Nadajnik zbudowany został na bazie płytki prototypowej \textit{Arduino Nano} \cite{bib:arduinoNano},
 która składa się z procesora ATmega328 \cite{bib:atmega328} taktowanego \SI{16}{MHz} rezonatorem kwarcowym,
-\SI{5}{V} stabilizatora napięcia oraz układ FT232RL umożliwiający 
-jej programowanie poprzez port USB ze środowiska \textit{Arduino} \cite{bib:Arduino}. 
-Do \textit{Arduino Nano} połączono 
-bezpośrednio cztery nadajniki ultradźwiękowe (głośniki, rezonatory piezoelektryczne) typu 40ST-12 \cite{bib:40ST12}.
-Schemat połączeń przedstawiono na rysunku \ref{fig:nadajnik_schemat}.
+\SI{5}{V} stabilizatora napięcia oraz układu FT232RL umożliwiającego 
+jej programowanie  ze środowiska \textit{Arduino} \cite{bib:Arduino} za pośrednictwem portu USB. 
+\textit{Arduino Nano} połączono 
+bezpośrednio z czterema nadajnikami ultradźwiękowymi (głośnikami, rezonatorami piezoelektrycznymi) typu 40ST-12 \cite{bib:40ST12}.
+Schemat połączeń przedstawia rysunek \ref{fig:nadajnik_schemat}.
 
  \begin{figure}[ht!]
     \centering
@@ -20,31 +20,31 @@ Schemat połączeń przedstawiono na rysunku \ref{fig:nadajnik_schemat}.
     \label{fig:nadajnik_schemat}
 \end{figure}
 
-Całość umieszczona została na ramie w kształcie litery H wykonanej z rurek PCV.
-Rezonatory zostały dodatkowo odizolowane od ramy rzepami co ułatwia ich demontaż jak i skutecznie
+Całość umieszczono na ramie w kształcie litery H wykonanej z rurek PCV.
+Rezonatory dodatkowo odizolowano przy użyciu rzepów od ramy, co ułatwia ich demontaż, a także skutecznie
 zapobiega przenoszeniu się drgań. 
 
-\rysunek{nadajnik_H}{Szkic ramy nadajnika}{\label{fig:nadajnik_szkic}}
+\rysunek{nadajnik_H}{Szkic ramy nadajnika.}{\label{fig:nadajnik_szkic}}
 
 
-\textit{Android Nano} połączony jest z odbiornikiem \SI{6}{m} kablem, którym przesyłane są sygnały sterujące jak i zasilanie.
-Do sterowania wykorzystywane są trzy przewody, dwa z nich informują który z głośników ma w danym momencie nadawać,
-trzeci służy jako wyzwalacz. 
-Na potrzeby nadajnika powstało oprogramowanie dla procesora ATmega328 napisane w C generujące nadawany sygnał.
-Cała logika programu mieści się w obsłudze przerwania sprzętowego, które reaguje na zmianą stanu logicznego
+\textit{Android Nano} połączony jest z odbiornikiem sześciometrowym kablem, którym przesyłane są sygnały sterujące oraz zasilanie.
+Do sterowania wykorzystywano trzy przewody -- dwa z nich informują, który z głośników ma w danym momencie nadawać,
+a trzeci służy jako wyzwalacz. 
+Na potrzeby nadajnika powstało oprogramowanie w C dla procesora ATmega328 generujące nadawany sygnał.
+Cała logika programu mieści się w obsłudze przerwania sprzętowego, które reaguje na zmianę stanu logicznego
 na wyzwalaczu.
-Po uruchomieniu przerwania oprogramowanie wysyła z góry zdefiniowany sygnał na odpowiedni rezonator. 
-Nadawany sygnał jest tak dobrany by dało się go w prosty sposób wyodrębnić i składa się w dwóch
-części: część wzbudzającej oraz części tłumiącej.
-Okres impulsów sygnału jest równy częstotliwością rezonansową przetworników, dodatkowo część tłumiąca
-jest przesunięty względem części wyzwalającej o 180 stopni.  
-Rysunek \ref{fig:output_signal} przedstawia sygnał jakim wysterowany jest przetwornik piezoelektryczny. 
+Gdy następuje przerwanie, oprogramowanie wysyła z góry zdefiniowany sygnał do odpowiedniego rezonatora. 
+Nadawany sygnał jest tak dobrany, by dało się go w prosty sposób wyodrębnić. Składa się z dwóch
+części: wzbudzającej oraz tłumiącej.
+Okres impulsów sygnału jest zgodny z częstotliwością rezonansową przetworników, a dodatkowo część tłumiąca
+jest przesunięta względem części wyzwalającej o 180 stopni.  
+Rysunek \ref{fig:output_signal} przedstawia sygnał, jakim wysterowany jest przetwornik piezoelektryczny. 
 
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1.15\textwidth, trim= 47mm 0mm 0mm 0mm,clip]{output_signal}
-    \caption{Sygnał wysterowania przetwornika piezoelektrycznego}
+    \caption{Sygnał wysterowania przetwornika piezoelektrycznego.}
     \label{fig:output_signal}
 \end{figure}
 
@@ -53,18 +53,18 @@ Rysunek \ref{fig:output_signal} przedstawia sygnał jakim wysterowany jest przet
 \section{Dobór rezonatorów piezoelektrycznych}
 
 Głównym problemem podczas konstrukcji nadajnika okazał się dobór odpowiednich rezonatorów piezoelektrycznych.
-Mimo, że producent wykorzystanych rezonatorów piezoelektrycznych zapewnia ich pracę zakresie: \SI{40}{kHz} $\pm$ \SI{1}{kHz},
+Mimo że producent wykorzystanych rezonatorów zapewnia ich pracę w zakresie \SI{40}{kHz} $\pm$ \SI{1}{kHz},
 to taki rozrzut okazał się zbyt duży, 
 dlatego z 30 rezonatorów (15 nadajników i 15 odbiorników) wybrane zostały 4 nadajniki i 3 odbiorniki o najbardziej 
 zbliżonych częstotliwościach rezonansowych.
 
-Tabela \ref{table:czestotliwosci} zawiera wyniki pomiarów częstotliwości, gwiazdką oznaczono wykorzystane przetworniki piezoelektryczne.
+Tabela \ref{table:czestotliwosci} zawiera wyniki pomiarów częstotliwości. Gwiazdką oznaczono wykorzystane przetworniki piezoelektryczne.
 
 \begin{table}[t]
   \centering
   \begin{tabular}{|r|r|r|}
     \hline 
-    Nr & Nadajnik: 40ST-12 & Odbiornik: 40SR-12\\
+    Nr & Nadajnik 40ST-12 & Odbiornik 40SR-12\\
     \hline
     1  &   \SI{40,88}{kHz} & *\SI{40,65}{kHz} \\
     2  &   \SI{41,12}{kHz} &  \SI{40,45}{kHz} \\
@@ -83,7 +83,7 @@ Tabela \ref{table:czestotliwosci} zawiera wyniki pomiarów częstotliwości, gwi
     15 &   \SI{39,64}{kHz} &  \SI{39,11}{kHz} \\
     \hline
   \end{tabular}
-  \caption{Częstotliwości rezonansowe przetworników piezoelektrycznych}
+  \caption{Częstotliwości rezonansowe przetworników piezoelektrycznych.}
   \label{table:czestotliwosci}
 \end{table}
 
