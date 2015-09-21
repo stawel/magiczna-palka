@@ -62,19 +62,17 @@ pochylenia oraz odchylenia wokół osi związanych z obiektem, jednak na nasze p
 posługiwać się dwoma prostopadłymi wektorami, które jednoznacznie wyznaczają ów kąty. 
 Prezentowany prototyp wyznacza położenie czterech punktów $\boldsymbol{x_1, x_2, x_3, x_4}$ znajdujących się
 na nadajniku, a następnie na ich podstawie wyznacza poszukiwane dwa prostopadłe wektory które jednoznacznie
-definiują jego orientację, rysunek \ref{fig:orientacja}:
-
+definiują jego orientację, rysunek \ref{fig:orientacja}.
  \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth, trim= 0mm 0mm 0mm 0mm,clip]{orientacja}
     \caption{Wyznaczanie orientacji na podstawie czterech punktów}
     \label{fig:orientacja}
 \end{figure}
-
-Gdzie $\boldsymbol{o} = (\boldsymbol{x_1} + \boldsymbol{x_2} + \boldsymbol{x_3} + \boldsymbol{x_4})/4$ jest szukanym położeniem
+Na rysunku punkt $\boldsymbol{o} = (\boldsymbol{x_1} + \boldsymbol{x_2} + \boldsymbol{x_3} + \boldsymbol{x_4})/4$ jest szukanym położeniem
 nadajnika, a wektory: $\boldsymbol{\overrightarrow{a}} = (\boldsymbol{x_2} + \boldsymbol{x_4})/2 - \boldsymbol{o}$ i 
-$\boldsymbol{\overrightarrow{b}} = (\boldsymbol{x_1} + \boldsymbol{x_2})/2 - \boldsymbol{o}$ wyznaczają nam jednoznacznie
-jego orientację przestrzenną.
+$\boldsymbol{\overrightarrow{b}} = (\boldsymbol{x_1} + \boldsymbol{x_2})/2 - \boldsymbol{o}$ wyznaczają jednoznacznie
+orientację przestrzenną nadajnika.
 
 Zauważmy, że wyznaczenie czterech punktów daje nam pewną nadmiarowość
 danych, mianowicie do wyznaczenia pozycji nadajnika potrzebujemy trzech współrzędnych,
