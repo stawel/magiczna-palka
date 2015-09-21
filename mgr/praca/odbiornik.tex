@@ -9,7 +9,7 @@ Odbiornik składa się on z sześciu części (rysunek \ref{fig:odbiornik_szkic}
  \item trzech modułów ultradźwiękowych przetwarzających dźwięk na sygnał elektryczny,
  \item płytki prototypowej \textit{stm32f4-discovery} \cite{bib:stm32f4Discovery} odpowiadającej za komunikację z komputerem,
  \item przystawki do \textit{stm32f4-discovery} przystosowującej sygnały elektryczne z modułów ultradźwiękowych
-  do poziomów akceptowalnych przez tę płytkę,
+  do poziomów akceptowalnych przez tę płytkę,
  \item ramy, na której umieszczone są moduły ultradźwiękowe.
 \end{itemize}
 
@@ -31,12 +31,12 @@ umożliwiający programowanie procesora i jego testowanie za pośrednictwem doda
 Na potrzeby odbiornika powstało dedykowane oprogramowanie w C sterujące procesorem.
 Zostało ono oparte na bibliotece \textit{stm32 usb 101} \cite{bib:stm32_usb_101}
 zapewniającej komunikację z komputerem, do której dodano obsługę przetworników \textit{ADC}.
-Program przez port USB dostaje instrukcję, który z czterech głośników ma nadawać, i przekazuje ją 
+Program przez port USB dostaje instrukcję, który z czterech głośników ma nadawać, i przekazuje ją
 dalej do nadajnika wraz z sygnałem wyzwalającym. Następnie uruchamiane są równocześnie trzy przetworniki \textit{ADC}, które 
 próbkują odbierany dźwięk i poprzez DMA zapisują trzy kanały w pamięci procesora.
 Częstotliwość pracy przetworników ustawiono na \SI{1,6}{MSPS}, co daje średnio 40 próbek na jeden okres \SI{40}{kHz} sygnału.
-Program zapamiętuje \SI{16}{kS} na każdy kanał, co przy prędkości dźwięku \SI{340}{m/s} pozwala zmierzyć odległość 
-wynoszącą maksymalnie 2,5 metra.
+Program zapamiętuje \SI{16}{kS} na każdy kanał, co przy prędkości dźwięku \SI{340}{m/s} pozwala zmierzyć odległość
+wynoszącą maksymalnie 2,5 metra.
 
 Po zebraniu w sumie \SI{48}{kS}, całość przesyłana jest do komputera w celu dalszej analizy.
 Proces powtarzany jest dla każdego z czterech głośników nadajnika, 
@@ -66,7 +66,7 @@ Zasada działania: wzmacniacz operacyjny IC1A wraz z kondensatorem C2 i rezystor
 jako przedwzmacniacz ładunkowy \cite{bib:wzm_ladunkowy}.
 Ładunek wytworzony na przetworniku piezoelektrycznym SP1 zostaje w całości przeniesiony na kondensator C2 
 (wzmacniacz utrzymuje różnicę potencjałów między dodatnim a ujemnym wejściem na zerowym poziomie),
-W wyniku czego na kondensatorze pojawia się napięcie zgodnie z równaniem $U=\frac{q}{C}$.
+W wyniku czego na kondensatorze pojawia się napięcie zgodnie z równaniem $U=\frac{q}{C}$.
 Rezystor R1 ustawia napięcia spoczynkowe układu na poziome $\frac{1}{2}$ Vcc, a także rozładowuje kondensator C2.
 R1 i C2 działają również jako filtr górnoprzepustowy.
 
