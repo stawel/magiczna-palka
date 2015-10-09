@@ -1,9 +1,9 @@
-\chapter{Odbiornik}
+\section{Odbiornik}
 
 Centralną częścią prezentowanego prototypu stanowi odbiornik.
-Jego zadaniem jest wysyłanie sygnałów sterujących do nadajnika, zbieranie ultradźwięków z otoczenia oraz przesłanie 
+Jego zadaniem jest wysyłanie sygnałów sterujących do nadajnika, zbieranie ultradźwięków z otoczenia oraz przesyłanie 
 ich do komputera w celu dalszej analizy.
-Odbiornik składa się on z sześciu części (rysunek \ref{fig:odbiornik_szkic}):
+Odbiornik składa się z części (rysunek \ref{fig:odbiornik_szkic}):
 
 \begin{itemize}
  \item trzech modułów ultradźwiękowych przetwarzających dźwięk na sygnał elektryczny,
@@ -14,10 +14,10 @@ Odbiornik składa się on z sześciu części (rysunek \ref{fig:odbiornik_szkic}
 \end{itemize}
 
 
-\rysunek{odbiornik_szkic}{Szkic odbiornika.}{\label{fig:odbiornik_szkic}}
+\rysunek{odbiornik_szkic}{Szkic odbiornika}{\label{fig:odbiornik_szkic}}
 
 
-\section{Budowa i zasada działania}
+\section{Budowa i zasada działania odbiornika}
 
 Głównym elementem odbiornika jest płytka prototypowa \textit{stm32f4-discovery} \cite{bib:stm32f4Discovery}.
  Umożliwia ona komunikację wszystkich komponentów z komputerem.
@@ -46,7 +46,7 @@ pozycja w przestrzeni oraz orientacja nadajnika.
 Cała elektronika osadzona została na ramie w kształcie trójkąta zbudowanej z rur PCV  (rysunek \ref{fig:trojkat}). 
 Odległości pomiędzy modułami ultradźwiękowymi są z góry ustalone, co ułatwia dalsze obliczenia.
 
-\rysunek{trojkat}{Szkic ramy odbiornika.}{\label{fig:trojkat}}
+\rysunek{trojkat}{Szkic ramy odbiornika}{\label{fig:trojkat}}
 
 
 
