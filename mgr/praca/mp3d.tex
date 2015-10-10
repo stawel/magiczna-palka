@@ -1,4 +1,4 @@
-\chapter{Przetwarzanie danych zebranych z~ odbiornika}
+\chapter{Przetwarzanie danych zebranych z~odbiornika}
 
 W ramach niniejszej pracy powstało oprogramowanie w \textit{Pythonie}, którego zadaniem jest
 przekształcenie surowych danych ultradźwiękowych 
@@ -25,7 +25,7 @@ Najistotniejszą częścią oprogramowania jest biblioteka \textit{mp3d} podziel
 Za komunikację z odbiornikiem odpowiedzialny jest moduł \textit{com.py}.
 Pracuje on w oddzielnym wątku, w którym cyklicznie wysyłane są żądania, by dany głośnik nadał sygnał,
 a następnie odbierane są sygnały z trzech mikrofonów.
-Ten proces odbywa się kolejno dla każdego z~ czterech głośników nadajnika.
+Ten proces odbywa się kolejno dla każdego z~czterech głośników nadajnika.
 Zebrane w ten sposób dwanaście sygnałów po wstępnej filtracji przekazywane są dalej do \textit{find\_pattern.py}. Cały cykl powtarza 
 się co \SI{350}{ms}. Rysunek \ref{fig:com_output_2m} przedstawia sygnał odebrany z jednego z mikrofonów.
 
@@ -43,7 +43,7 @@ się co \SI{350}{ms}. Rysunek \ref{fig:com_output_2m} przedstawia sygnał odebra
 \newpage
 \section{Wyznaczanie odległości, moduł \textit{find\_pattern.py}}
 
-Moduł \textit{find\_pattern.py} odpowiada za obliczenie odległości pomiędzy czterema głośnikami i~ trzema mikrofonami.
+Moduł \textit{find\_pattern.py} odpowiada za obliczenie odległości pomiędzy czterema głośnikami i~trzema mikrofonami.
 Wyznaczana jest ona przez wyszukanie w każdym z 12 odebranych sygnałów  położenia \textit{wzorca}, który 
 odpowiada czołu nadanego sygnału (rysunek \ref{fig:com_output_2m}).
 \textit{Wzorzec} po raz pierwszy wprowadza się podczas kalibracji, a następnie ciągle aktualizuje 
