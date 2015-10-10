@@ -33,7 +33,8 @@ plt.ylim(-2*distance-128, 1*distance+128)
 plt.title('kalibracja')
 plt.xlabel('czas [ms]')
 
-
+frame1 = plt.gca()
+frame1.axes.get_yaxis().set_visible(False)
 
 
 l01, = plt.plot([], [], 'r-')
