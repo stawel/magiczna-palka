@@ -1,5 +1,7 @@
 #!/usr/bin/python
-# encoding=utf8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from pylab import *
 import serial
 import time
@@ -23,20 +25,32 @@ fig1 = plt.figure()
 fft_size=2048*2*2
 Fsampling_kHz = mp3d.com.Fsampling_kHz
 
+print_t = False
 #Tsampling_ms = 1.0 / Fsampling_kHz
 
 #ax_data = plt.subplot(2,1,1)
-plt.xlim(7700/Fsampling_kHz, 10000/Fsampling_kHz)
+if print_t:
+    plt.xlim(7700/Fsampling_kHz, 10000/Fsampling_kHz)
+else:
+    plt.xlim(7700, 10000)
+
 #plt.ylim(-228, 228)
 plt.ylim(-200, 200)
-plt.xlabel('time (ms)')
+if print_t:
+    plt.xlabel('czas [ms]')
+else:
+    plt.xlabel('t')
 
-plt.title('e(x)')
+#plt.title('e(x)')
 
-l3, = plt.plot([], [], 'r-', label = u'e(x) - błąd')
-l1, = plt.plot([], [], 'k-', label = u'f(x) - sygnał wejściowy')
-l4, = plt.plot([], [], 'y-', label = u'w(t) - wzorzec')
-l2, = plt.plot([], [], 'g-', label = u'w(t)*f(x) - korelacja wzajemna')
+frame1 = plt.gca()
+frame1.axes.get_yaxis().set_visible(False)
+
+
+l3, = plt.plot([], [], 'r-', label = u'e(t) - błąd względny')
+l1, = plt.plot([], [], 'k-', label = u'f(t) - sygnał wejściowy')
+l4, = plt.plot([], [], 'y-', label = u'w(x) - wzorzec')
+l2, = plt.plot([], [], 'g-', label = u'w(x)*f(t) - korelacja wzajemna')
 
 lp1, = plt.plot([], [], 'r-')
 lp2, = plt.plot([], [], 'g-')
@@ -54,10 +68,11 @@ def update_line(num):
     mp3d.xyz.get_posNx(permit_refresh = False, force_refresh = fref, truncate_errors = False, best_match_error_len = 1)
 #    fref=False
 
-    idx = 1
+    idx = 10
     x,y, err1,cor = mp3d.xyz.xyec_info[idx]
     
-    x = x / Fsampling_kHz
+    if print_t:
+        x = x / Fsampling_kHz
 
     err_idx = err1[0][1]
     wyn1 = x[err_idx]
@@ -73,7 +88,10 @@ def update_line(num):
     err1.sort(key=operator.itemgetter(1))
     err1T = transpose(err1)
 
-    l3.set_data(err1T[1]/Fsampling_kHz, err1T[0]*3.000)
+    err1T1 = err1T[1]
+    if print_t:
+        err1T1 = err1T1/Fsampling_kHz
+    l3.set_data(err1T1, err1T[0]*150.000)
 #    lp1.set_data([wyn1,wyn1],[-100,100])
 
 

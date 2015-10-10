@@ -18,6 +18,7 @@ import mp3d.signal
 import mp3d.com
 import mp3d.find_pattern
 import mp3d.info
+import mp3d.xyz
 
 
 distance = 200
@@ -30,7 +31,7 @@ ax_data = plt.subplot(1,1,1)
 plt.xlim(0, mp3d.com.T)
 plt.ylim(-2*distance-128, 1*distance+128)
 plt.title('kalibracja')
-plt.xlabel('time (ms)')
+plt.xlabel('czas [ms]')
 
 
 
@@ -168,6 +169,9 @@ line_ani = animation.FuncAnimation(fig1, update_line, None,
 #mp3d.info.add_sliders(plt)
 
 
-plt.show()
-mp3d.com.exit()
+try:
+    plt.show()
+finally:
+    mp3d.xyz.exit()
+
 

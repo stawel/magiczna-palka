@@ -68,7 +68,7 @@ def init(signals):
         for x in sign:
             patt.append(x-avr)
         patt= array(patt)
-        patt_cor = correlate(patt,patt)[0]
+        patt_cor = mycorrelate(patt,patt)[0]
         patterns.append(array(patt))
         patterns_cor.append(patt_cor)
         sign_max_cor.append(0.)
@@ -101,7 +101,13 @@ def get_pos_power(idx):
 def get_pos_error(idx):
     return pos_error[idx]
 
+def mycorrelate(a,b):
+#    return correlate(a,b)
+    return signal.fftconvolve(a, b[::-1], mode='valid')
 
+def slowcorrelate(a,b):
+    return correlate(a,b)
+#    return signal.fftconvolve(a, b[::-1], mode='valid')
 
 
 def refresh_pattern(sign, idx, save=True):
@@ -110,59 +116,41 @@ def refresh_pattern(sign, idx, save=True):
     sw_avr = sum(sign) / float(len(sign))
     sw = sign - sw_avr
 #    sw = numpy.sign(array(sw))*50
-    sw_cor = correlate(sw, sw)[0]
-    old_cor = correlate(sw, patterns[idx])[0]
+    sw_cor = slowcorrelate(sw, sw)[0]
+    old_cor = slowcorrelate(sw, patterns[idx])[0]
     error = get_error(patterns[idx], sw, patterns_cor[idx], old_cor)
     power = sqrt(sw_cor/float(len(sign)))
     pos_pow[idx] = power
     pos_error[idx] = error
-    if(save and error<1500. and power > 5.0):
+    if(save and error<0.15 and power > 5.0):
         print 'idx: %d  power: %10.3f  sign: %10.3f nowa corelacja: %10.3f  cor old: %10.3f error: %3.10f' % (idx, power, get_sign_power(idx), sw_cor , old_cor , error)
         patterns_cor[idx]=sw_cor
         patterns[idx]=sw
     add_time_info(TimeInfo(0, time.time()-t0,0,0))
 
 
-def get_error2(xl, yl, xx_cor, xy_cor):
-    t0 = time.time()
-    error=float('inf');
-    cor=abs(xy_cor)/xx_cor
-    if len(xl) == len(yl):
-        yl_avr = sum(yl) / float(len(yl))
-        err_array = (((yl-yl_avr)/cor)-xl)
-        error = sqrt(inner(err_array,err_array)/ float(len(yl)));
-
-    add_time_info(TimeInfo(0, 0, 0, time.time()-t0))
-    return error
-
 def get_error(xl,yl,xx_cor,xy_cor):
     t0 = time.time()
     error=float('inf');
-    yy_cor = correlate(yl ,yl)[0]
+    yy_cor = slowcorrelate(yl ,yl)[0]
     if len(xl) == len(yl):
-        error = xx_cor-(xy_cor*xy_cor)/yy_cor
-        error = sqrt(error/ float(len(yl)));
+        error = 1 - (xy_cor)**2/(xx_cor*yy_cor)
 
     add_time_info(TimeInfo(0, 0, 0, time.time()-t0))
     return error
 
 
-def get_error3(xx_cor, xy_cor, yy_cor , n):
-    t0 = time.time()
-
-    error = xx_cor-(xy_cor*xy_cor)/yy_cor
-    error = sqrt(error / float(n));
-
-    add_time_info(TimeInfo(0, 0, 0, time.time()-t0))
-    return error
-
-def get_pos(y,idx, truncate_errors = True, max_errors_len = 10, truncate_factor = 2):
+def get_pos(y,idx, truncate_errors = True, max_errors_len = 10, truncate_factor = 2, all_errors = False):
     t0 = time.time()
     avr = sum(y) / float(len(y))
     cy = y-avr #[x-avr for x in  y]
-    corel = correlate(cy ,patterns[idx])
+    corel = mycorrelate(cy ,patterns[idx])
     errors = [(float('inf'),0)]
-    duze = signal.argrelmax(corel)[0]
+#    all_errors = True
+    if all_errors:
+        duze = arange(0,len(corel))
+    else:
+        duze = signal.argrelmax(corel)[0]
     for px in duze:
         e = get_error(patterns[idx],cy[px:px+len(patterns[idx])], patterns_cor[idx], corel[px])
         errors.append( (e,px) )
@@ -185,16 +173,15 @@ def get_pos(y,idx, truncate_errors = True, max_errors_len = 10, truncate_factor 
     add_time_info(TimeInfo(0, 0, time.time()-t0, 0))
     return errors, corel
 
-def get_pos_slow(y,idx, truncate_errors = True, max_errors_len = 10, truncate_factor = 2):
+def get_pos_all(y,idx, truncate_errors = True, max_errors_len = 10, truncate_factor = 2):
     t0 = time.time()
     avr = sum(y) / float(len(y))
     cy = y - avr #[x-avr for x in  y]
-    corel = correlate(cy ,patterns[idx])
+    corel = mycorrelate(cy ,patterns[idx])
     cycy = cy * cy
     n = len(patterns[idx])
-    cycy_cor = correlate(cycy, ones(n))
-    errors = - corel*corel/(cycy_cor * patterns_cor[idx]) + 1.
-    errors = sqrt(errors/float(n))
+    cycy_cor = mycorrelate(cycy, ones(n))
+    errors = 1. - corel*corel/(cycy_cor * patterns_cor[idx])
 
     errors = array([errors, arange(len(errors))])
     errors = transpose(errors).tolist()

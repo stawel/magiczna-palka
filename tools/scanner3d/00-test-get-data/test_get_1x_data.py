@@ -50,7 +50,7 @@ lp4, = plt.plot([], [], 'y-')
 lp5, = plt.plot([], [], 'c-')
 
 
-idx = 0
+idx = 3
 
 def update_line(num):
     global idx
