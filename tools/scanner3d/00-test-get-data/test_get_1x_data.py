@@ -1,4 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from pylab import *
 import serial
 from numpy import *
@@ -27,10 +30,12 @@ fig1 = plt.figure()
 plt.xlim(7700/Fsampling_kHz, 10000/Fsampling_kHz)
 #plt.ylim(-228, 228)
 plt.ylim(-200, 200)
-plt.xlabel('time (ms)')
+frame1 = plt.gca()
+frame1.axes.get_yaxis().set_visible(False)
+plt.xlabel('czas [ms]')
 
 #plt.xlim(7700, 10000)
-plt.title('received signal')
+plt.title('odebrany sygnał')
 
 l1, = plt.plot([], [], 'r-')
 l2, = plt.plot([], [], 'k-')
