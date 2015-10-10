@@ -33,16 +33,17 @@ zapobiega przenoszeniu się drgań.
 \textit{Android Nano} połączony jest z odbiornikiem sześciometrowym kablem, którym przesyłane są sygnały sterujące oraz zasilanie.
 Do sterowania wykorzystywano trzy przewody -- dwa z nich informują, który z głośników ma w danym momencie nadawać,
 a trzeci służy jako wyzwalacz. 
+Informacja, który z głośników  ma nadawać kodowana jest za pomocą dwóch bitów w systemie binarnym,
+napięcie na przewodzie \SI{3,3}{V} oznacza logiczną jedynkę, a \SI{0}{V} oznacza logiczne zero.
+
 Na potrzeby nadajnika powstało oprogramowanie w C dla procesora ATmega328 generujące nadawany sygnał.
-Cała logika programu mieści się w obsłudze przerwania sprzętowego, które reaguje na zmianę stanu logicznego
-na wyzwalaczu.
-Gdy następuje przerwanie, oprogramowanie wysyła z góry zdefiniowany sygnał do odpowiedniego rezonatora. 
+Cała logika programu mieści się w obsłudze przerwania sprzętowego, które reaguje na opadające zbocze na wyzwalaczu.
+Gdy wyzwalane jest przerwanie, oprogramowanie wysyła z góry zdefiniowany sygnał do odpowiedniego rezonatora. 
 Nadawany sygnał jest tak dobrany, by dało się go w prosty sposób wyodrębnić. Składa się z dwóch
 części: wzbudzającej oraz tłumiącej.
 Okres impulsów sygnału jest zgodny z częstotliwością rezonansową przetworników, a dodatkowo część tłumiąca
 jest przesunięta względem części wyzwalającej o 180 stopni.  
-Rysunek \ref{fig:output_signal} przedstawia sygnał, jakim wysterowany jest przetwornik piezoelektryczny. 
-
+Rysunek \ref{fig:output_signal} przedstawia sygnał, jaki podawany jest na przetwornik piezoelektryczny.
 
 \begin{figure}[h]
     \centering
