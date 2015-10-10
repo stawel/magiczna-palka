@@ -57,36 +57,30 @@ Odbiornik wyposażony został w trzy moduły ultradźwiękowe, których zadaniem
 zbieranie ultradźwięków z trzech różnych  punktów.
 Każdy z modułów zawiera przetwornik piezoelektryczny (mikrofon) 40SR-12 \cite{bib:40ST12},
 który przetwarza sygnał akustyczny na odpowiadający mu sygnał elektryczny, oraz wzmacniacze operacyjne 
-wstępnie zwiększające siłę sygnału, który przesyłany jest dalej do przystawki.
+wstępnie zwiększające amplitudę sygnału, który przesyłany jest dalej do przystawki.
 Rysunek \ref{fig:odbiornik_ultra} przedstawia schemat modułu ultradźwiękowego.
 
-\rysunek{receiver}{Schemat modułu ultradźwiękowego.}{\label{fig:odbiornik_ultra}}
+\rysunek{receiver}{Schemat modułu ultradźwiękowego}{\label{fig:odbiornik_ultra}}
 
-Zasada działania: wzmacniacz operacyjny IC1A wraz z kondensatorem C2 i rezystorem R1 pracuje 
+Wzmacniacz operacyjny IC1A wraz z kondensatorem C2 i rezystorem R1 pracuje 
 jako przedwzmacniacz ładunkowy \cite{bib:wzm_ladunkowy}.
 Ładunek wytworzony na przetworniku piezoelektrycznym SP1 zostaje w całości przeniesiony na kondensator C2 
-(wzmacniacz utrzymuje różnicę potencjałów między dodatnim a ujemnym wejściem na zerowym poziomie),
+(wzmacniacz utrzymuje różnicę potencjałów między dodatnim a ujemnym wejściem na zerowym poziomie).
 W wyniku czego na kondensatorze pojawia się napięcie zgodnie z równaniem $U=\frac{q}{C}$.
-Rezystor R1 ustawia napięcia spoczynkowe układu na poziome $\frac{1}{2}$ Vcc, a także rozładowuje kondensator C2.
-R1 i C2 działają również jako filtr górnoprzepustowy.
-
-Wzmacniacz IC1B z rezystorami R5 i R4 pracuje jako zwykły wzmacniacz napięciowy wzbogacony o 
-filtr górno- (kondensatory C3, C7) i dolnoprzepustowy 
-(kondensator C8).
-
+Zadaniem rezystora R1 jest rozładowanie kondensatora C2,
+R1 i C2 działają również jako filtr dolnoprzepustowy.
+Wzmacniacz IC1B z rezystorami R5 i R4 oraz kondensatorami C3, C7 i C8 pracuje jako wzmacniacz napięciowy wzbogacony o 
+filtr pasmowoprzepustowy.
 W celu zminimalizowania zakłóceń zastosowano niskoszumowe wzmacniacze operacyjne
 mieszczące się w jednym układzie scalonym NE5532 \cite{bib:ne5532}, 
 dodatkowo płytka drukowana jest ekranowana.
 
 Wzmocniony sygnał doprowadzony jest przez wtyczkę JP1 do przystawki współpracującej z \textit{stm32f4-discovery}.
 
-\clearpage
-
 \section{Przystawka do \textit{stm32f4-discovery}}
 
-Sygnał z modułów ultradźwiękowych dociera do \textit{stm32f4-discovery} za pośrednictwem specjalną przystawkę.
+Sygnał z modułów ultradźwiękowych dociera do \textit{stm32f4-discovery} za pośrednictwem specjalnej przystawki.
 Schemat budowy przystawki przedstawia rysunek \ref{fig:przystawka}.
-
 Zadaniem przystawki jest przystosowanie maksymalnych amplitud zebranych sygnałów do wartości akceptowalnych przez  
 przetworniki analogowo-cyfrowe procesora STM32F407VGT6.
 Wartości te muszą mieścić się w zakresie od \SI{0}{V} do \SI{3,3}{V}.
@@ -96,15 +90,15 @@ Zastosowano w niej układ TLV2774 \cite{bib:TLV2774}, który zawiera 4 wzmacniac
 Wzmacniacze operacyjne pracują w układzie odwracającym, którego wzmocnienie można regulować potencjometrami R8, R9, R10. 
 Podłączono je do wspólnego, również regulowanego (potencjometr R7) napięcia odniesienia.
 Przystawka zawiera także stabilizator napięcia LM78M05CDT \cite{bib:LM78M05CDT}, który po podłączeniu 
-\SI{12}{V} baterii do JP4 dostarcza zasilanie do wszystkich komponentów. 
+do JP4 baterii \SI{12}{V} dostarcza zasilanie do wszystkich komponentów. 
 Istnieje możliwość odcięcia zasilania poprzez rozwarcie JP5, co jest konieczne podczas programowania
-STM32F407VGT6.
+STM32F407VGT6 by nie uszkodzić stabilizatora napięcia.
 Z przystawki przez wtyczkę JP6 wyprowadzono również sygnały sterujące nadajnikiem oraz zasilanie.
 
  \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth, trim= 5mm 0mm 0mm 0mm,clip]{mainboard2}
-    \caption{Schemat budowy przystawki do \textit{stm32f4-discovery}.}
+    \caption{Schemat budowy przystawki do \textit{stm32f4-discovery}}
     \label{fig:przystawka}
 \end{figure}
 
