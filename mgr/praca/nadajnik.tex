@@ -39,10 +39,12 @@ napięcie na przewodzie \SI{3,3}{V} oznacza logiczną jedynkę, a \SI{0}{V} ozna
 Na potrzeby nadajnika powstało oprogramowanie w C dla procesora ATmega328 generujące nadawany sygnał.
 Cała logika programu mieści się w obsłudze przerwania sprzętowego, które reaguje na opadające zbocze na wyzwalaczu.
 Gdy wyzwalane jest przerwanie, oprogramowanie wysyła z góry zdefiniowany sygnał do odpowiedniego rezonatora. 
-Nadawany sygnał jest tak dobrany, by dało się go w prosty sposób wyodrębnić. Składa się z dwóch
-części: wzbudzającej oraz tłumiącej.
+Nadawany sygnał jest tak dobrany, by dało się go w prosty sposób wyodrębnić oraz by trał jak najkrócej. Składa się z dwóch
+części: wzbudzającej i tłumiącej.
 Okres impulsów sygnału jest zgodny z częstotliwością rezonansową przetworników, a dodatkowo część tłumiąca
-jest przesunięta względem części wyzwalającej o 180 stopni.  
+jest przesunięta względem części wyzwalającej o 180 stopni.
+Czas trwania części wzbudzającej jest najkrótsza z możliwych i trwa jeden okres, natomiast czas trwania części tłumiącej jest 
+tak dobrany by odebrany sygnał zawierał w sobie mierzalne przesunięcie fazowe. 
 Rysunek \ref{fig:output_signal} przedstawia sygnał, jaki podawany jest na przetwornik piezoelektryczny.
 
 \begin{figure}[h]

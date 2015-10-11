@@ -1,6 +1,6 @@
 \chapter{Przetwarzanie danych zebranych z~odbiornika}
 
-W ramach niniejszej pracy powstało oprogramowanie w \textit{Pythonie}, którego zadaniem jest
+W ramach niniejszej pracy powstało oprogramowanie, którego zadaniem jest
 przekształcenie surowych danych ultradźwiękowych 
 z odbiornika na informację o położeniu nadajnika w przestrzeni oraz jego orientacji.
 Na oprogramowanie składają się biblioteka \textit{mp3d} zajmująca się
@@ -11,10 +11,10 @@ który służy do wstępnej kalibracji urządzenia.
 Najistotniejszą częścią oprogramowania jest biblioteka \textit{mp3d} podzielona na pięć modułów:
 \begin{itemize}
  \item \textit{com.py} --  odpowiedzialny za komunikację z odbiornikiem,
- \item \textit{find\_pattern.py} --  wyznaczający odległości przez wyszukanie wzorca w odebranym sygnale,
- \item \textit{xyz.py} --  określający pozycję i orientację nadajnika oraz  weryfikujący, 
+ \item \textit{find\_pattern.py} --  odpowiedzialny za wyznaczanie odległości przez wyszukanie wzorca w odebranym sygnale,
+ \item \textit{xyz.py} --  odpowiedzialny za wyznaczenie pozycji i orientacji nadajnika oraz  weryfikujący, 
  czy zebrane dane odpowiadają modelowanej rzeczywistości,
- \item \textit{info.py} --  wyświetlający informację o sile odbieranego sygnału,
+ \item \textit{info.py} --  odpowiedzialny za wyświetlanie informacji o sile odbieranego sygnału,
  \item \textit{ply.py} --  odpowiedzialny za eksportowanie danych do formatu \textit{.ply},
     (Polygon File Format) obsługiwanego przez większość programów do obróbki grafiki 3D.
 \end{itemize}
@@ -22,25 +22,33 @@ Najistotniejszą częścią oprogramowania jest biblioteka \textit{mp3d} podziel
 
 \section{Komunikacja z odbiornikiem, moduł \textit{com.py}}
 
-Za komunikację z odbiornikiem odpowiedzialny jest moduł \textit{com.py}.
+Za komunikację z odbiornikiem odpowiada moduł \textit{com.py}.
 Pracuje on w oddzielnym wątku, w którym cyklicznie wysyłane są żądania, by dany głośnik nadał sygnał,
 a następnie odbierane są sygnały z trzech mikrofonów.
-Ten proces odbywa się kolejno dla każdego z~czterech głośników nadajnika.
+Ten proces odbywa się sukcesywnie dla każdego z~czterech głośników nadajnika.
+Odstęp pomiędzy kolejno nadanymi sygnałami wynosi \SI{87}{ms}
+co pozwala na całkowite rozproszenie się fali dźwiękowej tak by nie wpływała ona na kolejne.
+
 Zebrane w ten sposób dwanaście sygnałów po wstępnej filtracji przekazywane są dalej do \textit{find\_pattern.py}. Cały cykl powtarza 
-się co \SI{350}{ms}. Rysunek \ref{fig:com_output_2m} przedstawia sygnał odebrany z jednego z mikrofonów.
+się co \SI{350}{ms}.
+Rysunek \ref{fig:com_output_2m} przedstawia sygnał odebrany z jednego z mikrofonów.
+Odebrany sygnał znacząco różni się od sygnału nadanego (rysunek \ref{fig:output_signal}),
+jest to spowodowane tym, że wykorzystane mikrofony jak i głośniki są rezonatorami, dodatkowo 
+ich obudowy są pudłami rezonansowymi.
 
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1.13\textwidth, trim= 53mm 0mm 0mm 0mm,clip]{com_output_2m_1}
-    \includegraphics[width=1.13\textwidth, trim= 53mm 0mm 0mm 0mm,clip]{com_output_2m_2}
+    \includegraphics[width=1.10\textwidth, trim= 53mm 0mm 0mm 0mm,clip]{com_output_2m_1}
+    \includegraphics[width=1.10\textwidth, trim= 53mm 0mm 0mm 0mm,clip]{com_output_2m_2}
     \caption{Sygnał odebrany przez moduł \textit{com.py}. 
     Odległość między nadajnikiem a odbiornikiem wynosi 2 metry.
-    Na górnym wykresie po prawej stronie widać również sygnały odbite od ścian}
+    Na górnym wykresie między 6 i \SI{8}{ms} widać właściwy sygnał (poruszający się po linii prostej), od \SI{8.5}{ms}
+   widać sygnał odbity od podłogi. 
+    Dolny wykres jest powiększeniem górnego wykresu.}
     \label{fig:com_output_2m}
 \end{figure}
 
-\newpage
 \section{Wyznaczanie odległości, moduł \textit{find\_pattern.py}}
 
 Moduł \textit{find\_pattern.py} odpowiada za obliczenie odległości pomiędzy czterema głośnikami i~trzema mikrofonami.
