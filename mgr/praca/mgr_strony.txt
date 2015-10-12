@@ -1,0 +1,44 @@
+1. poprawić schemat: arduino nano (brak - trzeba stowrzyć od nowa)
+2. poprawić rysunek power info,
+2. zastanowić się nad rozdziałami
+3. skąd bierze się rozdzielczość 0.5mm
+DONE 4. uzasadnić czemu na wejsciu jest jakiś sygnał a odbieramy kompletnie coś innego.
+DONE 5. uzasadnić czemu taki sygnał nadajemy
+DONE 6. dodać opis do obrazka z odebranym sygałem
+
+str-1:  - ok
+str 0:  - ok
+str 1:  - TODO: dodać klasyfikację tematyczną
+str 3:  "spis treści"
+*       - złączyć w jeden rozdział
+        - (dodać rozdział z eksperymentami - niekoniecznie)
+str 4:  - ok
+
+"wprowadzenie" 
+str 5-6: - DUZO zmian!!!!
+
+"podstawy teoretyczne"
+str 7:  - ok
+str 8:  - ok
+wzór:
+http://www.wolframalpha.com/input/?i=solve++%7B%28a%2F2-x_1%29%5E2%2Bx_2%5E2%2Bx_3%5E2%3Dr_1%5E2%2C+%28a%2F2%2Bx_1%29%5E2%2Bx_2%5E2%2Bx_3%5E2%3Dr_2%5E2+%2C+x_1%5E2%2B%28h-x_2%29%5E2%2Bx_3%5E2%3Dr_3%5E2%7D+for+%7Bx_1%2Cx_2%2Cx_3%7D
+str 9,10: ok
+
+"nadajnik"
+str 11: - poprawić schemat (o co chodzi z "A" w kółku)
+str 12: - ok
+str 13: - ok
+str 14: - ok
+
+"odbiornik"
+str 15: rozszyfrować co znaczy "A"
+        - ok
+
+str 16-20: ok
+
+"mpd3"
+str 21: - ok
+
+
+                 
+
