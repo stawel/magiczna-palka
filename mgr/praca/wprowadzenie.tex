@@ -6,18 +6,18 @@ W dzisiejszym świecie wyraźnie wzrasta zapotrzebowanie na urządzenia,
 które potrafią określić swoje położenie i orientację w otaczającej je przestrzeni.
 Urządzenia takie mają szerokie zastosowanie w wielu dziedzinach, m.in. w
 wirtualnej rzeczywistości, rozszerzonej rzeczywistości, 
- podczas skanowania trójwymiarowego obiektów czy kartografii.
-Przykładowo okulary do wirtualnej rzeczywistości takie jak \textit{Oculus Rift} \cite{bib:OculusRift} 
-czy \textit{castAR} \cite{bib:castAR}
+ podczas trójwymiarowego skanowania obiektu czy kartografii.
+Przykładowo okulary do wirtualnej rzeczywistości, takie jak \textit{Oculus Rift} \cite{bib:OculusRift} 
+czy \textit{castAR} \cite{bib:castAR},
 muszą uwzględnić położenie i orientację głowy, aby na tej podstawie wyświetlić użytkownikowi 
 odpowiednią treść. 
 
 
-Z biegiem lat powstało wiele rozwiązań tego problemu. Do najczęściej stosowanych możemy zaliczyć:
+Dotychczas powstało wiele rozwiązań tego problemu. Do najczęściej stosowanych możemy zaliczyć:
 \begin{enumerate}
  \item 
  Wykorzystanie akcelerometrów, żyroskopów i magnetometrów -- 
-takie rozwiązanie zastosowano w \textit{Oculus Rift development kit}. Zalety tej metody to stosunkowo
+takie rozwiązanie zastosowano w \textit{Oculus Rift development kit}. Zaletami tej metody są stosunkowo
 prosta konstrukcja i niska cena.
 Do wad należy zaliczyć brak stałych punktów odniesienia, co skutkuje występowaniem tzw. dryftu.
 \textit{Oculus Rift development kit} radzi sobie z tym problemem, modelując w komputerze możliwe zmiany pozycji głowy.
@@ -36,8 +36,8 @@ urządzenia dodano zewnętrzną kamerę śledzącą pozycję głowy.
  Emitowane przez nie światło jest rejestrowane przez kamerę umieszczoną przed użytkownikiem.
  Komputer na podstawie względnego położenia widocznych punktów określa położenie i orientację
  okularów w przestrzeni.
- Zaletą tego rozwiązania są stałe punkty odniesienia (kamera), a także możliwość pomiaru wielu puntów naraz.
- Wady stanowią stosunkowo niska rozdzielczość, szczególnie w osi Z, jak i duży strumień danych do obróbki.
+ Zaletą tego rozwiązania są stałe punkty odniesienia (kamera), a także możliwość pomiaru wielu punktów naraz.
+ Wadami są stosunkowo niska rozdzielczość, szczególnie w osi Z i duży strumień danych do obróbki.
 
 \item
  Wykorzystanie wielu zdjęć, na postawie których 
@@ -45,14 +45,14 @@ urządzenia dodano zewnętrzną kamerę śledzącą pozycję głowy.
  Możliwa jest też odwrotna sytuacja, gdy  
   kamera (lub wiele kamer) jest punktem stałym i względem niej wyznaczana jest pozycja fotografowanych obiektów --   
  taką metodę wykorzystano w \textit{VidialSFM} \cite{bib:VisualSFM} oraz w \textit{The Pi 3D scanner project} \cite{bib:pi3dscan}. 
- Wadą tego rozwiązanie jest dość niska rozdzielczość.
+ Wadą tego rozwiązania jest dość niska rozdzielczość.
  
  \item
  Pomiar czasu jaki potrzebują fale elektromagnetyczne na dotarcie od nadajników o znanych położeniach 
  do obiektu, którego położenie nas interesuje.
  Znając czasu oraz prędkości rozchodzenia się fal wyznaczane są odległości pomiędzy nadajnikami a obiektem.
  Na podstawie odległości wyznaczana jest ostatecznie lokalizacja przestrzenna obiektu. 
- Metoda ta jest powszechnie stosowana w systemach takich jak GPS \cite{bib:gps} czy Galileo.
+ Metoda ta jest powszechnie stosowana w systemach takich jak GPS \cite{bib:gps}, GLONASS \cite{bibGLONASS} czy Galileo \cite{bib:galileo}.
  Do zalet należy zaliczyć możliwe duże przestrzenie, na których lokalizowane są obiekty.
  Ze względy na dużą prędkość z jaką rozchodzą się fale elektromagnetyczne metoda ta cechuje się dość niską 
  dokładnością nieprzekraczającą \SI{10}{cm}.
@@ -87,10 +87,10 @@ Metoda ta jest jednak dość specyficzna i nie nadaje się do ogólnych zastosow
 \end{enumerate}
  
 
- W niniejszej pracy przedstawiono prototyp oparty na zmodyfikowanej metodzie czwartej, który zamiast 
+ W niniejszej pracy przedstawiono oparty na zmodyfikowanej czwartej metodzie prototyp, który zamiast 
  fal elektromagnetycznych wykorzystuje ultradźwięki. 
  Podejście to zapewnia dużo większą dokładność, szczególnie w osi Z, prostotę budowy, a także niższą cenę.
- Urządzenie składa się z dwóch części: odbiornika, na którym umieszczone są trzy mikrofony, i nadajnika,
+ Urządzenie składa się z dwóch części: odbiornika, na którym umieszczone są trzy mikrofony, i~nadajnika,
  na którym znajdują się cztery głośniki. Pomiędzy nimi dokonywany jest pomiar odległości z rozdzielczością
  dochodzącą do \SI{0,5}{mm}, dzięki czemu prototyp jest w stanie określić położenie nadajnika
 w przestrzeni i jego orientację. 
@@ -115,8 +115,7 @@ pozycja w przestrzeni określana jest za pomocą ultradźwięków, niemniej wyko
 odległości jest dużo bardziej podatny na błędy. Dodatkowo praca ta koncentruje się jedynie
 na określaniu położenia myszki w przestrzeni, bez wyznaczania jej orientacji.
 Kolejne ciekawe rozwiązanie stanowi rękawica dla graczy 
-\textit{Power Glove} \cite{bib:powerGlove} dla
-\textit{Nintendo Entertainment System}, która pojawiła się w sprzedaży w  1989 roku \cite{bib:powerGlove2}. 
+\textit{Power Glove} \cite{bib:powerGlove}, która pojawiła się w sprzedaży w  1989 roku \cite{bib:powerGlove2}. 
 Ona również wykorzystuje ultradźwięki do wyznaczania pozycji
 w przestrzeni, jednak nie odniosła  znaczącego sukcesu komercyjnego ze względu na wyjątkowo niską precyzję urządzenia.
 

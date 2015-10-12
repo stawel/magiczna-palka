@@ -11,7 +11,7 @@ który służy do wstępnej kalibracji urządzenia.
 Najistotniejszą częścią oprogramowania jest biblioteka \textit{mp3d} podzielona na pięć modułów:
 \begin{itemize}
  \item \textit{com.py} --  odpowiedzialny za komunikację z odbiornikiem,
- \item \textit{find\_pattern.py} --  odpowiedzialny za wyznaczanie odległości przez wyszukanie wzorca w odebranym sygnale,
+ \item \textit{find\_pattern.py} --  odpowiedzialny za wyznaczanie odległości przez wyszukanie wzorca w~odebranym sygnale,
  \item \textit{xyz.py} --  odpowiedzialny za wyznaczenie pozycji i orientacji nadajnika oraz  weryfikujący, 
  czy zebrane dane odpowiadają modelowanej rzeczywistości,
  \item \textit{info.py} --  odpowiedzialny za wyświetlanie informacji o sile odbieranego sygnału,
@@ -23,8 +23,8 @@ Najistotniejszą częścią oprogramowania jest biblioteka \textit{mp3d} podziel
 \section{Komunikacja z odbiornikiem, moduł \textit{com.py}}
 
 Za komunikację z odbiornikiem odpowiada moduł \textit{com.py}.
-Pracuje on w oddzielnym wątku, w którym cyklicznie wysyłane są żądania, by dany głośnik nadał sygnał,
-a następnie odbierane są sygnały z trzech mikrofonów.
+Pracuje on w oddzielnym wątku, w~którym cyklicznie wysyłane są żądania, by dany głośnik nadał sygnał,
+a~następnie odbierane są sygnały z trzech mikrofonów.
 Ten proces odbywa się sukcesywnie dla każdego z~czterech głośników nadajnika.
 Odstęp pomiędzy kolejno nadanymi sygnałami wynosi \SI{87}{ms}
 co pozwala na całkowite rozproszenie się fali dźwiękowej tak by nie wpływała ona na kolejne.
@@ -54,8 +54,8 @@ ich obudowy są pudłami rezonansowymi.
 Moduł \textit{find\_pattern.py} odpowiada za obliczenie odległości pomiędzy czterema głośnikami i~trzema mikrofonami.
 Wyznaczana jest ona przez wyszukanie w każdym z 12 odebranych sygnałów  położenia \textit{wzorca}, który 
 odpowiada czołu nadanego sygnału (rysunek \ref{fig:com_output_2m}).
-\textit{Wzorzec} po raz pierwszy wprowadza się podczas kalibracji, a następnie ciągle aktualizuje 
-(podmienia na sygnałem pasującym do \textit{wzorca}).
+\textit{Wzorzec} po raz pierwszy wprowadzany jest podczas kalibracji, następnie 
+podczas pracy urządzenia jest on ciągle aktualizowany.
 
 W celu wyszukania \textit{wzorca} wewnątrz sygnału korzysta się z  metody najmniejszego błędu średniokwadratowego.
 Niech $w(x)$  dla $x = 0, ..., n-1$ będzie szukanym \textit{wzorcem}, a $f(t)$ dla $t = 0, ..., m-1$ odebranym sygnałem.
@@ -116,19 +116,20 @@ Po podstawieniu $E(t)$ dostajemy
  Wyliczenie zarówno $ \sum\limits_{x=0}^{n-1}  w^2(x) $,
 jak i $\sum\limits_{x=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji, a 
  $\sum\limits_{x=0}^{n-1}  w(x) f(t+x) $ jest korelacją wzajemną funkcji $w(x)$ i $f(t)$, którą
- można wyliczyć w czasie $k \log(k)$, korzystając z szybkiej transformacji Fouriera \cite{bib:FFT_correlation},
+ można wyliczyć w~czasie $k \log(k)$, korzystając z szybkiej transformacji Fouriera \cite{bib:FFT_correlation},
  gdzie $k = \max \{|f|, |w| \} = \max \{n,m\}$. Wyliczenie całej funkcji $e(t)$ wymaga zatem jedynie $k \log(k)$ operacji.
 
  
  Kolejnym zadaniem modułu \textit{find\_pattern.py} jest uaktualnianie \textit{wzorca}.
  Wraz ze zmianą kąta nachylenia nadajnika względem odbiornika zmienia się kształt odbieranego sygnału,
- dlatego jeśli badany sygnał zawiera szukany \textit{wzorzec} oraz spełnione są następujące warunki:
+ dlatego jeśli badany sygnał $f(t)$ zawiera szukany \textit{wzorzec} na pozycji $t_w$ 
+ oraz spełnione są następujące warunki:
  \begin{itemize}
-  \item moc sygnału pasującego do \textit{wzorca} jest wystarczająco duża,
-  \item błąd względny pomiędzy sygnałem a \textit{wzorcem} jest mały,
-  \item moduł \textit{xyz.py} rozpozna otrzymane pozycje jako pasuje do modelowanej rzeczywistości
+  \item moc sygnału $f(t_w), ..., f(t_w+n-1)$ jest wystarczająco duża,
+  \item błąd względny $e(t_w)$ pomiędzy sygnałem a \textit{wzorcem} jest mały,
+  \item moduł \textit{xyz.py} rozpozna otrzymaną pozycję $t_w$ jako pasuje do modelowanej rzeczywistości
  \end{itemize}
-to moduł uaktualni \textit{wzorzec}.
+to moduł uaktualni \textit{wzorzec} do wartości $f(t_w), ..., f(t_w+n-1)$.
  
  
 \section{Wyznaczanie pozycji oraz orientacji przestrzennej, moduł \textit{xyz.py}}
