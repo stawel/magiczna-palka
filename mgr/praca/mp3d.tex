@@ -1,3 +1,4 @@
+
 \chapter{Przetwarzanie danych zebranych z~odbiornika}
 
 W ramach niniejszej pracy powstało oprogramowanie, którego zadaniem jest
@@ -37,10 +38,10 @@ jest to spowodowane tym, że wykorzystane mikrofony jak i głośniki są rezonat
 ich obudowy są pudłami rezonansowymi.
 
 
-\begin{figure}[h!]
+\begin{figure}[p]
     \centering
-    \includegraphics[width=1.10\textwidth, trim= 53mm 0mm 0mm 0mm,clip]{com_output_2m_1}
-    \includegraphics[width=1.10\textwidth, trim= 53mm 0mm 0mm 0mm,clip]{com_output_2m_2}
+    \includegraphics[width=1.0\textwidth, trim= 50mm 0mm 40mm 0mm,clip]{com_output_2m_1}
+    \includegraphics[width=1.0\textwidth, trim= 50mm 0mm 40mm 0mm,clip]{com_output_2m_2}
     \caption{Sygnał odebrany przez moduł \textit{com.py}. 
     Odległość między nadajnikiem a odbiornikiem wynosi 2 metry.
     Na górnym wykresie między 6 i \SI{8}{ms} widać właściwy sygnał (poruszający się po linii prostej), od \SI{8.5}{ms}
@@ -105,9 +106,9 @@ Po podstawieniu $E(t)$ dostajemy
  jego kształt (nadmiarowość danych), a także prawdopodobieństwo, że znaleziony \textit{wzorzec} znajduje się w określonej pozycji.
  Rysunek \ref{fig:blad_korel} przedstawia wynik przetwarzania sygnału przez moduł \textit{find\_pattern.py}.
 
-\begin{figure}[h!]
+\begin{figure}[h]
     \centering
-    \includegraphics[width=1.13\textwidth, trim= 53mm 0mm 0mm 0mm,clip]{blad_korel}
+    \includegraphics[width=1.0\textwidth, trim= 50mm 0mm 40mm 0mm,clip]{blad_korel}
     \caption{Sygnał przetworzony przez moduł \textit{find\_pattern.py}}
     \label{fig:blad_korel}
 \end{figure}
@@ -176,9 +177,9 @@ Program wyliczy także aktualną prędkość dźwięku, uwzględniając odległo
 Rysunek \ref{fig:kalibracja_12x} przedstawia 12 sygnałów wraz z zaznaczonymi wzorcami.
 
 
- \begin{figure}[h!]
+ \begin{figure}[ht]
     \centering
-    \includegraphics[width=1.13\textwidth, trim= 53mm 0mm 0mm 0mm,clip]{kalibracja_12x}
+    \includegraphics[width=1.0\textwidth, trim= 50mm 0mm 40mm 0mm,clip]{kalibracja_12x}
     \caption{Kalibracja, 12 sygnałów z zaznaczonymi \textit{wzorcami}}
     \label{fig:kalibracja_12x}
 \end{figure}
@@ -207,8 +208,8 @@ Jeśli któryś z głośników straci widoczność z mikrofonami, obraz przestaj
 się dzieje, widoczna jest w oknie przedstawiającym moc sygnału.
 
 
-\rysunek{3d}{Widok 3D}{\label{fig:widok3d}}
-\rysunek{2d}{Widok 2D}{\label{fig:widok2d}}
-\rysunek{power}{Diagram informujący o mocy całego odebranego sygnału, mocy \textit{wzorca}, mocy sygnału pasującego do \textit{wzorca} 
+\rysunekHT{3d}{Widok 3D}{\label{fig:widok3d}}
+\rysunekHT{2d}{Widok 2D}{\label{fig:widok2d}}
+\rysunekHT{power}{Diagram informujący o mocy całego odebranego sygnału, mocy \textit{wzorca}, mocy sygnału pasującego do \textit{wzorca} 
  oraz błędzie pomiędzy \textit{wzorcem} a odebranym sygnałem}{\label{fig:power}}
 
