@@ -47,10 +47,48 @@ urządzenia dodano zewnętrzną kamerę śledzącą pozycję głowy.
  taką metodę wykorzystano w \textit{VidialSFM} \cite{bib:VisualSFM} oraz w \textit{The Pi 3D scanner project} \cite{bib:pi3dscan}. 
  Wadą tego rozwiązanie jest dość niska rozdzielczość.
  
+ \item
+ Pomiar czasu jaki potrzebują fale elektromagnetyczne na dotarcie od nadajników o znanych położeniach 
+ do obiektu, którego położenie nas interesuje.
+ Znając czasu oraz prędkości rozchodzenia się fal wyznaczane są odległości pomiędzy nadajnikami a obiektem.
+ Na podstawie odległości wyznaczana jest ostatecznie lokalizacja przestrzenna obiektu. 
+ Metoda ta jest powszechnie stosowana w systemach takich jak GPS \cite{bib:gps} czy Galileo.
+ Do zalet należy zaliczyć możliwe duże przestrzenie, na których lokalizowane są obiekty.
+ Ze względy na dużą prędkość z jaką rozchodzą się fale elektromagnetyczne metoda ta cechuje się dość niską 
+ dokładnością nieprzekraczającą \SI{10}{cm}.
+ 
+ \item
+ Pomiar siły sygnału radiowego (fal elektromagnetycznych) jaka dociera do obiektu, którego lokalizacja nas interesuje.
+ Źródłem sygnału mogą być specjalnie do tego celu stworzone radiolatarnie np. \textit{Estimote Beacon} \cite{bib:beacon},
+ czy inne nadajniki np. WiFi \cite{bib:lokWiFi}.
+ Wadą tego rozwiązania jest niska dokładność pomiaru odległości, która wynosi maksymalnie kilkadziesiąt centymetrów.  
+ 
+ \item
+ Wykorzystanie ciepła emitowanego przez badany obiekt \cite{bib:PIRsens}.
+ Metoda ta jest analogiczna do metody drugiej, z tą różnicą, że zrezygnowano w niej
+ z dedykowanego źródła światła podczerwonego, w zamian wykorzystując naturalne światło podczerwone emitowane 
+ przez badany obiekt. Wadą tutaj również jest stosunkowo niska dokładność pomiarowa.
+ 
+ \item
+ Wykorzystanie indukcji magnetycznej. Metoda polega na pomiarze siły zmiennego pola magnetycznego niskiej częstotliwości
+ generowanego przez zewnętrzne anteny. Na podstawie siły pola estymowana jest odległość 
+ od anten, a następnie lokalizacja przestrzenna obiektu.
+ Główną zaletą tego podejścia jest fakt, że pole magnetyczne przenika przez większość materiałów, pozwala to na 
+ lokalizację również pod ziemią \cite{bib:chomiki}. Do wad należy zaliczyć mały zasięg, ponieważ pole magnetyczne maleje 
+ sześciennie wraz z odległością.   
+ 
+ \item 
+ Wykorzystanie nietypowych warunków zewnętrznych w jakim może znajdować się obiekt, którego lokalizacja nas interesuje.
+ Przykładowo w pracy \textit{We Can Track You If You Take the Metro: Tracking Metro
+Riders Using Accelerometers on Smartphones} \cite{bib:metro} autorom udało się określić położenie
+użytkownika metra na podstawie danych z akcelerometru w jego telefonie.
+Metoda ta jest jednak dość specyficzna i nie nadaje się do ogólnych zastosowań. 
+ 
 \end{enumerate}
  
 
- W niniejszej pracy przedstawiono prototyp oparty na zmodyfikowanej metodzie drugiej, który zamiast światła wykorzystuje ultradźwięki. 
+ W niniejszej pracy przedstawiono prototyp oparty na zmodyfikowanej metodzie czwartej, który zamiast 
+ fal elektromagnetycznych wykorzystuje ultradźwięki. 
  Podejście to zapewnia dużo większą dokładność, szczególnie w osi Z, prostotę budowy, a także niższą cenę.
  Urządzenie składa się z dwóch części: odbiornika, na którym umieszczone są trzy mikrofony, i nadajnika,
  na którym znajdują się cztery głośniki. Pomiędzy nimi dokonywany jest pomiar odległości z rozdzielczością
