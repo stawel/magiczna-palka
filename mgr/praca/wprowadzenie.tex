@@ -3,17 +3,17 @@
 \addcontentsline{toc}{chapter}{Wprowadzenie}
 
 W dzisiejszym świecie wyraźnie wzrasta zapotrzebowanie na urządzenia,
-które potrafią określić swoje położenie i orientację w otaczającej je przestrzeni.
+które potrafią określić swoje położenie i orientację w przestrzeni.
 Urządzenia takie mają szerokie zastosowanie w wielu dziedzinach, m.in. w
-wirtualnej rzeczywistości, rozszerzonej rzeczywistości, 
- podczas trójwymiarowego skanowania obiektu czy kartografii.
+wirtualnej rzeczywistości, rozszerzonej rzeczywistości, kartografii lub 
+ podczas trójwymiarowego skanowania obiektu.
 Przykładowo okulary do wirtualnej rzeczywistości, takie jak \textit{Oculus Rift} \cite{bib:OculusRift} 
 czy \textit{castAR} \cite{bib:castAR},
 muszą uwzględnić położenie i orientację głowy, aby na tej podstawie wyświetlić użytkownikowi 
 odpowiednią treść. 
 
 
-Dotychczas powstało wiele rozwiązań tego problemu. Do najczęściej stosowanych możemy zaliczyć:
+Powstało wiele rozwiązań tego problemu. Do najczęściej stosowanych możemy zaliczyć:
 \begin{enumerate}
  \item 
  Wykorzystanie akcelerometrów, żyroskopów i magnetometrów -- 
@@ -33,11 +33,11 @@ urządzenia dodano zewnętrzną kamerę śledzącą pozycję głowy.
  trójwymiarową strukturę otoczenia i położenie urządzenia w tym otoczeniu.
  Podobną metodę wykorzystuje \textit{Oculus Rift development kit 2} \cite{bib:OculusRiftDK2} oraz 
  \textit{castAR} \cite{bib:castAR} -- tutaj za źródła światła służą diody podczerwone umieszczone na okularach.
- Emitowane przez nie światło jest rejestrowane przez kamerę umieszczoną przed użytkownikiem.
+ Emitowane przez nie światło rejestruje kamera umieszczona przed użytkownikiem.
  Komputer na podstawie względnego położenia widocznych punktów określa położenie i orientację
  okularów w przestrzeni.
  Zaletą tego rozwiązania są stałe punkty odniesienia (kamera), a także możliwość pomiaru wielu punktów naraz.
- Wadami są stosunkowo niska rozdzielczość, szczególnie w osi Z i duży strumień danych do obróbki.
+ Wady to: są stosunkowo niska rozdzielczość, szczególnie w osi Z, i duży strumień danych do obróbki.
 
 \item
  Wykorzystanie wielu zdjęć, na postawie których 
@@ -48,59 +48,57 @@ urządzenia dodano zewnętrzną kamerę śledzącą pozycję głowy.
  Wadą tego rozwiązania jest dość niska rozdzielczość.
  
  \item
- Pomiar czasu jaki potrzebują fale elektromagnetyczne na dotarcie od nadajników o znanych położeniach 
+ Pomiar czasu, jakiego potrzebują fale elektromagnetyczne na dotarcie od nadajników o znanych położeniach 
  do obiektu, którego położenie nas interesuje.
- Znając czasu oraz prędkości rozchodzenia się fal wyznaczane są odległości pomiędzy nadajnikami a obiektem.
- Na podstawie odległości wyznaczana jest ostatecznie lokalizacja przestrzenna obiektu. 
- Metoda ta jest powszechnie stosowana w systemach takich jak GPS \cite{bib:gps}, GLONASS \cite{bib:GLONASS} czy Galileo \cite{bib:galileo}.
- Do zalet należy zaliczyć możliwe duże przestrzenie, na których lokalizowane są obiekty.
- Ze względy na dużą prędkość z jaką rozchodzą się fale elektromagnetyczne metoda ta cechuje się dość niską 
+ Dzięki znajomości czasów oraz prędkości rozchodzenia się fal można wyznaczyć odległości pomiędzy nadajnikami a obiektem.
+ Na podstawie odległości wyznaczana jest lokalizacja przestrzenna obiektu. 
+ Tę metodę powszechnie stosuje się takich systemach, jak GPS \cite{bib:gps}, GLONASS \cite{bib:GLONASS} czy Galileo \cite{bib:galileo}.
+ Jej zaletą jest możliwość lokalizowania obiektów na dużych przestrzeniach.
+ Jednak ze względu na dużą prędkość, z jaką rozchodzą się fale elektromagnetyczne, metoda ta cechuje się dość niską 
  dokładnością nieprzekraczającą \SI{10}{cm}.
  
  \item
- Pomiar siły sygnału radiowego (fal elektromagnetycznych) jaka dociera do obiektu, którego lokalizacja nas interesuje.
- Źródłem sygnału mogą być specjalnie do tego celu stworzone radiolatarnie np. \textit{Estimote Beacon} \cite{bib:beacon},
- czy inne nadajniki np. WiFi \cite{bib:lokWiFi}.
- Wadą tego rozwiązania jest niska dokładność pomiaru odległości, która wynosi maksymalnie kilkadziesiąt centymetrów.  
+ Pomiar siły sygnału radiowego (fal elektromagnetycznych) docierającego do obiektu, którego lokalizacja nas interesuje.
+ Źródłem sygnału mogą być dedykowane radiolatarnie, np. \textit{Estimote Beacon} \cite{bib:beacon},
+ czy inne nadajniki, np. WiFi \cite{bib:lokWiFi}.
+ Wadę tego rozwiązania stanowi niska dokładność pomiaru, która wynosi maksymalnie kilkadziesiąt centymetrów.  
  
  \item
  Wykorzystanie światła podczerwonego naturalnie emitowanego przez badany obiekt --
  takie podejście zaprezentowano w pracy \textit{PIR Sensors: Characterization and Novel Localization Technique}
- \cite{bib:PIRsens}, metoda ta jest podobna do metody drugiej, z tą różnicą, że zrezygnowano w niej
- ze sztucznego źródła światła, w zamian wykorzystując naturalne światło podczerwone emitowane 
- przez badany obiekt. Wadą tutaj również jest stosunkowo niska dokładność pomiarowa.
+ \cite{bib:PIRsens}. Ta metoda jest podobna do metody drugiej, z tą różnicą, że zrezygnowano w niej
+ ze sztucznego źródła światła, zamiast niego wykorzystując naturalne światło podczerwone emitowane 
+ przez badany obiekt. Tutaj również uzyskuje się stosunkowo niską dokładność pomiarową.
  
  \item
  Wykorzystanie indukcji magnetycznej --  metoda polega na pomiarze siły zmiennego pola magnetycznego niskiej częstotliwości
- generowanego przez zewnętrzne anteny. Na podstawie siły pola pocierającego do badanego obiektu estymowana jest jego odległość 
+ generowanego przez zewnętrzne anteny. Na podstawie siły pola docierającego do badanego obiektu estymowana jest jego odległość 
  od anten, a następnie lokalizacja przestrzenna.
- Główną zaletą tego podejścia jest fakt, że pole magnetyczne przenika przez większość materiałów, pozwala to na 
- lokalizację również pod ziemią co zaprezentowano w pracy 
+ Główną zaletę tego podejścia stanowi fakt, że pole magnetyczne przenika przez większość materiałów. Pozwala  
+ to na lokalizowanie obiekty również pod ziemią, co zaprezentowano w pacy
  \textit{Revealing the hidden lives of underground animals using magneto-inductive tracking} \cite{bib:chomiki}. 
- Do wad należy zaliczyć mały zasięg, ponieważ pole magnetyczne propaguje się odwrotnie proporcjonalnie do sześcianu  
- wraz z odległością od źródła.
+ Wadą metody jest mały zasięg, ponieważ pole magnetyczne propaguje się odwrotnie proporcjonalnie do sześcianu  
+ odległości od źródła.
  
  \item 
- Wykorzystanie specyficznych warunków zewnętrznych w jakim może znajdować się obiekt, którego lokalizacja nas interesuje
+ Wykorzystanie specyficznych warunków zewnętrznych, w jakich może znajdować się obiekt, którego lokalizacja nas interesuje
  -- w pracy \textit{We Can Track You If You Take the Metro: Tracking Metro
-Riders Using Accelerometers on Smartphones} \cite{bib:metro} autorom udało się określić położenie
-użytkownika metra na podstawie danych z akcelerometru, które zmieniały podczas jazdy metrem.
+Riders Using Accelerometers on Smartphones} \cite{bib:metro} autorzy opisali algorytm lokalizowania
+użytkownika metra na podstawie danych z akcelerometru, które zmieniały się podczas jazdy.
 Metoda ta jest jednak dość specyficzna i nie nadaje się do ogólnych zastosowań. 
  
 \end{enumerate}
- 
-
- W niniejszej pracy przedstawiono oparty na zmodyfikowanej czwartej metodzie prototyp, który zamiast 
+ W niniejszej pracy przedstawiono prototyp, który jest oparty na zmodyfikowanej czwartej metodzie i zamiast 
  fal elektromagnetycznych wykorzystuje ultradźwięki. 
- Podejście to zapewnia dużo większą dokładność, szczególnie w osi Z, prostotę budowy, a także niższą cenę.
- Urządzenie składa się z dwóch części: odbiornika, na którym umieszczone są trzy mikrofony, i~nadajnika,
- na którym znajdują się cztery głośniki. Pomiędzy nimi dokonywany jest pomiar odległości z rozdzielczością
+ Podejście to zapewnia dużą dokładność, szczególnie w osi Z, prostotę budowy, a także niską cenę.
+ Urządzenie składa się z dwóch części: odbiornika, na którym umieszczono trzy mikrofony, oraz nadajnika,
+ na którym znajdują się cztery głośniki. Pomiędzy mikrofonami i głośnikami mierzy się odległość z rozdzielczością
  dochodzącą do \SI{0,5}{mm}, dzięki czemu prototyp jest w stanie określić położenie nadajnika
 w przestrzeni i jego orientację. 
-Pomiar odległości dokonuje się za pomocą ultradźwięków o częstotliwości \SI{40}{kHz}.
-Mimo iż ta metoda jest znana od wielu lat, to jest  rzadko stosowana do precyzyjnych pomiarów
+Pomiaru odległości dokonuje się za pomocą ultradźwięków o częstotliwości \SI{40}{kHz}.
+Mimo iż ta metoda jest znana od wielu lat, to rzadko się ją stosuje do precyzyjnych pomiarów
 z uwagi na relatywnie dużą długość fali ultradźwiękowej,
-która dla częstotliwości \SI{40}{kHz} wynosi około \SI{8}{mm}.
+która dla częstotliwości \SI{40}{kHz} wynosi około \SI{8.5}{mm}.
 
 Autorowi niniejszej pracy udało się to pozorne ograniczenie przezwyciężyć.
 Ostatecznie urządzenie jest w stanie śledzić położenie nadajnika z rozdzielczością 
@@ -108,17 +106,17 @@ Ostatecznie urządzenie jest w stanie śledzić położenie nadajnika z rozdziel
 \SI{2,5}{m} $\times$ \SI{2,5}{m}  $\times$ \SI{2,5}{m}, przy czasie odświeżania rzędu \SI{350}{ms}.
 Warto podkreślić, że przyjęte parametry sześcianu wynikają ze względów praktycznych i bez 
 problemu można je zwiększyć, zachowując stosunek rozdzielczości na metr.
-Stosunkowo długi czas odświeżania zależy głównie od czasu,  
- jaki potrzebuje fala dźwiękowa, by się rozproszyć,
+Relatywnie długi czas odświeżania zależy głównie od czasu,  
+ jakiego potrzebuje fala dźwiękowa, by się rozproszyć,
  tak by jej odbicia od powierzchni ścian nie wpływały na kolejne pomiary.
 
 Należy również wspomnieć o innych pracach, które w podobny sposób podchodzą do problemu pozycjonowania. Przykładowo 
 w pracy \textit{Ultrasonic 3D Wireless Computer Mouse} \cite{bib:mouse} przedstawiono prototyp myszki 3D, której
 pozycja w przestrzeni określana jest za pomocą ultradźwięków, niemniej wykorzystany przez autorów algorytm wyznaczania 
-odległości jest dużo bardziej podatny na błędy. Dodatkowo praca ta koncentruje się jedynie
+odległości jest dużo bardziej podatny na błędy. Ponadto autorzy koncentrują się jedynie
 na określaniu położenia myszki w przestrzeni, bez wyznaczania jej orientacji.
 Kolejne ciekawe rozwiązanie stanowi rękawica dla graczy 
-\textit{Power Glove} \cite{bib:powerGlove}, która pojawiła się w sprzedaży w  1989 roku \cite{bib:powerGlove2}. 
+\textit{Power Glove} \cite{bib:powerGlove}, która pojawiła się w sprzedaży w 1989 roku \cite{bib:powerGlove2}. 
 Ona również wykorzystuje ultradźwięki do wyznaczania pozycji
 w przestrzeni, jednak nie odniosła  znaczącego sukcesu komercyjnego ze względu na wyjątkowo niską precyzję urządzenia.
 
