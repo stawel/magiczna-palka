@@ -138,32 +138,29 @@ to moduł uaktualni \textit{wzorzec} do wartości $f(t_w), ..., f(t_w+n-1)$.
 Na ostatnim etapem obliczeń wyznaczane są współrzędne kartezjańskie czterech głośników umieszczonych na nadajniku.
 Zajmuje się tym moduł \textit{xyz.py}, który dodatkowo zawiera prosty model rzeczywistości
 wyłapujący niepoprawne dane o położeniu głośników.
-Niepoprawne dane powstają, gdy część głośników traci widoczność z mikrofonami, np. gdy zostaną przysłonięte.
-W ramach modelowanej rzeczywistości określa się:
-\begin{itemize}
-  \item prędkość, z jaką porusza się każdy z głośników,
-  \item kształt nadajnika -- położenie głośników względem siebie w przestrzeni.
-\end{itemize}
-Jeśli któreś z wyliczeń odbiega od ustalonej normy, to dany pomiar uznawany jest za błędny.
+Model zawiera informacje o aktualnym położeni czterech głośników w przestrzeni, co umożliwia wychwycenie 
+zmiany geometrii nadajnika (niepoprawne odległości pomiędzy głośnikami).
 
-
-Współrzędne głośników wyznacza się na podstawie dwunastu funkcji $e_{ij}(x)$ dla $i=1, ..., 4$ oraz $j=1, ..., 3$,
+Współrzędne głośników wyznacza się na podstawie dwunastu funkcji $e_{ij}(t)$ dla $i=1, ..., 4$ oraz $j=1, ..., 3$,
 w których zawarta jest informacja o odległości pomiędzy głośnikiem $i$ oraz mikrofonem $j$.
-Dla każdej funkcji $e_{ij}(x)$ wyszukiwane są pozycje minimów lokalnych, 
-z których następnie wybierane jest $t$ pozycji $x^{ij}_1, ..., x^{ij}_t$
-o najmniejszych wartościach, gdzie $t$ jest stałą wewnętrzną modułu \textit{xyz.py}.
-Pozycje $x^{ij}_k$ dla $k=1, ..., t$  można interpretować jako najbardziej prawdopodobne odległości pomiędzy głośnikiem, a mikrofonem.
+Dla danej funkcji $e_{ij}(t)$ wyszukiwane są wszystkie wartości $t_m$, dla których funkcja przyjmuje minimum lokalne.
+Następnie z $t_m$ wybierane są trzy punkty $t_{m_1}, t_{m_2}, t_{m_3}$, dla których wartość $e_{ij}(t_m)$ jest najmniejsza,
+czyli spełniony jest  warunek:
+\[ e_{ij}(t_{m_1}) \leq e_{ij}(t_{m_2}) \leq e_{ij}(t_{m_3}) \leq e_{ij}(t_m) \qquad \text{dla} \quad m \ne m_1,m_2,m_3. \]
 
-Do wyliczenia położenia głośników wykorzystywane są wszystkie możliwe kombinacje wyznaczonych odległości.
-Zauważmy, że jest ich $12^t$. Każda z tych kombinacji 
-sprawdza się czy pasuje do modelowanej rzeczywistości. Z tych, które są akceptowalne, wybierana jest 
-kombinacja o najmniejszym sumarycznym błędzie średniokwadratowym, czyli najbardziej prawdopodobna.
+Pozycje $t_{m_1}, t_{m_2}, t_{m_3}$  można interpretować jako trzy najbardziej prawdopodobne odległości 
+pomiędzy głośnikiem, a mikrofonem.
 
-Ostatecznym wynikiem pracy modułu \textit{xyz.py} są wartości $x^{ij}$, czyli najbardziej prawdopodobne odległości
-pomiędzy  $i$-tym głośnikiem (gdzie $i=1,...,4$), a $j$-tym mikrofonem, na podstawie których 
-wyznacza się  pozycję oraz orientację nadajnika.
+Do wyliczenia położenia głośników w przestrzeni wykorzystywane są wszystkie możliwe kombinacje 
+trzech możliwych odległości dla dwunastu funkcji $e_{ij}$.
+Daje to $12^3 = 1728$ możliwych lokalizacji głośników w przestrzeni, 
+każda z nich sprawdzana jest czy pasuje do modelu (czy uzyskana geometria przestrzenna nadajnika zgadza się z
+modelem). Z tych które pasują wybierana jest lokalizacja o najmniejszym sumarycznym błędzie średniokwadratowym.
 
-Wartości $x^{ij}$ przekazywane są również z powrotem do modułu \textit{find\_pattern.py} w celu aktualizacji \textit{wzorców}.
+Ostatecznym wynikiem pracy modułu \textit{xyz.py} jest dwanaście wartości $t_{m_k}$ gdzie $k\in \{1,2,3\}$, 
+które określają nam pozycję głośników w przestrzeni.
+
+Wartości $t_{m_k}$ przekazywane są również z powrotem do modułu \textit{find\_pattern.py} w celu aktualizacji \textit{wzorców}.
 
 
 \section{Kalibracja}
