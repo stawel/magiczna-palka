@@ -16,7 +16,7 @@ Najistotniejszą częścią oprogramowania jest biblioteka \textit{mp3d} podziel
  \item \textit{xyz.py} --  odpowiedzialny za wyznaczenie pozycji i orientacji nadajnika oraz  weryfikujący, 
  czy zebrane dane odpowiadają modelowanej rzeczywistości,
  \item \textit{info.py} --  odpowiedzialny za wyświetlanie informacji o sile odbieranego sygnału,
- \item \textit{ply.py} --  odpowiedzialny za eksportowanie danych do formatu \textit{.ply},
+ \item \textit{ply.py} --  odpowiedzialny za eksportowanie danych do formatu \textit{.ply}
     (Polygon File Format) obsługiwanego przez większość programów do obróbki grafiki 3D.
 \end{itemize}
 
@@ -27,15 +27,15 @@ Za komunikację z odbiornikiem odpowiada moduł \textit{com.py}.
 Pracuje on w oddzielnym wątku, w~którym cyklicznie wysyłane są żądania, by dany głośnik nadał sygnał,
 a~następnie odbierane są sygnały z trzech mikrofonów.
 Ten proces odbywa się sukcesywnie dla każdego z~czterech głośników nadajnika.
-Odstęp pomiędzy kolejno nadanymi sygnałami wynosi \SI{87}{ms}
-co pozwala na całkowite rozproszenie się fali dźwiękowej tak by nie wpływała ona na kolejne.
+Odstęp pomiędzy kolejno nadawanymi sygnałami wynosi \SI{87}{ms},
+co pozwala na całkowite rozproszenie się fali dźwiękowej, aby kolejne fale nie nakładały się na siebie.
 
 Zebrane w ten sposób dwanaście sygnałów po wstępnej filtracji przekazywane są dalej do \textit{find\_pattern.py}. Cały cykl powtarza 
 się co \SI{350}{ms}.
 Rysunek \ref{fig:com_output_2m} przedstawia sygnał odebrany z jednego z mikrofonów.
-Odebrany sygnał znacząco różni się od sygnału nadanego (rysunek \ref{fig:output_signal}),
-jest to spowodowane tym, że wykorzystane mikrofony jak i głośniki są rezonatorami, dodatkowo 
-ich obudowy są pudłami rezonansowymi.
+Odebrany sygnał znacząco różni się od nadanego (rysunek \ref{fig:output_signal}),
+ponieważ wykorzystane mikrofony i głośniki są rezonatorami, a dodatkowo 
+ich obudowy są stanowią pudła rezonansowe.
 
 
 \begin{figure}[p]
@@ -43,22 +43,22 @@ ich obudowy są pudłami rezonansowymi.
     \includegraphics[width=1.0\textwidth, trim= 50mm 0mm 40mm 0mm,clip]{com_output_2m_1}
     \includegraphics[width=1.0\textwidth, trim= 50mm 0mm 40mm 0mm,clip]{com_output_2m_2}
     \caption{Sygnał odebrany przez moduł \textit{com.py}. 
-    Odległość między nadajnikiem a odbiornikiem wynosi 2 metry.
-    Na górnym wykresie między 6 i \SI{8}{ms} widać właściwy sygnał (poruszający się po linii prostej), od \SI{8.5}{ms}
+    Odległość między nadajnikiem a odbiornikiem wynosi \SI{2}{m}.
+    Na górnym wykresie w przedziale \SI{6}{ms} i \SI{8}{ms} widać właściwy sygnał (poruszający się po linii prostej), a od \SI{8.5}{ms}
    widać sygnał odbity od podłogi. 
-    Dolny wykres jest powiększeniem górnego wykresu.}
+    Dolny wykres jest powiększeniem fragmentu górnego wykresu.}
     \label{fig:com_output_2m}
 \end{figure}
 
 \section{Wyznaczanie odległości, moduł \textit{find\_pattern.py}}
 
-Moduł \textit{find\_pattern.py} odpowiada za obliczenie odległości pomiędzy czterema głośnikami i~trzema mikrofonami.
+Moduł \textit{find\_pattern.py} odpowiada za obliczanie odległości pomiędzy czterema głośnikami i~trzema mikrofonami.
 Wyznaczana jest ona przez wyszukanie w każdym z 12 odebranych sygnałów  położenia \textit{wzorca}, który 
 odpowiada czołu nadanego sygnału (rysunek \ref{fig:com_output_2m}).
-\textit{Wzorzec} po raz pierwszy wprowadzany jest podczas kalibracji, następnie 
+\textit{Wzorzec} po raz pierwszy wprowadzana się podczas kalibracji, a  
 podczas pracy urządzenia jest on ciągle aktualizowany.
 
-W celu wyszukania \textit{wzorca} wewnątrz sygnału korzysta się z  metody najmniejszego błędu średniokwadratowego.
+Aby wyszukać \textit{wzorca} wewnątrz sygnału, korzysta się z  metody najmniejszego błędu średniokwadratowego.
 Niech $w(x)$  dla $x = 0, ..., n-1$ będzie szukanym \textit{wzorcem}, a $f(t)$ dla $t = 0, ..., m-1$ odebranym sygnałem.
 Wtedy możemy znaleźć takie $a$, że błąd średniokwadratowy $E(t)$ pomiędzy $w(x)$ i $a f(t+x)$ jest minimalny.
 Możemy to zapisać w postaci
@@ -85,7 +85,7 @@ Ostatecznie dostajemy wzór na $E(t)$
   E(t) = \sum_{x=0}^{n-1}  w^2(x)  - \frac {\left(\sum\limits_{x=0}^{n-1}  w(x) f(t+x) \right)^2 } { \sum\limits_{x=0}^{n-1} f^2(t+x)}.
 \]
 
-Zauważmy, że dzięki skalowaniu skalarem $a$  sygnału $f(t)$, a nie \textit{wzorca} $w(x)$,
+Zauważmy, że dzięki skalowaniu skalarem $a$  sygnału $f(t)$, zamiast \textit{wzorca} $w(x)$,
 otrzymane $E(t)$ nie zależy od siły odebranego sygnału. Ułatwia to porównanie błędów w dwóch różnych miejscach.
 $E(t)$ zależy jednak od siły sygnału wzorcowego -- możemy się od niego  uniezależnić, wyznaczając
 błąd względny $e(t)$
@@ -121,14 +121,14 @@ jak i $\sum\limits_{x=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji
  gdzie $k = \max \{|f|, |w| \} = \max \{n,m\}$. Wyliczenie całej funkcji $e(t)$ wymaga zatem jedynie $k \log(k)$ operacji.
 
  
- Kolejnym zadaniem modułu \textit{find\_pattern.py} jest uaktualnianie \textit{wzorca}.
+ Kolejne zadanie modułu \textit{find\_pattern.py} to uaktualnianie \textit{wzorca}.
  Wraz ze zmianą kąta nachylenia nadajnika względem odbiornika zmienia się kształt odbieranego sygnału,
  dlatego jeśli badany sygnał $f(t)$ zawiera szukany \textit{wzorzec} na pozycji $t_w$ 
  oraz spełnione są następujące warunki:
  \begin{itemize}
-  \item moc sygnału $f(t_w), ..., f(t_w+n-1)$ jest wystarczająco duża,
+  \item moc sygnału $f(t_w), ..., f(t_m+n-1)$ jest wystarczająco duża,
   \item błąd względny $e(t_w)$ pomiędzy sygnałem a \textit{wzorcem} jest mały,
-  \item moduł \textit{xyz.py} rozpozna otrzymaną pozycję $t_w$ jako pasuje do modelowanej rzeczywistości
+  \item moduł \textit{xyz.py} rozpozna otrzymaną pozycję $t_w$ jako pasującą do modelowanej rzeczywistości
  \end{itemize}
 to moduł uaktualni \textit{wzorzec} do wartości $f(t_w), ..., f(t_w+n-1)$.
  
@@ -137,41 +137,41 @@ to moduł uaktualni \textit{wzorzec} do wartości $f(t_w), ..., f(t_w+n-1)$.
 
 Na ostatnim etapem obliczeń wyznaczane są współrzędne kartezjańskie czterech głośników umieszczonych na nadajniku.
 Zajmuje się tym moduł \textit{xyz.py}, który dodatkowo zawiera prosty model rzeczywistości
-wyłapujący niepoprawne dane o położeniu głośników.
-Model zawiera informacje o aktualnym położeni czterech głośników w przestrzeni, co umożliwia wychwycenie 
+rozpoznający niepoprawne dane o położeniu głośników.
+Model zawiera informacje o aktualnym położeniu czterech głośników w przestrzeni, co umożliwia wychwycenie 
 zmiany geometrii nadajnika (niepoprawne odległości pomiędzy głośnikami).
 
 Współrzędne głośników wyznacza się na podstawie dwunastu funkcji $e_{ij}(t)$ dla $i=1, ..., 4$ oraz $j=1, ..., 3$,
 w których zawarta jest informacja o odległości pomiędzy głośnikiem $i$ oraz mikrofonem $j$.
-Dla danej funkcji $e_{ij}(t)$ wyszukiwane są wszystkie wartości $t_m$, dla których funkcja przyjmuje minimum lokalne.
+Dla danej funkcji $e_{ij}(t)$ wyszukiwane są wszystkie wartości $t_m$, dla których funkcja osiąga minimum lokalne.
 Następnie z $t_m$ wybierane są trzy punkty $t_{m_1}, t_{m_2}, t_{m_3}$, dla których wartość $e_{ij}(t_m)$ jest najmniejsza,
-czyli spełniony jest  warunek:
+czyli spełniony został warunek:
 \[ e_{ij}(t_{m_1}) \leq e_{ij}(t_{m_2}) \leq e_{ij}(t_{m_3}) \leq e_{ij}(t_m) \qquad \text{dla} \quad m \ne m_1,m_2,m_3. \]
 
 Pozycje $t_{m_1}, t_{m_2}, t_{m_3}$  można interpretować jako trzy najbardziej prawdopodobne odległości 
-pomiędzy głośnikiem, a mikrofonem.
+pomiędzy głośnikiem a mikrofonem.
 
-Do wyliczenia położenia głośników w przestrzeni wykorzystywane są wszystkie możliwe kombinacje 
-trzech możliwych odległości dla dwunastu funkcji $e_{ij}$.
-Daje to $12^3 = 1728$ możliwych lokalizacji głośników w przestrzeni, 
-każda z nich sprawdzana jest czy pasuje do modelu (czy uzyskana geometria przestrzenna nadajnika zgadza się z
-modelem). Z tych które pasują wybierana jest lokalizacja o najmniejszym sumarycznym błędzie średniokwadratowym.
+Do wyznaczenia położenia głośników w przestrzeni wykorzystywane są wszystkie możliwe kombinacje 
+odległości $t_{m_1}, t_{m_2}, t_{m_3}$ dla każdej z dwunastu funkcji $e_{ij}$.
+Daje to $12^3 = 1728$ możliwych lokalizacji głośników w przestrzeni. 
+Każdą z nich sprawdza się z modelem (uzyskana geometria przestrzenna nadajnika musi zgadzać się z
+modelem). Z tych, które pasują, wybierana jest lokalizacja o najmniejszym sumarycznym błędzie średniokwadratowym.
 
-Ostatecznym wynikiem pracy modułu \textit{xyz.py} jest dwanaście wartości $t_{m_k}$ gdzie $k\in \{1,2,3\}$, 
-które określają nam pozycję głośników w przestrzeni.
+Ostatecznym wynikiem pracy modułu \textit{xyz.py} jest dwanaście wartości $t_{m_k}$ gdzie $k \in \{1,2,3\}$, 
+dla każdej funkcji $e_{ij}$. Wartości te określają pozycję głośników w przestrzeni.
 
-Wartości $t_{m_k}$ przekazywane są również z powrotem do modułu \textit{find\_pattern.py} w celu aktualizacji \textit{wzorców}.
+Dodatkowo wartości $t_{m_k}$ przekazywane są z powrotem do modułu \textit{find\_pattern.py} w celu aktualizacji \textit{wzorców}.
 
 
 \section{Kalibracja}
 
 Po każdym uruchomieniu urządzenie wymagana kalibracji,
-która sprowadza się do ustawienia nadajnika w odległości 2 metrów od odbiornika,
-uruchomienia programu \textit{save-pattern.py} oraz zaznaczenia w nim 12 obszarów  będącym czołem odebranego sygnału.
+która polega na ustawieniu nadajnika w odległości 2 metrów od odbiornika,
+uruchomieniu programu \textit{save-pattern.py} oraz zaznaczeniu w nim 12 obszarów  będącym czołem odebranego sygnału.
 Obszary te wykorzystane zostaną jako \textit{wzorce} podczas mierzenia odległości.
 Program wyliczy także aktualną prędkość dźwięku, uwzględniając odległość nadajnika od odbiornika.
 
-Rysunek \ref{fig:kalibracja_12x} przedstawia 12 sygnałów wraz z zaznaczonymi wzorcami.
+Rysunek \ref{fig:kalibracja_12x} przedstawia 12 sygnałów wraz z zaznaczonymi \textit{wzorcami}.
 
 
  \begin{figure}[ht]
@@ -189,9 +189,9 @@ Do obsługi prototypu służy program \textit{scan.py}. Po jego uruchomieniu
 na monitorze wyświetlają się trzy okna: 
 \begin{itemize}
  \item widok 3D prezentujący położenie nadajnika w przestrzeni -- w oknie widoczne są  
- cztery punkty reprezentujące głośniki nadajnika oraz trzy prostopadłe względem siebie wektory określające 
+ 4 punkty reprezentujące głośniki nadajnika oraz 3 prostopadłe względem siebie wektory określające 
 jego orientację i położenie (rysunek \ref{fig:widok3d}),
- \item widok 2D, również przestawiające położenie nadajnika w przestrzeni --
+ \item widok 2D, również przestawiający położenie nadajnika w przestrzeni --
  są to nałożone na siebie rzuty na płaszczyzny XY i XZ
  (rysunek \ref{fig:widok2d}),
  \item diagram informujący o mocy całego odebranego sygnału, mocy \textit{wzorca}, mocy sygnału pasującego do \textit{wzorca} 

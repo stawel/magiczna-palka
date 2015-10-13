@@ -9,11 +9,11 @@ Posiada także inne zalety, jak również wady, które opisano poniżej.
 \newline
 Zalety:
 \begin{itemize}
- \item Wysoka rozdzielczość pomiaru. Zastosowanie częstotliwości 
+ \item Wysoka rozdzielczość pomiaru -- zastosowanie częstotliwości 
  próbkowania dużo wyższych od częstotliwości nadawanego sygnału, a także wyszukiwanie wzorca pozwoliły
  wielokrotnie zwiększyć rozdzielczość pomiaru w stosunku do długości wykorzystanej fali dźwiękowej.
  
- \item Praktycznie nieograniczona przestrzeń robocza. Mimo że w prezentowanym prototypie
+ \item Praktycznie nieograniczona przestrzeń robocza -- mimo że w prezentowanym prototypie
  ograniczono przestrzeń roboczą do sześcianu \SI{2,5}{m} $\times$ \SI{2,5}{m} $\times$ \SI{2,5}{m},
  jest to jedynie ograniczenie praktyczne i bez trudu można dowolnie zwiększyć tę przestrzeń. Trzeba jednak 
  pamiętać, że siła sygnału dźwiękowego maleje kwadratowo wraz z odległością, więc przy dużo większych odległościach
@@ -25,32 +25,32 @@ Wady:
 \begin{itemize}
  \item Duże gabaryty nadajnika i odbiornika.
  
- \item Duża czułość na zmiany temperatury. Jest to najpoważniejsza wada prezentowanego rozwiązania.
- Zauważmy, że zmiana temperatury otoczenia o \ang{1} powoduje zmianę prędkości dźwięku o 0,17\%,
+ \item Duża czułość na zmiany temperatury -- jest to najpoważniejsza wada prezentowanego rozwiązania.
+ Zauważmy, że zmiana temperatury otoczenia o \ang{1}\SI{}{C} powoduje zmianę prędkości dźwięku o 0,17\%,
  co przy rozdzielczości \SI{5000}{px} w skrajnych przypadkach daje przesunięcie \SI{7.5}{px}.
  Co prawda w warunkach laboratoryjnych nie stanowi to większego problemu, jednak w praktycznych zastosowaniach
  jest poważnym ograniczeniem.
  
- \item Długi czas odświeżania. Prezentowany prototyp dokonuje pomiarów co \SI{350}{ms}, czyli około 3 pomiarów 
+ \item Długi czas odświeżania -- prezentowany prototyp dokonuje pomiarów co \SI{350}{ms}, czyli około 3 pomiarów 
  na sekundę. Ponieważ mierzymy cztery niezależne sygnały (z czterech głośników), poszczególne sygnały mierzone są co \SI{87}{ms}.
   Dźwięk poruszający się z prędkością \SI{346}{m/s}  przebędzie  w tym czasie odległość \SI{29.7}{m}.
- Tak duży dystans w stosunku do powierzchni roboczej jest konieczny, by zapobiec nakładaniu się sygnałów
- (które po odbiciu się od ścian mogłyby wpłynąć na kolejne pomiary; czas rzędu \SI{87}{ms} pozwala 
+ Tak duży dystans w~stosunku do powierzchni roboczej jest konieczny, by zapobiec nakładaniu się sygnałów
+ (które po odbiciu się od ścian mogłyby wpłynąć na kolejne pomiary; czas \SI{87}{ms} pozwala 
  na ich całkowite rozproszenie).
  Zakłócaniu pomiarów można także zaradzić, nadając za każdym razem inny rozróżnialny sygnał, to podejście 
  wymaga jednak nadajników i odbiorników o większych możliwościach wysterowania.
  
- \item Stosunkowo mały kąt widzenia. Zastosowane przetworniki piezoelektryczne są przetwornikami kierunkowymi, co 
+ \item Stosunkowo mały kąt widzenia -- zastosowane przetworniki piezoelektryczne są przetwornikami kierunkowymi, co 
  ogranicza  maksymalny kąt, pod jakim można ustawić nadajnik względem odbiornika. W prezentowanym 
  prototypie kąt ten nie powinien przekraczać \ang{45}. Zastosowanie większej liczby przetworników lub innego ich rodzaju
- pozwoliłoby znacznie zwiększyć te kąt.
+ pozwoliłoby znacznie zwiększyć kąt.
 
- \item Ograniczone możliwości wysterowania rezonatorów piezoelektrycznych. 
- Zastosowane rezonatory nie nadają się do generowania krótkich impulsów, co zdecydowanie uprościłoby mierzenie odległości.
+ \item Ograniczone możliwości wysterowania rezonatorów piezoelektrycznych -- 
+ zastosowane rezonatory nie nadają się do generowania krótkich impulsów, co zdecydowanie uprościłoby mierzenie odległości.
  
- \item Problem z ustaleniem pozycji i orientacji nadajnika w ruchu. W prezentowanym urządzeniu 
- jeden pomiar pozycji i orientacji wymaga pomiaru położenia czterech głośników w różnych odstępach czasu.
- Jeśli podczas takiego pomiaru nadajnik porusza się ze zbyt dużą prędkością, to otrzymamy położenie
+ \item Problem z ustaleniem pozycji i orientacji nadajnika w ruchu -- w prezentowanym urządzeniu 
+ jeden pomiar pozycji i orientacji wymaga określania położenia czterech głośników w różnych odstępach czasu.
+ Jeśli podczas takiego pomiaru nadajnik porusza się ze zbyt dużą prędkością, to otrzymamy położenia
  przesunięte względem siebie zgodnie z kierunkiem ruchu nadajnika. Takie przesunięcie negatywnie wpływa na 
  pomiar orientacji. 
 \end{itemize}
@@ -58,7 +58,7 @@ Wady:
 
 Reasumując, prezentowane urządzenie, wykorzystujące ultradźwięki do określania pozycji i orientacji,
 jest innowacyjną propozycją, która zapewnia znacznie większą dokładność niż wszystkie inne dostępne rozwiązania.
-Najistotniejszą jego wadą wydaje się jednak duża wrażliwość na warunki atmosferyczne, a szczególnie zmianę temperatury.
+Najistotniejszą jego wadą wydaje się jednak duża wrażliwość na warunki atmosferyczne, a szczególnie na zmianę temperatury.
 Jest to zapewne główny powód, dlaczego rozwiązanie to nie znajdzie  szerokiego zastosowania w produktach komercyjnych.
 
 
