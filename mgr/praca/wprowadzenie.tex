@@ -64,24 +64,27 @@ urządzenia dodano zewnętrzną kamerę śledzącą pozycję głowy.
  Wadą tego rozwiązania jest niska dokładność pomiaru odległości, która wynosi maksymalnie kilkadziesiąt centymetrów.  
  
  \item
- Wykorzystanie ciepła emitowanego przez badany obiekt \cite{bib:PIRsens}.
- Metoda ta jest analogiczna do metody drugiej, z tą różnicą, że zrezygnowano w niej
- z dedykowanego źródła światła podczerwonego, w zamian wykorzystując naturalne światło podczerwone emitowane 
+ Wykorzystanie światła podczerwonego naturalnie emitowanego przez badany obiekt --
+ takie podejście zaprezentowano w pracy \textit{PIR Sensors: Characterization and Novel Localization Technique}
+ \cite{bib:PIRsens}, metoda ta jest podobna do metody drugiej, z tą różnicą, że zrezygnowano w niej
+ ze sztucznego źródła światła, w zamian wykorzystując naturalne światło podczerwone emitowane 
  przez badany obiekt. Wadą tutaj również jest stosunkowo niska dokładność pomiarowa.
  
  \item
- Wykorzystanie indukcji magnetycznej. Metoda polega na pomiarze siły zmiennego pola magnetycznego niskiej częstotliwości
- generowanego przez zewnętrzne anteny. Na podstawie siły pola estymowana jest odległość 
- od anten, a następnie lokalizacja przestrzenna obiektu.
+ Wykorzystanie indukcji magnetycznej --  metoda polega na pomiarze siły zmiennego pola magnetycznego niskiej częstotliwości
+ generowanego przez zewnętrzne anteny. Na podstawie siły pola pocierającego do badanego obiektu estymowana jest jego odległość 
+ od anten, a następnie lokalizacja przestrzenna.
  Główną zaletą tego podejścia jest fakt, że pole magnetyczne przenika przez większość materiałów, pozwala to na 
- lokalizację również pod ziemią \cite{bib:chomiki}. Do wad należy zaliczyć mały zasięg, ponieważ pole magnetyczne maleje 
- sześciennie wraz z odległością.   
+ lokalizację również pod ziemią co zaprezentowano w pracy 
+ \textit{Revealing the hidden lives of underground animals using magneto-inductive tracking} \cite{bib:chomiki}. 
+ Do wad należy zaliczyć mały zasięg, ponieważ pole magnetyczne propaguje się odwrotnie proporcjonalnie do sześcianu  
+ wraz z odległością od źródła.
  
  \item 
- Wykorzystanie nietypowych warunków zewnętrznych w jakim może znajdować się obiekt, którego lokalizacja nas interesuje.
- Przykładowo w pracy \textit{We Can Track You If You Take the Metro: Tracking Metro
+ Wykorzystanie specyficznych warunków zewnętrznych w jakim może znajdować się obiekt, którego lokalizacja nas interesuje
+ -- w pracy \textit{We Can Track You If You Take the Metro: Tracking Metro
 Riders Using Accelerometers on Smartphones} \cite{bib:metro} autorom udało się określić położenie
-użytkownika metra na podstawie danych z akcelerometru w jego telefonie.
+użytkownika metra na podstawie danych z akcelerometru, które zmieniały podczas jazdy metrem.
 Metoda ta jest jednak dość specyficzna i nie nadaje się do ogólnych zastosowań. 
  
 \end{enumerate}
