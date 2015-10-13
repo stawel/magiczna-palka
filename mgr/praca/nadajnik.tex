@@ -2,7 +2,7 @@
 \chapter{Budowa prototypu}
 
 Prezentowany prototyp składa się z dwóch części: nadajnika i odbiornika, pomiędzy którymi
-dokonywany jest pomiar odległości. W niniejszym rozdziale przedstawiono zasadę funkcjonowanie 
+dokonywany jest pomiar odległości. W niniejszym rozdziale przedstawiono zasadę funkcjonowania 
 poszczególnych komponentów.
 
 \section{Budowa i zasada działania nadajnika}
@@ -13,7 +13,7 @@ stabilizatora napięcia \SI{5}{V} oraz układu FT232RL umożliwiającego
 jej programowanie  ze środowiska \textit{Arduino} \cite{bib:Arduino} za pośrednictwem portu USB. 
 \textit{Arduino Nano} połączono 
 bezpośrednio z czterema nadajnikami ultradźwiękowymi (głośnikami, rezonatorami piezoelektrycznymi) typu 40ST-12 \cite{bib:40ST12}.
-Do płytki doprowadzono zasilanie oraz sygnały sterujące z odbiornika złączem SV1. 
+Za pośrednictwem złącza SV1 do płytki doprowadzono zasilanie oraz sygnały sterujące z odbiornika. 
 Schemat połączeń przedstawia rysunek \ref{fig:nadajnik_schemat}.
 
  \begin{figure}[h]
@@ -31,21 +31,21 @@ zapobiega przenoszeniu się drgań.
 
 
 \textit{Android Nano} połączony jest z odbiornikiem sześciometrowym kablem, którym przesyłane są sygnały sterujące oraz zasilanie.
-Do sterowania wykorzystywano trzy przewody -- dwa z nich informują, który z głośników ma w danym momencie nadawać,
+Do sterowania wykorzystano trzy przewody -- dwa z nich informują, który z głośników ma w danym momencie nadawać,
 a trzeci służy jako wyzwalacz. 
-Informacja, który z głośników  ma nadawać kodowana jest za pomocą dwóch bitów w systemie binarnym,
+Informacja, który z głośników  ma nadawać, kodowana jest za pomocą dwóch bitów w systemie binarnym --
 napięcie na przewodzie \SI{3,3}{V} oznacza logiczną jedynkę, a \SI{0}{V} oznacza logiczne zero.
 
 Na potrzeby nadajnika powstało oprogramowanie w C dla procesora ATmega328 generujące nadawany sygnał.
 Cała logika programu mieści się w obsłudze przerwania sprzętowego, które reaguje na opadające zbocze na wyzwalaczu.
-Gdy wyzwalane jest przerwanie, oprogramowanie wysyła z góry zdefiniowany sygnał do odpowiedniego rezonatora. 
-Nadawany sygnał jest tak dobrany, by dało się go w prosty sposób wyodrębnić oraz by trał jak najkrócej. Składa się z dwóch
+Gdy następuje przerwanie, oprogramowanie wysyła z góry zdefiniowany sygnał do odpowiedniego rezonatora. 
+Nadawany sygnał został tak dobrany, by dało się go w prosty sposób wyodrębnić oraz by trwał jak najkrócej. Składa się z dwóch
 części: wzbudzającej i tłumiącej.
 Okres impulsów sygnału jest zgodny z częstotliwością rezonansową przetworników, a dodatkowo część tłumiąca
 jest przesunięta względem części wyzwalającej o 180 stopni.
-Czas trwania części wzbudzającej jest najkrótsza z możliwych i trwa jeden okres, natomiast czas trwania części tłumiącej jest 
-tak dobrany by odebrany sygnał zawierał w sobie mierzalne przesunięcie fazowe. 
-Rysunek \ref{fig:output_signal} przedstawia sygnał, jaki podawany jest na przetwornik piezoelektryczny.
+Czas trwania części wzbudzającej jest najkrótszy z możliwych i trwa jeden okres, natomiast czas trwania części tłumiącej określono
+tak, by odebrany sygnał zawierał w sobie mierzalne przesunięcie fazowe. 
+Rysunek \ref{fig:output_signal} przedstawia sygnał podawany na przetwornik piezoelektryczny.
 
 \begin{figure}[ht]
     \centering
