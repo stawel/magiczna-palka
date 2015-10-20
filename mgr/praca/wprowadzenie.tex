@@ -28,7 +28,7 @@ urządzenia dodano zewnętrzną kamerę śledzącą pozycję głowy.
  Projektowanie światła strukturalnego na otoczenie i zbieranie informacji o strukturze 
  światła odbitego za pomocą sensorów, zazwyczaj kamer -- 
  taką metodę wykorzystano w \textit{Microsoft Kinnect} \cite{bib:MicrosoftKinect}.
- Urządzenie projektuje na otoczenie stały wzór punktów, następnie kamerą na podczerwień
+ Urządzenie wyświetla na otoczenie stały wzór punktów, następnie kamerą na podczerwień
  zbiera informację o zniekształceniu danego wzoru i na tej podstawie odtwarza  
  trójwymiarową strukturę otoczenia i położenie urządzenia w tym otoczeniu.
  Podobną metodę wykorzystuje \textit{Oculus Rift development kit 2} \cite{bib:OculusRiftDK2} oraz 
@@ -37,7 +37,7 @@ urządzenia dodano zewnętrzną kamerę śledzącą pozycję głowy.
  Komputer na podstawie względnego położenia widocznych punktów określa położenie i orientację
  okularów w przestrzeni.
  Zaletą tego rozwiązania są stałe punkty odniesienia (kamera), a także możliwość pomiaru wielu punktów naraz.
- Wady to: są stosunkowo niska rozdzielczość, szczególnie w osi Z, i duży strumień danych do obróbki.
+ Wadami są stosunkowo niska rozdzielczość, szczególnie w osi Z, i duży strumień danych do obróbki.
 
 \item
  Wykorzystanie wielu zdjęć, na postawie których 
@@ -52,7 +52,7 @@ urządzenia dodano zewnętrzną kamerę śledzącą pozycję głowy.
  do obiektu, którego położenie nas interesuje.
  Dzięki znajomości czasów oraz prędkości rozchodzenia się fal można wyznaczyć odległości pomiędzy nadajnikami a obiektem.
  Na podstawie odległości wyznaczana jest lokalizacja przestrzenna obiektu. 
- Tę metodę powszechnie stosuje się takich systemach, jak GPS \cite{bib:gps}, GLONASS \cite{bib:GLONASS} czy Galileo \cite{bib:galileo}.
+ Tę metodę powszechnie stosuje się takich systemach jak GPS \cite{bib:gps}, GLONASS \cite{bib:GLONASS} czy Galileo \cite{bib:galileo}.
  Jej zaletą jest możliwość lokalizowania obiektów na dużych przestrzeniach.
  Jednak ze względu na dużą prędkość, z jaką rozchodzą się fale elektromagnetyczne, metoda ta cechuje się dość niską 
  dokładnością nieprzekraczającą \SI{10}{cm}.
@@ -72,10 +72,10 @@ urządzenia dodano zewnętrzną kamerę śledzącą pozycję głowy.
  
  \item
  Wykorzystanie indukcji magnetycznej --  metoda polega na pomiarze siły zmiennego pola magnetycznego niskiej częstotliwości
- generowanego przez zewnętrzne anteny. Na podstawie siły pola docierającego do badanego obiektu estymowana jest jego odległość 
- od anten, a następnie lokalizacja przestrzenna.
+ generowanego przez zewnętrzne anteny. Na podstawie siły pola docierającego do badanego obiektu estymowane są jego odległości
+ od anten, a na ich podstawie wyznaczana jest lokalizacja przestrzenna obiektu.
  Główną zaletę tego podejścia stanowi fakt, że pole magnetyczne przenika przez większość materiałów. Pozwala  
- to na lokalizowanie obiekty również pod ziemią, co zaprezentowano w pacy
+ to na lokalizowanie obiektu również pod ziemią, co zaprezentowano w pracy
  \textit{Revealing the hidden lives of underground animals using magneto-inductive tracking} \cite{bib:chomiki}. 
  Wadą metody jest mały zasięg, ponieważ pole magnetyczne propaguje się odwrotnie proporcjonalnie do sześcianu  
  odległości od źródła.
@@ -113,7 +113,7 @@ Relatywnie długi czas odświeżania zależy głównie od czasu,
 Należy również wspomnieć o innych pracach, które w podobny sposób podchodzą do problemu pozycjonowania. Przykładowo 
 w pracy \textit{Ultrasonic 3D Wireless Computer Mouse} \cite{bib:mouse} przedstawiono prototyp myszki 3D, której
 pozycja w przestrzeni określana jest za pomocą ultradźwięków, niemniej wykorzystany przez autorów algorytm wyznaczania 
-odległości jest dużo bardziej podatny na błędy. Ponadto autorzy koncentrują się jedynie
+odległości jest dużo bardziej podatny na błędy od metody prezentowanej w niniejszej pracy. Ponadto autorzy koncentrują się jedynie
 na określaniu położenia myszki w przestrzeni, bez wyznaczania jej orientacji.
 Kolejne ciekawe rozwiązanie stanowi rękawica dla graczy 
 \textit{Power Glove} \cite{bib:powerGlove}, która pojawiła się w sprzedaży w 1989 roku \cite{bib:powerGlove2}. 
