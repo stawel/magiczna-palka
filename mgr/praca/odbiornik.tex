@@ -9,7 +9,7 @@ Odbiornik składa się z następujący części (rysunek \ref{fig:odbiornik_szki
  \item trzech modułów ultradźwiękowych przetwarzających dźwięk na sygnał elektryczny,
  \item płytki prototypowej \textit{stm32f4-discovery} \cite{bib:stm32f4Discovery} odpowiadającej za komunikację z komputerem,
  \item przystawki do \textit{stm32f4-discovery} przystosowującej sygnały elektryczne z modułów ultradźwiękowych
-  do poziomów akceptowalnych przez tę płytkę,
+  do poziomów akceptowalnych przez tę płytkę oraz wyprowadzającej sygnały sterujące nadajnikiem,
  \item ramy, na której umieszczono moduły ultradźwiękowe.
 \end{itemize}
 
@@ -24,9 +24,9 @@ Głównym elementem odbiornika jest płytka prototypowa \textit{stm32f4-discover
 \textit{Stm32f4-discovery} wyposażona jest w procesor STM32F407VGT6 \cite{bib:stm32f407} (oparty o rdzeń ARM Cortex M4), 
 który zawiera trzy 12-bitowe przetworniki
 analogowo-cyfrowe umożliwiające próbkowanie z prędkością do \SI{2,4}{MSPS} 
-(ang. \textit{MSPS -- Mega-Samples Per Second} -- megapróbek na sekundę). Przetworniki te wykorzystane zostały do próbkowania
+(ang. \textit{MSPS -- Mega-Samples Per Second} -- milion próbek na sekundę). Przetworniki te wykorzystane zostały do próbkowania
 sygnałów pochodzących z modułów ultradźwiękowych. Płytka umożliwia również komunikację z komputerem przez 
-port USB z prędkością \SI{12}{MB/s}. Znajduje się na także programator
+port USB z prędkością \SI{12}{MB/s}. Znajduje się na niej także programator
 umożliwiający programowanie procesora za pośrednictwem dodatkowego portu USB.
 
 Na potrzeby odbiornika powstało dedykowane oprogramowanie w C sterujące procesorem.
@@ -73,7 +73,7 @@ Wzmacniacz operacyjny IC1A wraz z kondensatorem C2 i rezystorem R1 pracuje
 jako przedwzmacniacz ładunkowy \cite{bib:wzm_ladunkowy}.
 Ładunek wytworzony na przetworniku piezoelektrycznym SP1 zostaje w całości przeniesiony na kondensator C2 
 (wzmacniacz utrzymuje różnicę potencjałów między dodatnim a ujemnym wejściem na zerowym poziomie).
-W rezultacie na kondensatorze pojawia się napięcie zgodnie z równaniem $U=\frac{q}{C}$.
+W rezultacie na kondensatorze C2 pojawia się napięcie proporcjonalne do wartości odebranego sygnału.
 Do rozładowania kondensatora C2 służy rezystor R1.
 R1 i C2 działają również jako filtr dolnoprzepustowy.
 
@@ -96,13 +96,14 @@ Wartości te muszą mieścić się w zakresie od \SI{0}{V} do \SI{3,3}{V}.
 
 Zastosowano w niej układ TLV2774 \cite{bib:TLV2774}, który zawiera 4 wzmacniacze operacyjne typu
 \textit{rail-to-rail}. Trzy z nich wykorzystano jako ostatni stopień wzmocnienia sygnałów ultradźwiękowych. 
-Wzmacniacze operacyjne pracują w układzie odwracającym, którego wzmocnienie można regulować potencjometrami R8, R9 oraz R10. 
+Wzmacniacze operacyjne pracują w układzie odwracającym, którego wzmocnienie można regulować odpowiednio potencjometrami R8, R9 oraz R10. 
 Podłączono je do wspólnego, również regulowanego (przy użyciu potencjometru R7) napięcia odniesienia.
 Przystawka zawiera także stabilizator napięcia LM78M05CDT \cite{bib:LM78M05CDT}, który po podłączeniu 
 do JP4 baterii \SI{12}{V} dostarcza zasilanie do wszystkich komponentów. 
 Istnieje możliwość odcięcia zasilania przez rozwarcie JP5, co jest konieczne podczas programowania
 STM32F407VGT6, by zapobiec uszkodzeniu stabilizatora napięcia.
 Z przystawki przez wtyczkę JP6 wyprowadzono również sygnały sterujące nadajnikiem oraz zasilanie.
+Wtyczka JP6 połączona jest z wtyczką SV1 nadajnika (rysunek \ref{fig:nadajnik_schemat}) sześciometrowym kablem.
 
  \begin{figure}[h]
     \centering
