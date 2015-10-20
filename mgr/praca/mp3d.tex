@@ -59,42 +59,42 @@ Wzorzec po raz pierwszy wprowadzana się podczas kalibracji, a
 podczas pracy urządzenia jest on ciągle aktualizowany.
 
 Aby wyszukać wzorzec wewnątrz sygnału, korzysta się z  metody najmniejszego błędu średniokwadratowego.
-Niech $w(x)$  dla $x = 0, ..., n-1$ będzie szukanym wzorcem, a $f(t)$ dla $t = 0, ..., m-1$ odebranym sygnałem.
-Wtedy możemy znaleźć takie $a$, że błąd średniokwadratowy $E(t)$ pomiędzy $w(x)$ i $a f(t+x)$ jest minimalny.
+Niech $w(t)$  dla $t = 0, ..., n-1$ będzie szukanym wzorcem, a $f(t)$ dla $t = 0, ..., m-1$ odebranym sygnałem.
+Wtedy możemy znaleźć takie $a$, że błąd średniokwadratowy $E(t)$ pomiędzy $w$ i $a f |_{\{t, ..., t+n-1\}}$ jest minimalny.
 Możemy to zapisać w postaci
 \[
-  E(t) = \min_{a \in R} \left\{ \sum_{x=0}^{n-1}  \left( w(x) - a f(t+x) \right) ^2 \right\}, \quad \text{dla } t = 0, ..., m-n.
+  E(t) = \min_{a \in R} \left\{ \sum_{i=0}^{n-1}  \left( w(i) - a f(t+i) \right) ^2 \right\}, \quad \text{dla } t = 0, ..., m-n.
 \]
 Po podniesieniu wyrażenia w nawiasie do kwadratu otrzymujemy
 \[
-  E(t) = \min_{a \in R} \left\{ \sum_{x=0}^{n-1}  \left( w^2(x) -2a w(x) f(t+x) + a^2 f^2(t+x) \right) \right\},
+  E(t) = \min_{a \in R} \left\{ \sum_{i=0}^{n-1}  \left( w^2(i) -2a w(i) f(t+i) + a^2 f^2(t+i) \right) \right\},
 \]
 \[
-  E(t) = \min_{a \in R} \left\{ \sum_{x=0}^{n-1}  w^2(x) -2a \sum_{x=0}^{n-1}  w(x) f(t+x) + a^2 \sum_{x=0}^{n-1} f^2(t+x) \right\}.
+  E(t) = \min_{a \in R} \left\{ \sum_{i=0}^{n-1}  w^2(i) -2a \sum_{i=0}^{n-1}  w(i) f(t+i) + a^2 \sum_{i=0}^{n-1} f^2(t+i) \right\}.
 \]
 Aby wyliczyć $E(t)$, należy zminimalizować wyrażenie
 \[
-  y(a) = \sum_{x=0}^{n-1}  w^2(x) -2a \sum_{x=0}^{n-1}  w(x) f(t+x) + a^2 \sum_{x=0}^{n-1} f^2(t+x).
+  y(a) = \sum_{i=0}^{n-1}  w^2(i) -2a \sum_{i=0}^{n-1}  w(i) f(t+i) + a^2 \sum_{i=0}^{n-1} f^2(t+i).
 \]
 Korzystając z faktu, że $y(a)$ jest funkcją kwadratową, możemy wyliczyć $a$ minimalizujące $y(a)$
 \[
-  a = \frac{ \sum\limits_{x=0}^{n-1}  w(x) f(t+x) }{ \sum\limits_{x=0}^{n-1} f^2(t+x) }.
+  a = \frac{ \sum\limits_{i=0}^{n-1}  w(i) f(t+i) }{ \sum\limits_{i=0}^{n-1} f^2(t+i) }.
 \]
 Ostatecznie dostajemy wzór na $E(t)$
 \[
-  E(t) = \sum_{x=0}^{n-1}  w^2(x)  - \frac {\left(\sum\limits_{x=0}^{n-1}  w(x) f(t+x) \right)^2 } { \sum\limits_{x=0}^{n-1} f^2(t+x)}.
+  E(t) = \sum_{i=0}^{n-1}  w^2(i)  - \frac {\left(\sum\limits_{i=0}^{n-1}  w(i) f(t+i) \right)^2 } { \sum\limits_{i=0}^{n-1} f^2(t+i)}.
 \]
 
-Zauważmy, że dzięki skalowaniu skalarem $a$  sygnału $f(t)$, zamiast wzorca $w(x)$,
+Zauważmy, że dzięki skalowaniu skalarem $a$  sygnału $f$, zamiast wzorca $w$,
 otrzymane $E(t)$ nie zależy od siły odebranego sygnału. Ułatwia to porównanie błędów w dwóch różnych miejscach.
 $E(t)$ zależy jednak od siły sygnału wzorcowego -- możemy się od niej uniezależnić, wyznaczając
 błąd względny $e(t)$
 \[
-  e(t) = \frac{E(t)}{\sum\limits_{x=0}^{n-1}  w^2(x)}.
+  e(t) = \frac{E(t)}{\sum\limits_{i=0}^{n-1}  w^2(i)}.
 \]
 Po podstawieniu $E(t)$ dostajemy
 \[
-  e(t) = 1 - \frac {\left(\sum\limits_{x=0}^{n-1}  w(x) f(t+x) \right)^2 } { \sum\limits_{x=0}^{n-1} f^2(t+x) \sum\limits_{x=0}^{n-1}  w^2(x)}.
+  e(t) = 1 - \frac {\left(\sum\limits_{i=0}^{n-1}  w(i) f(t+i) \right)^2 } { \sum\limits_{i=0}^{n-1} f^2(t+i) \sum\limits_{i=0}^{n-1}  w^2(i)}.
 \]
  
  Funkcję $e(t)$  można interpretować następująco:
@@ -114,9 +114,9 @@ Po podstawieniu $E(t)$ dostajemy
 \end{figure}
  
  
- Wyliczenie zarówno $ \sum\limits_{x=0}^{n-1}  w^2(x) $,
-jak i $\sum\limits_{x=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji, a 
- $\sum\limits_{x=0}^{n-1}  w(x) f(t+x) $ jest korelacją wzajemną funkcji $w(x)$ i $f(t)$, którą
+ Wyliczenie zarówno $ \sum\limits_{i=0}^{n-1}  w^2(i) $,
+jak i $\sum\limits_{i=0}^{n-1} f^2(t+i)$ wymaga jedynie liniowej liczby operacji, a 
+ $\sum\limits_{i=0}^{n-1}  w(i) f(t+i) $ jest korelacją wzajemną funkcji $w(t)$ i $f(t)$, którą
  można wyliczyć w~czasie $k \log(k)$, korzystając z szybkiej transformacji Fouriera \cite{bib:FFT_correlation},
  gdzie $k = \max \{n,m\}$. Wyliczenie całej funkcji $e(t)$ wymaga zatem jedynie $k \log(k)$ operacji.
 

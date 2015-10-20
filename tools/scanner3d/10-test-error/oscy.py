@@ -49,8 +49,8 @@ frame1.axes.get_yaxis().set_visible(False)
 
 l3, = plt.plot([], [], 'r-', label = u'e(t) - błąd względny')
 l1, = plt.plot([], [], 'k-', label = u'f(t) - sygnał wejściowy')
-l4, = plt.plot([], [], 'y-', label = u'w(x) - wzorzec')
-l2, = plt.plot([], [], 'g-', label = u'w(x)*f(t) - korelacja wzajemna')
+l4, = plt.plot([], [], 'y-', label = u'w(t) - wzorzec')
+l2, = plt.plot([], [], 'g-', label = u'w(t)*f(t) - korelacja wzajemna')
 
 lp1, = plt.plot([], [], 'r-')
 lp2, = plt.plot([], [], 'g-')
