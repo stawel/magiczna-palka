@@ -55,11 +55,11 @@ ich obudowy tworzą pudła rezonansowe.
 Moduł \textit{find\_pattern.py} odpowiada za obliczanie odległości pomiędzy czterema głośnikami i~trzema mikrofonami.
 Wyznaczana jest ona przez wyszukanie w każdym z 12 odebranych sygnałów  położenia \textit{wzorca}, który 
 odpowiada czołu nadanego sygnału (rysunek \ref{fig:com_output_2m}).
-\textit{Wzorzec} po raz pierwszy wprowadzana się podczas kalibracji, a  
+Wzorzec po raz pierwszy wprowadzana się podczas kalibracji, a  
 podczas pracy urządzenia jest on ciągle aktualizowany.
 
-Aby wyszukać \textit{wzorca} wewnątrz sygnału, korzysta się z  metody najmniejszego błędu średniokwadratowego.
-Niech $w(x)$  dla $x = 0, ..., n-1$ będzie szukanym \textit{wzorcem}, a $f(t)$ dla $t = 0, ..., m-1$ odebranym sygnałem.
+Aby wyszukać wzorzec wewnątrz sygnału, korzysta się z  metody najmniejszego błędu średniokwadratowego.
+Niech $w(x)$  dla $x = 0, ..., n-1$ będzie szukanym wzorcem, a $f(t)$ dla $t = 0, ..., m-1$ odebranym sygnałem.
 Wtedy możemy znaleźć takie $a$, że błąd średniokwadratowy $E(t)$ pomiędzy $w(x)$ i $a f(t+x)$ jest minimalny.
 Możemy to zapisać w postaci
 \[
@@ -85,7 +85,7 @@ Ostatecznie dostajemy wzór na $E(t)$
   E(t) = \sum_{x=0}^{n-1}  w^2(x)  - \frac {\left(\sum\limits_{x=0}^{n-1}  w(x) f(t+x) \right)^2 } { \sum\limits_{x=0}^{n-1} f^2(t+x)}.
 \]
 
-Zauważmy, że dzięki skalowaniu skalarem $a$  sygnału $f(t)$, zamiast \textit{wzorca} $w(x)$,
+Zauważmy, że dzięki skalowaniu skalarem $a$  sygnału $f(t)$, zamiast wzorca $w(x)$,
 otrzymane $E(t)$ nie zależy od siły odebranego sygnału. Ułatwia to porównanie błędów w dwóch różnych miejscach.
 $E(t)$ zależy jednak od siły sygnału wzorcowego -- możemy się od niej uniezależnić, wyznaczając
 błąd względny $e(t)$
@@ -98,12 +98,12 @@ Po podstawieniu $E(t)$ dostajemy
 \]
  
  Funkcję $e(t)$  można interpretować następująco:
- im mniejszy błąd $e(t)$, tym większe prawdopodobieństwo, że szukany \textit{wzorzec} $w$ znajduje się na pozycji $t$ w 
+ im mniejszy błąd $e(t)$, tym większe prawdopodobieństwo, że szukany wzorzec $w$ znajduje się na pozycji $t$ w 
  odebranym sygnale $f$. 
 
  Wynikiem obliczeń modułu \textit{find\_pattern.py} jest cała funkcja $e(t)$, na podstawie której moduł \textit{xyz.py}
  wyznacza pozycję i orientację nadajnika, uwzględniając przy tym 
- jego kształt (nadmiarowość danych), a także prawdopodobieństwo, że znaleziony \textit{wzorzec} znajduje się w określonej pozycji.
+ jego kształt (nadmiarowość danych), a także prawdopodobieństwo, że znaleziony wzorzec znajduje się w określonej pozycji.
  Rysunek \ref{fig:blad_korel} przedstawia wynik przetwarzania sygnału przez moduł \textit{find\_pattern.py}.
 
 \begin{figure}[h]
@@ -121,16 +121,16 @@ jak i $\sum\limits_{x=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji
  gdzie $k = \max \{n,m\}$. Wyliczenie całej funkcji $e(t)$ wymaga zatem jedynie $k \log(k)$ operacji.
 
  
- Kolejne zadanie modułu \textit{find\_pattern.py} to uaktualnianie \textit{wzorca}.
+ Kolejne zadanie modułu \textit{find\_pattern.py} to uaktualnianie wzorca.
  Wraz ze zmianą kąta nachylenia nadajnika względem odbiornika zmienia się kształt odbieranego sygnału,
- dlatego jeśli badany sygnał $f(t)$ zawiera szukany \textit{wzorzec} na pozycji $t_w$ 
+ dlatego jeśli badany sygnał $f(t)$ zawiera szukany wzorzec na pozycji $t_w$ 
  oraz spełnione są następujące warunki:
  \begin{itemize}
   \item moc sygnału $f(t_w), ..., f(t_m+n-1)$ jest wystarczająco duża,
-  \item błąd względny $e(t_w)$ pomiędzy sygnałem a \textit{wzorcem} jest mały,
+  \item błąd względny $e(t_w)$ pomiędzy sygnałem a wzorcem jest mały,
   \item moduł \textit{xyz.py} rozpozna otrzymaną pozycję $t_w$ jako pasującą do modelowanej rzeczywistości
  \end{itemize}
-to moduł uaktualni \textit{wzorzec} do wartości $f(t_w), ..., f(t_w+n-1)$.
+to moduł uaktualni wzorzec do wartości $f(t_w), ..., f(t_w+n-1)$.
  
  
 \section{Wyznaczanie pozycji oraz orientacji przestrzennej, moduł \textit{xyz.py}}
@@ -160,7 +160,7 @@ modelem). Z tych, które pasują, wybierana jest lokalizacja o najmniejszym suma
 Ostatecznym wynikiem pracy modułu \textit{xyz.py} jest dwanaście wartości $t_{m_k}$ gdzie $k \in \{1,2,3\}$, 
 dla każdej funkcji $e_{ij}$. Wartości te określają pozycję głośników w przestrzeni.
 
-Dodatkowo wartości $t_{m_k}$ przekazywane są z powrotem do modułu \textit{find\_pattern.py} w celu aktualizacji \textit{wzorców}.
+Dodatkowo wartości $t_{m_k}$ przekazywane są z powrotem do modułu \textit{find\_pattern.py} w celu aktualizacji wzorców.
 
 
 \section{Kalibracja}
@@ -168,16 +168,16 @@ Dodatkowo wartości $t_{m_k}$ przekazywane są z powrotem do modułu \textit{fin
 Po każdym uruchomieniu urządzenie wymagana kalibracji,
 która polega na ustawieniu nadajnika w odległości 2 metrów od odbiornika,
 uruchomieniu programu \textit{save-pattern.py} oraz zaznaczeniu w nim 12 obszarów  będącym czołem odebranego sygnału.
-Obszary te wykorzystane zostaną jako \textit{wzorce} podczas mierzenia odległości.
+Obszary te wykorzystane zostaną jako wzorce podczas mierzenia odległości.
 Program wyliczy także aktualną prędkość dźwięku, uwzględniając odległość nadajnika od odbiornika.
 
-Rysunek \ref{fig:kalibracja_12x} przedstawia 12 sygnałów wraz z zaznaczonymi \textit{wzorcami}.
+Rysunek \ref{fig:kalibracja_12x} przedstawia 12 sygnałów wraz z zaznaczonymi wzorcami.
 
 
  \begin{figure}[ht]
     \centering
     \includegraphics[width=1.0\textwidth, trim= 50mm 0mm 40mm 0mm,clip]{kalibracja_12x}
-    \caption{Kalibracja, 12 sygnałów z zaznaczonymi \textit{wzorcami}}
+    \caption{Kalibracja, 12 sygnałów z zaznaczonymi wzorcami}
     \label{fig:kalibracja_12x}
 \end{figure}
 
@@ -194,8 +194,8 @@ jego orientację i położenie (rysunek \ref{fig:widok3d}),
  \item widok 2D, również przestawiający położenie nadajnika w przestrzeni --
  są to nałożone na siebie rzuty na płaszczyzny XY i XZ
  (rysunek \ref{fig:widok2d}),
- \item diagram informujący o mocy całego odebranego sygnału, mocy \textit{wzorca}, mocy sygnału pasującego do \textit{wzorca} 
- oraz błędzie pomiędzy \textit{wzorcem} a odebranym sygnałem (rysunek \ref{fig:power}).
+ \item diagram informujący o mocy całego odebranego sygnału, mocy wzorca, mocy sygnału pasującego do wzorca 
+ oraz błędzie pomiędzy wzorcem a odebranym sygnałem (rysunek \ref{fig:power}).
 \end{itemize}
 
 Wszelkie zmiany położenia nadajnika automatycznie odświeżają wszystkie widoki. 
@@ -207,6 +207,6 @@ się dzieje, widoczna jest w oknie przedstawiającym moc sygnału.
 
 \rysunekHT{3d}{Widok 3D}{\label{fig:widok3d}}
 \rysunekHT{2d}{Widok 2D}{\label{fig:widok2d}}
-\rysunekHT{power}{Diagram informujący o mocy całego odebranego sygnału, mocy \textit{wzorca}, mocy sygnału pasującego do \textit{wzorca} 
- oraz błędzie pomiędzy \textit{wzorcem} a odebranym sygnałem}{\label{fig:power}}
+\rysunekHT{power}{Diagram informujący o mocy całego odebranego sygnału, mocy wzorca, mocy sygnału pasującego do wzorca 
+ oraz błędzie pomiędzy wzorcem a odebranym sygnałem}{\label{fig:power}}
 
