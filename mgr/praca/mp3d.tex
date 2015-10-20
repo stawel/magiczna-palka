@@ -17,7 +17,7 @@ Najistotniejszą częścią oprogramowania jest biblioteka \textit{mp3d} podziel
  czy zebrane dane odpowiadają modelowanej rzeczywistości,
  \item \textit{info.py} --  odpowiedzialny za wyświetlanie informacji o sile odbieranego sygnału,
  \item \textit{ply.py} --  odpowiedzialny za eksportowanie danych do formatu \textit{.ply}
-    (Polygon File Format) obsługiwanego przez większość programów do obróbki grafiki 3D.
+    (\textit{ang. Polygon File Format}) obsługiwanego przez większość programów do obróbki grafiki 3D.
 \end{itemize}
 
 
@@ -30,12 +30,12 @@ Ten proces odbywa się sukcesywnie dla każdego z~czterech głośników nadajnik
 Odstęp pomiędzy kolejno nadawanymi sygnałami wynosi \SI{87}{ms},
 co pozwala na całkowite rozproszenie się fali dźwiękowej, aby kolejne fale nie nakładały się na siebie.
 
-Zebrane w ten sposób dwanaście sygnałów po wstępnej filtracji przekazywane są dalej do \textit{find\_pattern.py}. Cały cykl powtarza 
+Zebrane w ten sposób dwanaście sygnałów po wstępnej filtracji przekazywane jest dalej do \textit{find\_pattern.py}. Cały cykl powtarza 
 się co \SI{350}{ms}.
 Rysunek \ref{fig:com_output_2m} przedstawia sygnał odebrany z jednego z mikrofonów.
 Odebrany sygnał znacząco różni się od nadanego (rysunek \ref{fig:output_signal}),
 ponieważ wykorzystane mikrofony i głośniki są rezonatorami, a dodatkowo 
-ich obudowy są stanowią pudła rezonansowe.
+ich obudowy tworzą pudła rezonansowe.
 
 
 \begin{figure}[p]
@@ -63,14 +63,14 @@ Niech $w(x)$  dla $x = 0, ..., n-1$ będzie szukanym \textit{wzorcem}, a $f(t)$ 
 Wtedy możemy znaleźć takie $a$, że błąd średniokwadratowy $E(t)$ pomiędzy $w(x)$ i $a f(t+x)$ jest minimalny.
 Możemy to zapisać w postaci
 \[
-  E(t) = \min_{a \in R} \{ \sum_{x=0}^{n-1}  \left( w(x) - a f(t+x) \right) ^2 \}.
+  E(t) = \min_{a \in R} \left\{ \sum_{x=0}^{n-1}  \left( w(x) - a f(t+x) \right) ^2 \right\}.
 \]
 Po podniesieniu wyrażenia w nawiasie do kwadratu otrzymujemy
 \[
-  E(t) = \min_{a \in R} \{ \sum_{x=0}^{n-1}  \left( w^2(x) -2a w(x) f(t+x) + a^2 f^2(t+x) \right) \},
+  E(t) = \min_{a \in R} \left\{ \sum_{x=0}^{n-1}  \left( w^2(x) -2a w(x) f(t+x) + a^2 f^2(t+x) \right) \right\},
 \]
 \[
-  E(t) = \min_{a \in R} \{ \sum_{x=0}^{n-1}  w^2(x) -2a \sum_{x=0}^{n-1}  w(x) f(t+x) + a^2 \sum_{x=0}^{n-1} f^2(t+x) \}.
+  E(t) = \min_{a \in R} \left\{ \sum_{x=0}^{n-1}  w^2(x) -2a \sum_{x=0}^{n-1}  w(x) f(t+x) + a^2 \sum_{x=0}^{n-1} f^2(t+x) \right\}.
 \]
 Aby wyliczyć $E(t)$, należy zminimalizować wyrażenie
 \[
@@ -87,7 +87,7 @@ Ostatecznie dostajemy wzór na $E(t)$
 
 Zauważmy, że dzięki skalowaniu skalarem $a$  sygnału $f(t)$, zamiast \textit{wzorca} $w(x)$,
 otrzymane $E(t)$ nie zależy od siły odebranego sygnału. Ułatwia to porównanie błędów w dwóch różnych miejscach.
-$E(t)$ zależy jednak od siły sygnału wzorcowego -- możemy się od niego  uniezależnić, wyznaczając
+$E(t)$ zależy jednak od siły sygnału wzorcowego -- możemy się od niej uniezależnić, wyznaczając
 błąd względny $e(t)$
 \[
   e(t) = \frac{E(t)}{\sum\limits_{x=0}^{n-1}  w^2(x)}.
@@ -118,7 +118,7 @@ Po podstawieniu $E(t)$ dostajemy
 jak i $\sum\limits_{x=0}^{n-1} f^2(t+x)$ wymaga jedynie liniowej liczby operacji, a 
  $\sum\limits_{x=0}^{n-1}  w(x) f(t+x) $ jest korelacją wzajemną funkcji $w(x)$ i $f(t)$, którą
  można wyliczyć w~czasie $k \log(k)$, korzystając z szybkiej transformacji Fouriera \cite{bib:FFT_correlation},
- gdzie $k = \max \{|f|, |w| \} = \max \{n,m\}$. Wyliczenie całej funkcji $e(t)$ wymaga zatem jedynie $k \log(k)$ operacji.
+ gdzie $k = \max \{n,m\}$. Wyliczenie całej funkcji $e(t)$ wymaga zatem jedynie $k \log(k)$ operacji.
 
  
  Kolejne zadanie modułu \textit{find\_pattern.py} to uaktualnianie \textit{wzorca}.
