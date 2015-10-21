@@ -110,7 +110,7 @@ def slowcorrelate(a,b):
 #    return signal.fftconvolve(a, b[::-1], mode = 'valid')
 
 
-def refresh_pattern(sign, idx, save=True):
+def refresh_pattern(sign, idx, save = True):
     global patterns, patterns_cor, a
     t0 = time.time()
     sw_avr = sum(sign) / float(len(sign))
@@ -142,17 +142,17 @@ def get_error(xl, yl, xx_cor, xy_cor):
 def get_pos(y, idx, truncate_errors = True, max_errors_len = 10, truncate_factor = 2, all_errors = False):
     t0 = time.time()
     avr = sum(y) / float(len(y))
-    cy = y-avr
+    cy = y - avr
     corel = mycorrelate(cy, patterns[idx])
     errors = [(float('inf'), 0)]
 #    all_errors = True
     if all_errors:
-        duze = arange(0,len(corel))
+        duze = arange(0, len(corel))
     else:
         duze = signal.argrelmax(corel)[0]
     for px in duze:
-        e = get_error(patterns[idx], cy[px:px+len(patterns[idx])], patterns_cor[idx], corel[px])
-        errors.append( (e,px) )
+        e = get_error(patterns[idx], cy[px:px + len(patterns[idx])], patterns_cor[idx], corel[px])
+        errors.append( (e, px) )
 
     errors.sort(key = operator.itemgetter(0))
 

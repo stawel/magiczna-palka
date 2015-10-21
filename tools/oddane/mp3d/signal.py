@@ -32,8 +32,8 @@ def get_gamma(y):
     d = []
     w=okr * int(wave_f)
     for i in range(min(w, len(y))):
-        t1+=math.sin((i * math.pi * 2 * okr) / w) * y[i]
-        t2+=math.cos((i * math.pi * 2 * okr) / w) * y[i]
+        t1 += math.sin((i * math.pi * 2 * okr) / w) * y[i]
+        t2 += math.cos((i * math.pi * 2 * okr) / w) * y[i]
         d.append(math.cos((i * math.pi * 2) / w * okr) * 10)
     r= (t1**2 + t2**2)**0.5
     gamma= math.atan2(t2, t1)
@@ -58,8 +58,8 @@ def get_first_max(y):
             t_n = int(math.ceil(t))
             s = math.sin((t_n * math.pi * 2) / w)
             c = math.cos((t_n * math.pi * 2) / w)
-            t1+ = s * y[t_n]
-            t2+ = c * y[t_n]
+            t1 += s * y[t_n]
+            t2 += c * y[t_n]
             data_sin[0].append(t_n)
             data_sin[1].append(s * 20)
         r = (t1**2 + t2**2)**0.5
@@ -76,7 +76,7 @@ def get_first_max(y):
 
     info = x, data_s, data_c, data_sin, max_r, min_r
 
-    add_time_info(TimeInfo(0, time.time()-t0, 0, 0))
+    add_time_info(TimeInfo(0, time.time() - t0, 0, 0))
     return pos_max, info
 
 

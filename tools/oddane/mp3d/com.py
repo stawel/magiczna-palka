@@ -41,7 +41,6 @@ def send_command(port, pin):
         send = 'B'
     if pin == 3:
         send = 'C'
-#    send = '@'
     port.write(send)
     port.flush()
 
@@ -57,7 +56,7 @@ def get_data(port, pin, diff = 0):
     yData = read_raw_data(port, diff)
     t2 = time.time()
 
-    #print 'read2:', t2-t1
+    #print 'read2:', t2 - t1
     add_time_info(TimeInfo(0, t2 - t1, t1 - t0))
     return yData
 
@@ -92,7 +91,7 @@ def get(idx):
 def doThread():
     global dataBuf
     try:
-        with serial.Serial(port_name, 1152000, timeout=2) as port_data:
+        with serial.Serial(port_name, 1152000, timeout = 2) as port_data:
             while True:
                 startSig.wait()
                 startSig.clear()
@@ -126,9 +125,7 @@ def exit():
     exitSig.set();
     startSig.set();
 
-
-#port_data = serial.Serial(port_name,115200,timeout=2)
-thread = threading.Thread(target=doThread)
+thread = threading.Thread(target = doThread)
 thread.deamon = True
 read_all_data()
 thread.start()

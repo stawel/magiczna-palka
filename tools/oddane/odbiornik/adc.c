@@ -11,11 +11,11 @@
 #include <misc.h>
 #include <delay.h>
 
-#define MAX 1024*16
-#define MAX_SIGNALS 3*2
+#define MAX 1024 * 16
+#define MAX_SIGNALS 3 * 2
 
 #define ADC3_DR_ADDRESS     ((uint32_t)0x4001224C)
-#define ADC_CDR_ADDRESS         ((uint32_t)0x40012308)
+#define ADC_CDR_ADDRESS     ((uint32_t)0x40012308)
 
 __IO uint8_t buf[MAX][MAX_SIGNALS];
 
@@ -44,7 +44,7 @@ void PIN_Configuration(void)
 
     /* Configure ADC pins as analog input ******************************/
     GPIO_InitStructure_ADC.GPIO_Mode = GPIO_Mode_AN;
-    GPIO_InitStructure_ADC.GPIO_PuPd = GPIO_PuPd_NOPULL ;
+    GPIO_InitStructure_ADC.GPIO_PuPd = GPIO_PuPd_NOPULL;
 
     /* Configure ADC1,2 Channel 14 (pin 4), 15 (pin 5) as analog input ******************************/
     GPIO_InitStructure_ADC.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
@@ -129,7 +129,7 @@ void ADC_Configuration(int pin)
     ADC_Init(ADC1, &ADC_InitStructure);
 
     /* ADC3 regular channel12 configuration *************************************/
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_1, 1, ADC_SampleTime_3Cycles);
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_1,  1, ADC_SampleTime_3Cycles);
     ADC_RegularChannelConfig(ADC2, ADC_Channel_15, 1, ADC_SampleTime_3Cycles);
     ADC_RegularChannelConfig(ADC1, ADC_Channel_14, 1, ADC_SampleTime_3Cycles);
 
@@ -150,9 +150,9 @@ void ADC_Configuration(int pin)
 
 
     /* Start ADC3 Software Conversion */
-    if(!(pin &1))  GPIO_SetBits(PIN_GROUP,   PIN1);
-    else              GPIO_ResetBits(PIN_GROUP, PIN1);
-    if(!(pin &2))  GPIO_SetBits(PIN_GROUP,   PIN2);
+    if(!(pin & 1)) GPIO_SetBits(PIN_GROUP,   PIN1);
+    else           GPIO_ResetBits(PIN_GROUP, PIN1);
+    if(!(pin & 2)) GPIO_SetBits(PIN_GROUP,   PIN2);
     else           GPIO_ResetBits(PIN_GROUP, PIN2);
     Delay(1000); //100us
 
@@ -177,8 +177,6 @@ void DMA2_Stream0_IRQHandler(void)
     ADC_Cmd(ADC2, DISABLE);
     ADC_Cmd(ADC3, DISABLE);
     USBDwriteEx(ENDP1, (uint8_t const *)buf, MAX_SIGNALS*MAX);
-
-   //Clear DMA1 Channel1 Half Transfer, Transfer Complete and Global interrupt pending bits
   }
 }
 

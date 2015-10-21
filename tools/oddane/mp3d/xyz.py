@@ -75,11 +75,11 @@ def refresh_nosave(XYE_pos, idxs):
         x, y, e, c = XYE_pos[channel]
         pos = e[idxs[channel]][1]
         pattern_len = len(find_pattern.patterns[channel])
-        find_pattern.refresh_pattern(y[pos:pos + pattern_len], channel, save=False)
+        find_pattern.refresh_pattern(y[pos:pos + pattern_len], channel, save = False)
 
 
 def to_mm(pos):
-    t =  pos / com.Fsampling_kHz
+    t = pos / com.Fsampling_kHz
     return t * sound_speed
 
 
@@ -93,7 +93,7 @@ def generate_posNx_by_idx(XYEC_pos, idxs):
     for i in range(len(idxs)):
         e = XYEC_pos[i][2]
         x = XYEC_pos[i][0]
-        p = (e[0][0],x[e[0][1]])
+        p = (e[0][0], x[e[0][1]])
         if idxs[i] < len(e):
             p= (e[idxs[i]][0], x[e[idxs[i]][1]])
         leng.append(p)
@@ -107,7 +107,7 @@ def generate_posNx_by_idx(XYEC_pos, idxs):
         posNx.append(p)
     return err, posNx
 
-best_3d_match_info = numpy.array([0., 0., 0.]),  numpy.array([0., 0., 0.])
+best_3d_match_info = numpy.array([0., 0., 0.]), numpy.array([0., 0., 0.])
 
 def distance_info3d(info1, info2):
     return distance(info1[0], info2[0]) + distance(info1[1], info2[1])
