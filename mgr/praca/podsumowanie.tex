@@ -3,14 +3,14 @@
 W niniejszej pracy przedstawiono urządzenie, które za pomocą ultradźwięków  potrafi określić zarówno swoje
 położenie, jak i orientację w przestrzeni.
 
-Mimo że przy pomiarze położenia wykorzystywane są fale dźwiękowe o długość \SI{8}{mm}, urządzenie to
+Mimo że przy pomiarze położenia wykorzystywane są fale dźwiękowe o długość \SI{8,5}{mm}, urządzenie to
 potrafi osiągnąć rozdzielczość  rzędu \SI{0,5}{mm}, co znacząco wyróżnia je na tle innych rozwiązań.
 Posiada także inne zalety, jak również wady, które opisano poniżej.
 \newline
 Zalety:
 \begin{itemize}
  \item Wysoka rozdzielczość pomiaru -- zastosowanie częstotliwości 
- próbkowania dużo wyższych od częstotliwości nadawanego sygnału, a także wyszukiwanie wzorca pozwoliły
+ próbkowania dużo wyższej od częstotliwości nadawanego sygnału, a także wyszukiwanie wzorca pozwoliły
  wielokrotnie zwiększyć rozdzielczość pomiaru w stosunku do długości wykorzystanej fali dźwiękowej.
  
  \item Praktycznie nieograniczona przestrzeń robocza -- mimo że w prezentowanym prototypie
@@ -38,7 +38,7 @@ Wady:
  (które po odbiciu się od ścian mogłyby wpłynąć na kolejne pomiary; czas \SI{87}{ms} pozwala 
  na ich całkowite rozproszenie).
  Zakłócaniu pomiarów można także zaradzić, nadając za każdym razem inny rozróżnialny sygnał, to podejście 
- wymaga jednak nadajników i~odbiorników o~większych możliwościach wysterowania.
+ wymaga jednak nadajników i~odbiorników o~większych możliwościach sterowania.
  
  \item Stosunkowo mały kąt widzenia -- zastosowane przetworniki piezoelektryczne są przetwornikami kierunkowymi, co 
  ogranicza  maksymalny kąt, pod jakim można ustawić nadajnik względem odbiornika. W prezentowanym 
@@ -49,7 +49,7 @@ Wady:
  zastosowane rezonatory nie nadają się do generowania krótkich impulsów, co zdecydowanie uprościłoby mierzenie odległości.
  
  \item Problem z ustaleniem pozycji i~orientacji nadajnika w ruchu -- w prezentowanym urządzeniu 
- jeden pomiar pozycji i orientacji wymaga określania położenia czterech głośników w różnych odstępach czasu.
+ jeden pomiar pozycji i orientacji wymaga określania położenia czterech głośników w różnych momentach czasu.
  Jeśli podczas takiego pomiaru nadajnik porusza się ze zbyt dużą prędkością, to otrzymamy położenia
  przesunięte względem siebie zgodnie z kierunkiem ruchu nadajnika. Takie przesunięcie negatywnie wpływa na 
  pomiar orientacji. 

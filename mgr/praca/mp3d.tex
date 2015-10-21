@@ -126,7 +126,7 @@ jak i $\sum\limits_{i=0}^{n-1} f^2(t+i)$ wymaga jedynie liniowej liczby operacji
  dlatego jeśli badany sygnał $f(t)$ zawiera szukany wzorzec na pozycji $t_w$ 
  oraz spełnione są następujące warunki:
  \begin{itemize}
-  \item moc sygnału $f(t_w), ..., f(t_m+n-1)$ jest wystarczająco duża,
+  \item moc sygnału $f(t_w), ..., f(t_w+n-1)$ jest wystarczająco duża, gdzie $n$ jest długością wzorca,
   \item błąd względny $e(t_w)$ pomiędzy sygnałem a wzorcem jest mały,
   \item moduł \textit{xyz.py} rozpozna otrzymaną pozycję $t_w$ jako pasującą do modelowanej rzeczywistości
  \end{itemize}
@@ -138,7 +138,7 @@ to moduł uaktualni wzorzec do wartości $f(t_w), ..., f(t_w+n-1)$.
 Na ostatnim etapem obliczeń wyznaczane są współrzędne kartezjańskie czterech głośników umieszczonych na nadajniku.
 Zajmuje się tym moduł \textit{xyz.py}, który dodatkowo zawiera prosty model rzeczywistości
 rozpoznający niepoprawne dane o położeniu głośników.
-Model zawiera informacje o aktualnym położeniu czterech głośników w przestrzeni, co umożliwia wychwycenie 
+Model zawiera informacje o wzajemnym położeniu czterech głośników w przestrzeni, co umożliwia wychwycenie 
 zmiany geometrii nadajnika (niepoprawne odległości pomiędzy głośnikami).
 
 Współrzędne głośników wyznacza się na podstawie dwunastu funkcji $e_{ij}(t)$ dla $i=1, ..., 4$ oraz $j=1, ..., 3$,
