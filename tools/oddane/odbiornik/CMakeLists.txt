@@ -1,4 +1,6 @@
+cmake_minimum_required(VERSION 2.6)
 
+Project(mp3d-receiver)
 
 set(PECZARSKI_DIR ${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101)
 set(COMMON_DIR ${PECZARSKI_DIR}/common)
