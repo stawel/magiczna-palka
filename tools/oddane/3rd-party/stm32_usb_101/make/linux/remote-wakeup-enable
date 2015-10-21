@@ -1,0 +1,22 @@
+#!/bin/sh -e
+
+echo enabled > /sys/bus/usb/devices/usb2/power/wakeup
+echo enabled > /sys/bus/usb/devices/2-1/power/wakeup
+echo enabled > /sys/bus/usb/devices/2-1.3/power/wakeup
+echo USB2 > /proc/acpi/wakeup
+
+# for i in 1 2
+# do
+#   enabled=`cat /proc/acpi/wakeup | grep "USB$i" | awk {'print $3}'`
+#   if [ "$enabled" = "disabled" ] || [ "$enabled" = "*disabled" ]
+#   then
+#     echo "USB$i" > /proc/acpi/wakeup
+#   fi
+# done
+
+cat /sys/bus/usb/devices/usb2/power/wakeup
+cat /sys/bus/usb/devices/2-1/power/wakeup
+cat /sys/bus/usb/devices/2-1.3/power/wakeup
+cat /proc/acpi/wakeup
+
+exit 0

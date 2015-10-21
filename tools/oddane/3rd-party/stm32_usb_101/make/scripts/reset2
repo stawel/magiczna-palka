@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# STM32F2xx reset using Open On Chip Debugger
+
+openocd -d0 \
+ -f ../scripts/olimex-arm-usb-tiny-h.cfg -f ../scripts/stm32f2x.cfg \
+ -c "init" -c "reset" -c "shutdown"

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# STM32F4-Discovery reset using Open On Chip Debugger
+
+openocd -d0 \
+ -f ../scripts/stlink-v2.cfg -f ../scripts/stm32f4x_stlink.cfg \
+ -c "init" -c "reset" -c "shutdown"
