@@ -432,15 +432,6 @@ void EP2IN() {
   refresh = 1;
 }
 
-static uint8_t const help[] =
-  "Press:\r\n"
-  "  G to switch green LED on,\r\n"
-  "  g to switch green LED off,\r\n"
-  "  R to switch red LED on,\r\n"
-  "  r to switch red LED off,\r\n"
-  "  W to switch white LED on,\r\n"
-  "  w to switch white LED off.\r\n";
-
 void adcStart();
 
 void EP1OUT() {
@@ -450,38 +441,12 @@ void EP1OUT() {
   len = USBDread(ENDP1, buffer, BLK_BUFF_SIZE);
   for (i = 0; i < len; ++i) {
     switch (buffer[i]) {
-      case 'G':
-        GreenLEDon();
-        break;
-      case 'g':
-        GreenLEDoff();
-        break;
-      case 'R':
-        RedLEDon();
-        break;
-      case 'r':
-        RedLEDoff();
-        break;
-      case 'W':
-        PowerLEDon();
-        break;
-      case 'w':
-        PowerLEDoff();
-        break;
       case '@':
       case 'A':
       case 'B':
       case 'C':
         adcStart(buffer[i]-'@');
-    	break;
-      case ' ':
-      case '\n':
-      case '\r':
-      case '\t':
-        break;
-      default:
-        USBDwriteEx(ENDP1, help, sizeof(help) - 1);
-        return;
+      break;
     }
   }
 }

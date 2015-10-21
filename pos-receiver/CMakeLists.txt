@@ -1,16 +1,10 @@
 
 
-
-
 set(PECZARSKI_DIR ${CMAKE_SOURCE_DIR}/3rd-party/stm32_usb_101)
 set(COMMON_DIR ${PECZARSKI_DIR}/common)
 set(EXUSB_DIR ${PECZARSKI_DIR}/exusb)
 set(CSRC ${COMMON_DIR}/src)
 set(EXSRC ${EXUSB_DIR}/src)
-
-
-
-
 
 set(SOURCE
     adc.c
