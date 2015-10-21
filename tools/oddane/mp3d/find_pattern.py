@@ -14,7 +14,7 @@ import pickle
 import collections
 import operator
 
-filename = '/home/stawel/patterns.pkl'
+filename = './patterns.pkl'
 
 
 TimeInfo = collections.namedtuple('TimeInfo_fp', ['all', 'refresh_pattern', 'get_pos', 'get_error'])
@@ -158,7 +158,7 @@ def get_pos(y, idx, truncate_errors = True, max_errors_len = 10, truncate_factor
 
     if truncate_errors:
         t_errors = []
-        first_err = errors[0][0];
+        first_err = errors[0][0]
         errors = errors[:max_errors_len]
         for er in errors:
             if er[0] <= first_err * truncate_factor:

@@ -24,7 +24,7 @@ time_info2 = TimeInfo(0, 0, 0)
 
 
 def clear_time_info():
-    global time_info2,time_info
+    global time_info2, time_info
     time_info = time_info2
     time_info2 = TimeInfo(0, 0, 0)
 
