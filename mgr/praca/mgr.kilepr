@@ -245,7 +245,7 @@ order=3
 
 [item:wprowadzenie.tex]
 archive=true
-column=15
+column=45
 encoding=UTF-8
 highlight=LaTeX
 line=126
@@ -324,10 +324,10 @@ JumpList=
 ViMarks=.,0,0,[,0,0,],-1,-1
 
 [view-settings,view=0,item:wprowadzenie.tex]
-CursorColumn=15
+CursorColumn=45
 CursorLine=126
 JumpList=
-ViMarks=.,126,14,[,126,0,],126,14
+ViMarks=.,114,49,[,114,49,],114,49
 
 [view-settings,view=0,item:zalaczniki.tex]
 CursorColumn=14
